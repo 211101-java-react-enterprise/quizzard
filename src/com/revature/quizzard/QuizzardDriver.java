@@ -1,9 +1,9 @@
 package com.revature.quizzard;
 
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.IOException;
+import com.revature.quizzard.models.AppUser;
+
+import java.io.*;
 import java.util.Scanner;
 
 public class QuizzardDriver {
@@ -139,7 +139,30 @@ public class QuizzardDriver {
         System.out.print("Password: ");
         String password = consoleReader.readLine();
 
-        System.out.printf("Provided user first and last name: { \"firstName\": %s, \"lastName\": %s }\n", firstName, lastName);
+        System.out.println("Provided user first and last name: { \"firstName\": " + firstName + "\", lastName\": " + lastName + " }\n");
+        System.out.printf("Provided user first and last name: { \"firstName\": %s, \"lastName\": %s}\n", firstName, lastName);
+        // String format specifiers: %s (strings), %d (whole numbers), %f (decimal values)
+
+        AppUser newUser = new AppUser(firstName, lastName, email, username, password);
+        System.out.println("Newly created user: " + newUser);
+
+        File usersFile = new File("resources/data.txt");
+
+        // the true argument here allows for us to append to the file, rather than completely overwriting it
+        FileWriter fileWriter = new FileWriter(usersFile, true);
+        fileWriter.write(newUser.toFileString() + "\n");
+        fileWriter.close();
+
+        String someData = "Wezley:Singleton:wezley.singleton@revature.com:wsingleton:password";
+        String[] dataFragments = someData.split(":"); // result = ["Wezley", "Singleton", "wezley.singleton@revature.com", "wsingleton", "password"]
+
+//        for (int i = 0; i < dataFragments.length; i++) {
+//            System.out.println(dataFragments[i]);
+//        }
+
+        for (String fragment : dataFragments) {
+            System.out.println(fragment);
+        }
     }
 
     public static void login() {

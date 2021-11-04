@@ -1,0 +1,3 @@
+Wezley:Singleton:wezley.singleton@revature.com:wsingleton:password
+Tester:McTesterson:test@revature.com:tester:test
+Alice:Anderson:alice.anderson@revature.com:aanderson:password
