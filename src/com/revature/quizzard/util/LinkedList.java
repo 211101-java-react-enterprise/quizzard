@@ -13,18 +13,14 @@ public class LinkedList<T> implements List<T> {
         if (data == null) {
             return false;
         }
-
         Node<T> newNode = new Node<>(data);
         if (head == null) {
             tail = head = newNode;
         } else {
             tail = tail.nextNode = newNode;
         }
-
         size++;
-
         return true;
-
     }
 
     @Override
@@ -49,7 +45,19 @@ public class LinkedList<T> implements List<T> {
 
     // TODO: IMPLEMENT ME!
     @Override
-    public boolean remove(T element) {
+    public boolean remove(T data) {
+        Node<T> runner = head;
+        if (runner.data.equals(data)){
+            head=head.nextNode;
+            size--;
+        }
+        while (runner.nextNode !=null) {
+            if (runner.nextNode.data.equals(data)) {
+                runner.nextNode = runner.nextNode.nextNode;
+                size--;
+            }
+            runner = runner.nextNode;
+        }
         return false;
     }
 
@@ -61,6 +69,13 @@ public class LinkedList<T> implements List<T> {
     // TODO: IMPLEMENT ME!
     @Override
     public T get(int index) {
+        int i=0;
+        Node<T> runner=head;
+        while(runner.nextNode!=null){
+            if (i==index){
+                return runner.data;
+            }
+        }
         return null;
     }
 
