@@ -62,7 +62,7 @@ public class LinkedList<T> implements List<T> {
     @Override
     public T get(int index) {
         Node<T> runner = head;
-        if(isEmpty()) return null;
+        if(this.isEmpty()) return null;
         if(index > size) return null;
 
         for(int i = 0; i < index; i++){
