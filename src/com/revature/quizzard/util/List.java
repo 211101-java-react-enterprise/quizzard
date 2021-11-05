@@ -12,6 +12,8 @@ package com.revature.quizzard.util;
  *
  *       - all method stubs declared within an interface are implicitly abstract and public
  *
+ *       - any fields included in an interface are implicitly: public, static, and final
+ *
  *       - can contain concrete (non-abstract) methods:
  *          + static methods
  *          + default methods (introduced in Java 8)
