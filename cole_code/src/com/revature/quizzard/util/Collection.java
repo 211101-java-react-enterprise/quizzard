@@ -1,11 +1,13 @@
 package com.revature.quizzard.util;
 
-public interface Collection <T> {
+// <T> is an example of a parameterized type
+// The value of this type will be determined at object instantiation (aka when we call a constructor for a concrete implementation)
+public interface Collection<T> {
 
-    boolean add(T elem);
-    boolean contains(T elem);
-    boolean isEmpty(T elem);
-    boolean remove(T elem);
-    int size(); //how many things are insideof it
+    boolean add(T element);
+    boolean contains(T element);
+    boolean isEmpty();
+    boolean remove(T element);
+    int size();
 
 }

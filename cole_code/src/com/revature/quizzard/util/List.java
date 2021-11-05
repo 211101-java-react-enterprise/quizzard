@@ -3,25 +3,40 @@ package com.revature.quizzard.util;
 /**
  * Interfaces
  *
- *      - act as a "contract" for implementing concrete classes (any class that's not abstract)
- *      layman's terms: any class that implements this interface will be
- *      required to provide logic for the declared methods of this interface
+ *      - acts as a "contract" for implementing classes (layman's terms: any concrete class that implements
+ *        this interface will be required to provide logic for the declared methods of this interface)
  *
- *      these do not have constructors and therefore cannot be instantiated
+*       - do not have constructors (and therefore cannot be instantiated)
  *
- *      interface declaration is implicitly abstract
+ *       - the interface declaration is implicitly abstract
  *
- *      all method stubs declared within an interface are also implicitly abstract
+ *       - all method stubs declared within an interface are implicitly abstract and public
+ *
+ *       - can contain concrete (non-abstract) methods:
+ *          + static methods
+ *          + default methods (introduced in Java 8)
  */
-interface List<T> extends Collection<T> {
-    //List myList = new LinkedList(); //can use covariant data types
-    //List list = new List();
-    //this does not work bc interfaces don't allow constructors
+public interface List<T> extends Collection<T> {
 
-    T get(int index); //this is a method stub
+    // the line below is an example of a method stub (a method without an implementation; can only be declared
+    // within an abstract construct (abstract class or interface)
+    T get(int index);
 
-
-    default void defaultExample(){
-
+    // Default methods are interface methods that have a default implementation
+    // Introduced in Java v8 (added to help to maintain backward compatibility)
+    // Can be overridden
+    default void defaultMethodExample() {
+        System.out.println("This is a default method in an interface, it CAN be overridden by implementing classes");
     }
+
+    // Static methods
+    // Since Java 1
+    // Cannot be overridden
+    // Accessed like this: List.staticMethodExample()
+    static void staticMethodExample() {
+        System.out.println("This is a static method in an interface, it CANNOT be overridden - but it can be shadowed.");
+    }
+
+
+
 }

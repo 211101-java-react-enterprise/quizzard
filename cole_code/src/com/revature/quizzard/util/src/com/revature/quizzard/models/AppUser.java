@@ -3,27 +3,18 @@ package com.revature.quizzard.models;
 import java.util.Objects;
 
 /*
-    POJO = Plain Ol' Java Object
+    POJO - plain ol' java object
 
-    Simple encapsulations of data. They do not have rich features, they simply hold related values.
+    Stable encapsulations of data. they do not have rich feature, they simply hold related values
 
-    Common convention re: class structures:
-        class {
-            fields
-            constructors
-            instance methods
-            overridden methods
-            static methods
-            nested classes/enums/interfaces
-        }
+    common methods that are overriden:
+        tostring equals
 
-    Common methods from java.lang.Object that are overridden in most POJOs:
-        - boolean equals(Object o)
-        - int hashCode()
-        - String toString()
+        by default the equals method if not overridden does memory reference equality:
+               -
+
  */
-public class AppUser extends Object {
-
+public class AppUser {
     private String firstName;
     private String lastName;
     private String email;
@@ -38,15 +29,15 @@ public class AppUser extends Object {
         this.password = password;
     }
 
-    public String getFirstName() {
+    public String getFirstName(){
         return firstName;
     }
 
-    public void setFirstName(String firstName) {
-        // potentially add validation logic here (but there's really a better place to do this kind of logic)
+    public void setFirstName(String firstName){//firstName in method refers to one in its scope.
+        // Called shadowing when variable in lower scope is named same thing as variable in higher scope.
         this.firstName = firstName;
     }
-
+    //auto create with right click, generate or alt+insert
     public String getLastName() {
         return lastName;
     }
@@ -79,26 +70,12 @@ public class AppUser extends Object {
         this.password = password;
     }
 
-    public String toFileString() {
-        StringBuilder builder = new StringBuilder();
-        builder.append(firstName).append(":")
-               .append(lastName).append(":")
-               .append(email).append(":")
-               .append(username).append(":")
-               .append(password);
-        return builder.toString();
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        AppUser appUser = (AppUser) o; // explicit type casting!
-        return Objects.equals(firstName, appUser.firstName)
-                && Objects.equals(lastName, appUser.lastName)
-                && Objects.equals(email, appUser.email)
-                && Objects.equals(username, appUser.username)
-                && Objects.equals(password, appUser.password);
+        AppUser appUser = (AppUser) o;
+        return Objects.equals(firstName, appUser.firstName) && Objects.equals(lastName, appUser.lastName) && Objects.equals(email, appUser.email) && Objects.equals(username, appUser.username) && Objects.equals(password, appUser.password);
     }
 
     @Override
@@ -115,5 +92,15 @@ public class AppUser extends Object {
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 '}';
+    }
+
+    public String toFileString(){
+        StringBuilder builder = new StringBuilder();
+        builder.append(firstName).append(":");
+        builder.append(lastName).append(":");
+        builder.append(email).append(":");
+        builder.append(username).append(":");
+        builder.append(password).append(":");
+        return null;
     }
 }

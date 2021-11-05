@@ -1,15 +1,22 @@
 package com.revature.quizzard.util;
 
 public class TempDriver {
-List<String> myStringList = new LinkedList<>();
 
-myStringList.add("yay1");
-myStringList.add("yay2");
-myStringList.add("yay3");
-myStringList.add("yay4");
+    public static void main(String[] args) {
+        // Access static members by using the type that declared them
+        List.staticMethodExample();
+        LinkedList.staticMethodExample();
+        List<String> myStringList = new LinkedList<>();
+        myStringList.defaultMethodExample();
 
-System.out.println(myStringList.contains("yay1"));
-System.out.println(myStringList.contains("yay2"));
-System.out.println(myStringList.contains("yay3"));
-System.out.println(myStringList.contains("yay4"));
+        myStringList.add("test-1");
+        myStringList.add("test-2");
+        myStringList.add("test-3");
+        System.out.println(myStringList.contains("test-1")); // true
+        System.out.println(myStringList.contains("test-2")); // true
+        System.out.println(myStringList.contains("test-3")); // true
+        System.out.println(myStringList.contains("test-123")); // false
+
+    }
+
 }
