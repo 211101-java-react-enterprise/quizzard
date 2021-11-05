@@ -75,6 +75,7 @@ public class LinkedList<T> implements List<T> {
             if (i==index){
                 return runner.data;
             }
+            i++;
         }
         return null;
     }
