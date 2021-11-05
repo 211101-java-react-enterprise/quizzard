@@ -1,0 +1,1 @@
+AppUser{firstName='blarg', lastName='farg', email='blarg.farg@revature.net', username='blarg_farg', password='happy_farg_'}
