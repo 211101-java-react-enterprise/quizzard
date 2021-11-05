@@ -47,6 +47,7 @@ public class LinkedList<T> implements List<T> {
         return size == 0;
     }
 
+    // TODO: IMPLEMENT ME!
     @Override
     public boolean remove(T element) {
         return false;
@@ -57,6 +58,7 @@ public class LinkedList<T> implements List<T> {
         return size;
     }
 
+    // TODO: IMPLEMENT ME!
     @Override
     public T get(int index) {
         return null;
