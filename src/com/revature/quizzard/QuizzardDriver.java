@@ -2,8 +2,11 @@ package com.revature.quizzard;
 
 
 import com.revature.quizzard.models.AppUser;
+import com.revature.quizzard.util.LinkedList;
+import com.revature.quizzard.util.List;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class QuizzardDriver {
@@ -37,6 +40,7 @@ public class QuizzardDriver {
 
 //        String userSelection; // this declaration is uninitialized (not even null)
 //        String userSelection = null; // What is null? Null is the lack of an object reference
+
             try {
 
                 // We decided to move all the menu and user selection logic into this try block
@@ -154,15 +158,24 @@ public class QuizzardDriver {
         fileWriter.close();
 
         String someData = "Wezley:Singleton:wezley.singleton@revature.com:wsingleton:password";
-        String[] dataFragments = someData.split(":"); // result = ["Wezley", "Singleton", "wezley.singleton@revature.com", "wsingleton", "password"]
+        String[] dataFragments = someData.split(":");
+        // result = ["Wezley", "Singleton", "wezley.singleton@revature.com", "wsingleton", "password"]
+        //              0           1                     2                        3            4
 
-//        for (int i = 0; i < dataFragments.length; i++) {
-//            System.out.println(dataFragments[i]);
+        for (int i = 0; i < dataFragments.length; i++) {
+            System.out.println(dataFragments[i]);
+        }
+
+//        for (String fragment : dataFragments) {
+//            System.out.println(fragment);
 //        }
 
-        for (String fragment : dataFragments) {
-            System.out.println(fragment);
-        }
+        // Interfaces are "abstract" constructs and cannot be directly instantiated
+//        List myList = new List();
+
+        // Covariance is allowed
+        List<AppUser> myList = new LinkedList<>();
+
     }
 
     public static void login() {
@@ -174,6 +187,13 @@ public class QuizzardDriver {
         Scanner consoleScanner = new Scanner(System.in);
         String input = consoleScanner.next();
         System.out.println("User provided the following value to the Scanner: " + input);
+    }
+
+    public static void genericsExample() {
+        //          |---type parameter                      |-----not required to include type parameter (it is inferred)
+        ArrayList<String> myStringArrayList = new ArrayList<>();
+        myStringArrayList.add("hello!"); // the require input/return types of methods will change based on the parameterized type
+        String string0 = myStringArrayList.get(0);
     }
 
 }
