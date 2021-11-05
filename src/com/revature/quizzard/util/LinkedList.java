@@ -28,7 +28,17 @@ public class LinkedList<T> implements List<T> {
     }
 
     @Override
-    public boolean contains(T element) {
+    public boolean contains(T data) {
+
+        Node<T> runner = head;
+        while (runner != null) {
+            if (runner.data.equals(data)) {
+                return true;
+            }
+            runner = runner.nextNode;
+        }
+
+        // No node with matching data was found
         return false;
     }
 
