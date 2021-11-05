@@ -78,10 +78,12 @@ public class LinkedList<T> implements List<T> {
     public T get(int index) {
 
         // check if list is empty and just return null if is
-        if (isEmpty() || index >= size || index < 0) return null;
+        if (index >= size || index < 0) throw IndexOutOfBoundsException;
+        if (isEmpty()) throw IllegalStateException;
 
         // if first index return head.data as head is index[0]
         if (index == 0) return head.data;
+
         Node<T> runner = head;
 
         //step through list until we get to wanted index

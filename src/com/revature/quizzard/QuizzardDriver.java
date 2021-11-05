@@ -2,6 +2,7 @@ package com.revature.quizzard;
 
 
 import com.revature.quizzard.models.AppUser;
+import com.revature.quizzard.util.AppState;
 import com.revature.quizzard.util.LinkedList;
 import com.revature.quizzard.util.List;
 
@@ -15,6 +16,10 @@ public class QuizzardDriver {
 
     public static void main(String[] args) {
 
+        AppState app = new AppState();
+        app.startup();
+
+        //Everything below this will be moved
         boolean isRunning = true;
 
         while (isRunning) {
@@ -125,56 +130,7 @@ public class QuizzardDriver {
     // This allows for us to defer the catching/handling of this exception to the caller of this method.
     // This is called "exception propagation"
     public static void register() throws IOException {
-        System.out.println("The user selected Register");
-        // Things to obtain from user: first name, last name, email, username, and password
-        System.out.println("Please provide us with some basic information.");
-        System.out.print("First name: ");
-        String firstName = consoleReader.readLine();
 
-        System.out.print("Last name: ");
-        String lastName = consoleReader.readLine();
-
-        System.out.print("Email: ");
-        String email = consoleReader.readLine();
-
-        System.out.print("Username: ");
-        String username = consoleReader.readLine();
-
-        System.out.print("Password: ");
-        String password = consoleReader.readLine();
-
-        System.out.println("Provided user first and last name: { \"firstName\": " + firstName + "\", lastName\": " + lastName + " }\n");
-        System.out.printf("Provided user first and last name: { \"firstName\": %s, \"lastName\": %s}\n", firstName, lastName);
-        // String format specifiers: %s (strings), %d (whole numbers), %f (decimal values)
-
-        AppUser newUser = new AppUser(firstName, lastName, email, username, password);
-        System.out.println("Newly created user: " + newUser);
-
-        File usersFile = new File("resources/data.txt");
-
-        // the true argument here allows for us to append to the file, rather than completely overwriting it
-        FileWriter fileWriter = new FileWriter(usersFile, true);
-        fileWriter.write(newUser.toFileString() + "\n");
-        fileWriter.close();
-
-        String someData = "Wezley:Singleton:wezley.singleton@revature.com:wsingleton:password";
-        String[] dataFragments = someData.split(":");
-        // result = ["Wezley", "Singleton", "wezley.singleton@revature.com", "wsingleton", "password"]
-        //              0           1                     2                        3            4
-
-        for (int i = 0; i < dataFragments.length; i++) {
-            System.out.println(dataFragments[i]);
-        }
-
-//        for (String fragment : dataFragments) {
-//            System.out.println(fragment);
-//        }
-
-        // Interfaces are "abstract" constructs and cannot be directly instantiated
-//        List myList = new List();
-
-        // Covariance is allowed
-        List<AppUser> myList = new LinkedList<>();
 
     }
 

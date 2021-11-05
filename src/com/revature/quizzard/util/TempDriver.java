@@ -21,6 +21,10 @@ public class TempDriver {
         System.out.println(myStringList.get(0));
         System.out.println(myStringList.get(4));
 
+        myStringList.remove("test-2");
+        System.out.println();
+        System.out.println(myStringList.get(1));
+
     }
 
 }
