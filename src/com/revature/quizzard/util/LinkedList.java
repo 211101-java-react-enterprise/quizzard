@@ -50,6 +50,21 @@ public class LinkedList<T> implements List<T> {
     // TODO: IMPLEMENT ME!
     @Override
     public boolean remove(T element) {
+        Node<T> runner = head;
+        if (runner.data.equals(element)) {
+            head = head.nextNode;
+            size--;
+            return true;
+        }
+
+        while (head != null) {
+            if (runner.nextNode.data.equals(element)) {
+                runner.nextNode = runner.nextNode.nextNode;
+                size--;
+                return true;
+            }
+            runner = runner.nextNode;
+        }
         return false;
     }
 
@@ -61,7 +76,23 @@ public class LinkedList<T> implements List<T> {
     // TODO: IMPLEMENT ME!
     @Override
     public T get(int index) {
-        return null;
+
+        // check if list is empty and just return null if is
+        if (isEmpty()) return null;
+
+        // if first index return head.data as head is index[0]
+        if (index == 0) return head.data;
+
+        // IndexOutOfBoundsException
+        if (index > size) return null;
+
+        Node<T> runner = head;
+
+        //step through list until we get to wanted index
+        for(int ii = 0; ii < index; ii++) {
+            runner = runner.nextNode;
+        }
+        return runner.data;
     }
 
 //    @Override // works without issue!

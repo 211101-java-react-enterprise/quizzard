@@ -17,6 +17,10 @@ public class TempDriver {
         System.out.println(myStringList.contains("test-3")); // true
         System.out.println(myStringList.contains("test-123")); // false
 
+        System.out.println();
+        System.out.println(myStringList.get(0));
+        System.out.println(myStringList.get(4));
+
     }
 
 }
