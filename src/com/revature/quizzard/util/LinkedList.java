@@ -47,9 +47,27 @@ public class LinkedList<T> implements List<T> {
         return size == 0;
     }
 
-    // TODO: IMPLEMENT ME!
     @Override
-    public boolean remove(T element) {
+    public boolean remove(T data){
+        if ((data == null) || (head == null)) {
+            return false;
+        } else if (head.data.equals(data)) {
+            head = head.nextNode;
+            size--;
+            return true;
+        }
+        Node<T> runner = head;
+        while (runner != null) {
+            if (runner.nextNode.data.equals(data)) {
+                runner.nextNode = runner.nextNode.nextNode;
+                if (runner.nextNode == null) {
+                    tail = runner;
+                }
+                size--;
+                return true;
+            }
+            runner = runner.nextNode;
+        }
         return false;
     }
 
