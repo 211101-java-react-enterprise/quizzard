@@ -2,8 +2,6 @@ package com.revature.quizzard.util;
 
 import java.lang.IndexOutOfBoundsException;
 
-import com.revature.quizzard.exceptions.InvalidRequestException;
-
 //*************************************************
 
 public class LinkedList<T> implements List<T> {
@@ -30,7 +28,8 @@ public class LinkedList<T> implements List<T> {
         if (head == null) {
             tail = head = newNode;
         } else {
-            tail = tail.nextNode = newNode;
+            tail.nextNode = newNode;
+            tail = newNode;
         }
 
         size++;
@@ -68,21 +67,41 @@ public class LinkedList<T> implements List<T> {
     // TODO: IMPLEMENT ME!
     @Override
     public boolean remove(T element) {
-        Node<T> runner = head;
-        if (runner.data.equals(element)) {
+        // check edge case of requested value being in head first
+        if (head.data.equals(element)) {
             head = head.nextNode;
             size--;
             return true;
         }
 
-        while (head != null) {
+        Node<T> runner = head;
+        Node<T> preRunner = head; // added to move tail properly and easily, init to head in case only 2 elements exist
+
+        // since we are checking nextNodes value we use that in our while loop
+        while (runner.nextNode != null) {
+            // check runner.nextNode's data for equality as we need to change the currentNode.nextNode
             if (runner.nextNode.data.equals(element)) {
                 runner.nextNode = runner.nextNode.nextNode;
                 size--;
                 return true;
             }
+
+            preRunner = runner;
             runner = runner.nextNode;
+
         }
+
+        //check tail as separate edge case
+        if (tail.data.equals(element)) {
+            tail = preRunner;
+            tail.nextNode = null;
+
+            size--;
+
+            return true;
+
+        }
+
         return false;
     }
 
@@ -95,15 +114,13 @@ public class LinkedList<T> implements List<T> {
 
     //-------------------------------------------------
 
-    // TODO: IMPLEMENT ME!
     @Override
     public T get(int index) {
 
-        // check if list is empty and just return null if is
-        if (index >= size || index < 0) {
+        // check if list is empty and check if index is out of bounds and throw exception if necessary
+        if (index >= size || index < 0 || isEmpty()) {
             throw new IndexOutOfBoundsException("Requested index is out of bounds");
         }
-        if (isEmpty()) throw new InvalidRequestException("List has 0 elements and a get request has been ran");
 
         // if first index return head.data as head is index[0]
         if (index == 0) return head.data;
