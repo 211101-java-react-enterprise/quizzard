@@ -49,16 +49,39 @@ public class LinkedList<T> implements List<T> {
 
     @Override
     public boolean remove(T data) {
-        Node<T> runner = head;
-        for (int i = 0; i < size; i++) {
-            if (runner.data == data) {
-                runner.prevNode = runner.nextNode;
-                runner.nextNode.prevNode = runner.prevNode;
-                return true;
-            }
-            runner = runner.nextNode;
+
+        Node<T> prevNode = null;
+        Node<T> currentNode = head;
+
+        // If the list is empty, there is no data to remove.
+        // Return false to indicate that remove operation was not performed successfully since the data was not present.
+        if (size == 0) {
+            return false;
         }
 
+        // Traverse through the list
+        for (int i = 0; i < size; i++) {
+
+            // If matching data is found
+            if (currentNode.data == data) {
+
+                // Edit node links
+                if (currentNode == head) {
+                    head = currentNode.nextNode;
+                } else {
+                    prevNode.nextNode = currentNode.nextNode;
+                }
+
+                // Return true to indicate that remove operation was performed successfully.
+                return true;
+            }
+
+            // Move references forward to proceed through the
+            prevNode = currentNode;
+            currentNode = currentNode.nextNode;
+        }
+
+        // Return false to indicate that remove operation was not performed successfully since the data was not present.
         return false;
     }
 
