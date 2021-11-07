@@ -51,14 +51,24 @@ public class LinkedList<T> implements List<T> {
         return size == 0;
     }
 
-    // TODO: IMPLEMENT ME!
     @Override
-    public boolean remove(T element) {
-        if (element == null) {
-            return false;
-        } else {}
+    public boolean remove(int index) { // It gets mad at me when I change this from the generic T to an explicit int...
+        if (index < 0 || index >= size) {
+            throw new RuntimeException("Provided index is out of bounds");
+        } else { }
 
-        // WE NEED TO DO GET FIRST
+        for (int i = 0; i < size; i++) {
+            if (i == index - 1) {
+                // Update the tail of the previous object to point to the next object
+            } else if (i == index) {
+                // Do all the removing magic
+
+                size --;
+            } else if (i > index) {
+                // Scootch all the other values of nextNode
+                // Or you don't have to do this, do you?
+            } else { }
+        }
 
         return true;
 
