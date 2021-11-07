@@ -14,16 +14,20 @@ public class LinkedList<T> implements List<T> {
             return false;
         }
 
-        Node<T> newNode = new Node<>(data);
+        Node<T> newNode = new Node<>(data); // Node<T> being declared at the end of this file
+        // 5.1 @ 1h1m16s
         if (head == null) {
+            // Head is the bottom plate. When the stack is one plate high, it is the head and tail.
             tail = head = newNode;
         } else {
-            tail = tail.nextNode = newNode;
+            // Tail is the top plate. It changes each time we add a new plate to the stack.
+            tail.nextNode = newNode; // Introduce the existing top plate to the new plate
+            tail = newNode; // Place the new plate on top of the stack
         }
 
-        size++;
+        size++; // Inform this list's Size Baron that the number of elements in our array has increased by one.
 
-        return true;
+        return true; // Placating the compiler
 
     }
 
@@ -50,7 +54,14 @@ public class LinkedList<T> implements List<T> {
     // TODO: IMPLEMENT ME!
     @Override
     public boolean remove(T element) {
-        return false;
+        if (element == null) {
+            return false;
+        } else {}
+
+        // WE NEED TO DO GET FIRST
+
+        return true;
+
     }
 
     @Override
@@ -58,10 +69,25 @@ public class LinkedList<T> implements List<T> {
         return size;
     }
 
-    // TODO: IMPLEMENT ME!
     @Override
     public T get(int index) {
+        // Error handling - make sure $index represents a number within the existing list
+        if (index < 0 || index >= size) {
+            throw new RuntimeException("Provided index is out of bounds");
+        } else { }
+
+        Node<T> currentNode = head; // A Node object we use to hold the current item in the list
+        // Starting with 0, we iterate through the list.
+        for (int i = 0; i <= index; i++) {
+            if (i == index) { // When the current iteration matches the requested number, we've got it!
+                return currentNode.data;
+            } else {
+                currentNode = currentNode.nextNode; // ...otherwise, use the nextNode method of Node<T> to visit the next guy
+            }
+        }
+
         return null;
+
     }
 
 //    @Override // works without issue!
