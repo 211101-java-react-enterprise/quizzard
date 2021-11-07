@@ -2,13 +2,15 @@ package com.revature.quizzard.services;
 
 import com.revature.quizzard.exceptions.InvalidRequestException;
 import com.revature.quizzard.models.AppUser;
-import com.revature.quizzard.util.AppState;
 
 import java.io.File;
 import java.io.FileWriter;
-import java.io.IOException;
+
+//*************************************************
 
 public class UserService {
+
+    //-------------------------------------------------
 
     public boolean registerNewUser(AppUser newUser) {
         if (!isUserValid(newUser)) {
@@ -35,9 +37,13 @@ public class UserService {
 
     }
 
+    //-------------------------------------------------
+
     public AppUser authenticateUser(String username, String password) {
         return null;
     }
+
+    //-------------------------------------------------
 
     public boolean isUserValid(AppUser user) {
         if (user == null) return false;
@@ -48,5 +54,6 @@ public class UserService {
         return user.getPassword() != null && !user.getPassword().trim().equals("");
     }
 
+    //-------------------------------------------------
 
 }

@@ -16,11 +16,18 @@ package com.revature.quizzard.util;
  *          + static methods
  *          + default methods (introduced in Java 8)
  */
+
+//*************************************************
+
 public interface List<T> extends Collection<T> {
+
+    //-------------------------------------------------
 
     // the line below is an example of a method stub (a method without an implementation; can only be declared
     // within an abstract construct (abstract class or interface)
     T get(int index);
+
+    //-------------------------------------------------
 
     // Default methods are interface methods that have a default implementation
     // Introduced in Java v8 (added to help to maintain backward compatibility)
@@ -28,6 +35,8 @@ public interface List<T> extends Collection<T> {
     default void defaultMethodExample() {
         System.out.println("This is a default method in an interface, it CAN be overridden by implementing classes");
     }
+
+    //-------------------------------------------------
 
     // Static methods
     // Since Java 1
@@ -37,6 +46,6 @@ public interface List<T> extends Collection<T> {
         System.out.println("This is a static method in an interface, it CANNOT be overridden - but it can be shadowed.");
     }
 
-
+    //-------------------------------------------------
 
 }

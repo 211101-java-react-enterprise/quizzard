@@ -6,12 +6,20 @@ import java.io.BufferedReader;
 
 import static com.revature.quizzard.util.AppState.shutdown;
 
+//*************************************************
+
 public class WelcomeScreen extends Screen {
+
+    //TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
 
     public WelcomeScreen(BufferedReader consoleReader, ScreenRouter router) {
         super("Welcome Screen", "/welcome", consoleReader, router);
 
     }
+
+    //TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
+
+    //-------------------------------------------------
 
     @Override
     public void render() throws Exception {
@@ -42,4 +50,7 @@ public class WelcomeScreen extends Screen {
                 System.out.println("The user made an invalid selection");
         }
     }
+
+    //-------------------------------------------------
+
 }

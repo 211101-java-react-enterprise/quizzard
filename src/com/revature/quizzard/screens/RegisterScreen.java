@@ -2,17 +2,21 @@ package com.revature.quizzard.screens;
 
 import com.revature.quizzard.models.AppUser;
 import com.revature.quizzard.services.UserService;
-import com.revature.quizzard.util.LinkedList;
-import com.revature.quizzard.util.List;
 import com.revature.quizzard.util.ScreenRouter;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileWriter;
+
+//*************************************************
 
 public class RegisterScreen extends Screen{
 
+    //0000000000000000000000000000000000000000000000000
+
     private final UserService userService;
+
+    //0000000000000000000000000000000000000000000000000
+
+    //TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
 
     public RegisterScreen(BufferedReader consoleReader, ScreenRouter router, UserService userService) {
 
@@ -20,6 +24,10 @@ public class RegisterScreen extends Screen{
         this.userService = userService;
 
     }
+
+    //TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
+
+    //-------------------------------------------------
 
     @Override
     public void render() throws Exception {
@@ -54,4 +62,7 @@ public class RegisterScreen extends Screen{
             System.out.println("You have provided invalid data. Please try again.");
         }
     }
+
+    //-------------------------------------------------
+
 }

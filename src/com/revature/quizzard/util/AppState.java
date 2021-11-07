@@ -7,6 +7,8 @@ import com.revature.quizzard.services.UserService;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
+//*************************************************
+
 /**
      * Encapsulation of application state we will create a few
      * things that will be used throughout the app
@@ -17,8 +19,14 @@ import java.io.InputStreamReader;
      */
 public class AppState {
 
+    //0000000000000000000000000000000000000000000000000
+
     private static boolean appRunning;
     private final ScreenRouter router;
+
+    //0000000000000000000000000000000000000000000000000
+
+    //TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
 
     public AppState() {
         appRunning = true;
@@ -32,6 +40,10 @@ public class AppState {
 
     }
 
+    //TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
+
+    //-------------------------------------------------
+
     public void startup() {
         try {
             while (appRunning) {
@@ -42,7 +54,12 @@ public class AppState {
         }
     }
 
+    //-------------------------------------------------
+
     public static void shutdown() {
         appRunning = false;
     }
+
+    //-------------------------------------------------
+
 }

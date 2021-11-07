@@ -4,11 +4,19 @@ import java.lang.IndexOutOfBoundsException;
 
 import com.revature.quizzard.exceptions.InvalidRequestException;
 
+//*************************************************
+
 public class LinkedList<T> implements List<T> {
+
+    //0000000000000000000000000000000000000000000000000
 
     private int size;
     private Node<T> head; // implicitly null
     private Node<T> tail = null; // you can explicitly declare them as null, but it's not required.
+
+    //0000000000000000000000000000000000000000000000000
+
+    //-------------------------------------------------
 
     @Override
     public boolean add(T data) {
@@ -31,6 +39,8 @@ public class LinkedList<T> implements List<T> {
 
     }
 
+    //-------------------------------------------------
+
     @Override
     public boolean contains(T data) {
 
@@ -46,10 +56,14 @@ public class LinkedList<T> implements List<T> {
         return false;
     }
 
+    //-------------------------------------------------
+
     @Override
     public boolean isEmpty() {
         return size == 0;
     }
+
+    //-------------------------------------------------
 
     // TODO: IMPLEMENT ME!
     @Override
@@ -72,10 +86,14 @@ public class LinkedList<T> implements List<T> {
         return false;
     }
 
+    //-------------------------------------------------
+
     @Override
     public int size() {
         return size;
     }
+
+    //-------------------------------------------------
 
     // TODO: IMPLEMENT ME!
     @Override
@@ -99,15 +117,23 @@ public class LinkedList<T> implements List<T> {
         return runner.data;
     }
 
+    //-------------------------------------------------
+
 //    @Override // works without issue!
 //    public void defaultMethodExample() {
 //        System.out.println("This is an overridden default method.");
 //    }
 
+    //-------------------------------------------------
+
 //    @Override // static methods inherited from interfaces CANNOT be overridden; but
     public static void staticMethodExample() {
         System.out.println("This is a method that shadows the static method declared by List");
     }
+
+    //-------------------------------------------------
+
+    //*************************************************
 
     // Nested Inner Class
     // The outer class (LinkedList) can see all of the members of this class
@@ -119,5 +145,7 @@ public class LinkedList<T> implements List<T> {
             this.data = data;
         }
     }
+
+    //*************************************************
 
 }

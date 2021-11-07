@@ -4,6 +4,8 @@ import com.revature.quizzard.util.ScreenRouter;
 
 import java.io.BufferedReader;
 
+//*************************************************
+
 /**
  * Key differences between abstract classes and interfaces:
  *
@@ -13,10 +15,17 @@ import java.io.BufferedReader;
  *
  */
 public abstract class Screen {
+
+    //0000000000000000000000000000000000000000000000000
+
     protected String name;
     protected String route;
     protected BufferedReader consoleReader;
     protected ScreenRouter router;
+
+    //0000000000000000000000000000000000000000000000000
+
+    //TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
 
     public Screen(String name, String route, BufferedReader consoleReader, ScreenRouter router) {
         this.name = name;
@@ -26,13 +35,24 @@ public abstract class Screen {
 
     }
 
+    //TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
+
+    //-------------------------------------------------
+
     public final String getName() {
         return name;
     }
+
+    //-------------------------------------------------
 
     public final String getRoute() {
         return route;
     }
 
+    //-------------------------------------------------
+
     public abstract void render() throws Exception;
+
+    //-------------------------------------------------
+
 }
