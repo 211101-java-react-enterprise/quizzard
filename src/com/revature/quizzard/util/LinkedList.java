@@ -1,5 +1,9 @@
 package com.revature.quizzard.util;
 
+import java.lang.IndexOutOfBoundsException;
+
+import com.revature.quizzard.exceptions.InvalidRequestException;
+
 public class LinkedList<T> implements List<T> {
 
     private int size;
@@ -78,8 +82,10 @@ public class LinkedList<T> implements List<T> {
     public T get(int index) {
 
         // check if list is empty and just return null if is
-        if (index >= size || index < 0) throw IndexOutOfBoundsException;
-        if (isEmpty()) throw IllegalStateException;
+        if (index >= size || index < 0) {
+            throw new IndexOutOfBoundsException("Requested index is out of bounds");
+        }
+        if (isEmpty()) throw new InvalidRequestException("List has 0 elements and a get request has been ran");
 
         // if first index return head.data as head is index[0]
         if (index == 0) return head.data;

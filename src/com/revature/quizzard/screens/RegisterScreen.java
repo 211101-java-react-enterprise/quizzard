@@ -1,16 +1,24 @@
 package com.revature.quizzard.screens;
 
 import com.revature.quizzard.models.AppUser;
+import com.revature.quizzard.services.UserService;
 import com.revature.quizzard.util.LinkedList;
 import com.revature.quizzard.util.List;
+import com.revature.quizzard.util.ScreenRouter;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileWriter;
 
 public class RegisterScreen extends Screen{
 
-    public RegisterScreen() {
-        super("Register Screen", "Driver")
+    private final UserService userService;
+
+    public RegisterScreen(BufferedReader consoleReader, ScreenRouter router, UserService userService) {
+
+        super("Register Screen", "/register", consoleReader, router);
+        this.userService = userService;
+
     }
 
     @Override
@@ -32,37 +40,18 @@ public class RegisterScreen extends Screen{
         System.out.print("Password: ");
         String password = consoleReader.readLine();
 
-        System.out.println("Provided user first and last name: { \"firstName\": " + firstName + "\", lastName\": " + lastName + " }\n");
+
         System.out.printf("Provided user first and last name: { \"firstName\": %s, \"lastName\": %s}\n", firstName, lastName);
-        // String format specifiers: %s (strings), %d (whole numbers), %f (decimal values)
+
 
         AppUser newUser = new AppUser(firstName, lastName, email, username, password);
-        System.out.println("Newly created user: " + newUser);
 
-        File usersFile = new File("resources/data.txt");
+        boolean registerSuccessful = userService.registerNewUser(newUser);
 
-        // the true argument here allows for us to append to the file, rather than completely overwriting it
-        FileWriter fileWriter = new FileWriter(usersFile, true);
-        fileWriter.write(newUser.toFileString() + "\n");
-        fileWriter.close();
-
-        String someData = "Wezley:Singleton:wezley.singleton@revature.com:wsingleton:password";
-        String[] dataFragments = someData.split(":");
-        // result = ["Wezley", "Singleton", "wezley.singleton@revature.com", "wsingleton", "password"]
-        //              0           1                     2                        3            4
-
-        for (int i = 0; i < dataFragments.length; i++) {
-            System.out.println(dataFragments[i]);
+        if (registerSuccessful) {
+            // router.navigate("/dashboard");
+        } else {
+            System.out.println("You have provided invalid data. Please try again.");
         }
-
-//        for (String fragment : dataFragments) {
-//            System.out.println(fragment);
-//        }
-
-        // Interfaces are "abstract" constructs and cannot be directly instantiated
-//        List myList = new List();
-
-        // Covariance is allowed
-        List<AppUser> myList = new LinkedList<>();
     }
 }

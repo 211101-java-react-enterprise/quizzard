@@ -1,13 +1,15 @@
 package com.revature.quizzard.screens;
 
+import com.revature.quizzard.util.ScreenRouter;
+
 import java.io.BufferedReader;
 
 /**
  * Key differences between abstract classes and interfaces:
  *
- *  -Abstract classes can have instance fields (that are not implicitly final)
+ *  -Abstract classes can have instance fields (that are not implicitly public/static/final)
  *  -Abstract classes can have methods with implementation that are not declared as default
- *  -Abstract class method stubs must be explicitly declared as abstract
+ *  -Abstract class method stubs must be explicitly declared as "abstract"
  *
  */
 public abstract class Screen {
@@ -20,13 +22,15 @@ public abstract class Screen {
         this.name = name;
         this.route = route;
         this.consoleReader = consoleReader;
+        this.router = router;
+
     }
 
-    public String getName() {
+    public final String getName() {
         return name;
     }
 
-    public String getRoute() {
+    public final String getRoute() {
         return route;
     }
 

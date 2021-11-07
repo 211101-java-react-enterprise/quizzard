@@ -1,6 +1,9 @@
 package com.revature.quizzard.util;
 
+import com.revature.quizzard.screens.Screen;
+
 public class ScreenRouter {
+
     private final LinkedList<Screen> screens;
 
     public ScreenRouter() {
@@ -11,7 +14,7 @@ public class ScreenRouter {
         screens.add(screen);
     }
 
-    public void navigate(String route) {
+    public void navigate(String route) throws Exception {
         for (int i = 0; i < screens.size(); i++) {
             Screen thisScreen = screens.get(i);
             if (thisScreen.getRoute().equals(route)) {
