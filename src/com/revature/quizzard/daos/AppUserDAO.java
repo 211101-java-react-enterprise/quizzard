@@ -11,6 +11,11 @@ import java.util.UUID;
 
 public class AppUserDAO implements CrudDAO<AppUser> {
 
+    // TODO: Implement me!
+    public AppUser findUserByUsernameAndPassword(String username, String password) {
+        return null;
+    }
+
     @Override
     public AppUser save(AppUser newUser) {
 
