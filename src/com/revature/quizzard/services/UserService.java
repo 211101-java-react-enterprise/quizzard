@@ -36,13 +36,15 @@ public class UserService {
 
                 String[] each = line.split(":");
                 if( each[4].equals(username) && each[5].equals(password)){
-                    //return appuser;
-                    return
+                    AppUser authUser = new AppUser(each[1],each[2], each[3], each[4], each[5]);
+                    authUser.setId(each[0]);
+                    return authUser;
                 }
             }
             return null;
+        } catch(Exception e) {
+            return null;
         }
-        return null;
     }
 
     public boolean isUserValid(AppUser user) {

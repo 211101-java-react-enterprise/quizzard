@@ -28,9 +28,10 @@ public class LoginScreen extends Screen {
         System.out.println("Fetching user...");
 
 
-        boolean loginSuccessfull = userService.authenticateUser(givenUser,givenPassword);
+        AppUser authUser = userService.authenticateUser(givenUser,givenPassword);
 
-        if (loginSuccessfull) {
+        if (authUser != null) {
+            System.out.println("Login successful!");
             // router.navigate("/dashboard");
         } else {
             System.out.println("Invalid username or password. Please try again.");
