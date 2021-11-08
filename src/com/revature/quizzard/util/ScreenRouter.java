@@ -19,7 +19,8 @@ public class ScreenRouter {
         System.out.println("DEBUG, screen size: " + screens.size());
         for (int i = 0; i < screens.size(); i++) {
             Screen thisScreen = screens.get(i);
-            System.out.println("DEBUG: " + thisScreen);
+            System.out.print("DEBUG: thisScreen: " + thisScreen.getRoute());
+            System.out.println(" route: " + route);
             if (thisScreen.getRoute().equals(route)) {
                 thisScreen.render();
             }
