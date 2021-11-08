@@ -27,6 +27,9 @@ public class UserService {
 
     // TODO: Implement me!
     public AppUser authenticateUser(String username, String password) {
+        File usersFile = new File("resources/data.txt");
+
+
         return null;
     }
 
