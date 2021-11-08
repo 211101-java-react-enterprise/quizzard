@@ -16,11 +16,11 @@ public class ScreenRouter {
 
     public void navigate(String route) throws Exception {
 
-        System.out.println("DEBUG, screen size: " + screens.size());
+        //System.out.println("DEBUG, screen size: " + screens.size());
         for (int i = 0; i < screens.size(); i++) {
             Screen thisScreen = screens.get(i);
-            System.out.print("DEBUG: thisScreen: " + thisScreen.getRoute());
-            System.out.println(" route: " + route);
+            //System.out.print("DEBUG: thisScreen: " + thisScreen.getRoute());
+            //System.out.println(" route: " + route);
             if (thisScreen.getRoute().equals(route)) {
                 thisScreen.render();
             }

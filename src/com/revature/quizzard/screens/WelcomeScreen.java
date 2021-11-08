@@ -22,10 +22,8 @@ public class WelcomeScreen extends Screen {
                 "> ");
 
         String userSelection = consoleReader.readLine();
-        System.out.printf(userSelection);
         switch (userSelection) {
             case "1":
-                System.out.println("Entered login!");
                 router.navigate("/login");
                 break;
             case "2":
