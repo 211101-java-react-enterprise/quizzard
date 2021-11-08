@@ -22,8 +22,9 @@ import java.util.Objects;
         - int hashCode()
         - String toString()
  */
-public class AppUser extends Object {
+public class AppUser {
 
+    private String id;
     private String firstName;
     private String lastName;
     private String email;
@@ -81,7 +82,8 @@ public class AppUser extends Object {
 
     public String toFileString() {
         StringBuilder builder = new StringBuilder();
-        builder.append(firstName).append(":")
+        builder.append(id).append(":")
+                .append(firstName).append(":")
                .append(lastName).append(":")
                .append(email).append(":")
                .append(username).append(":")
@@ -89,27 +91,19 @@ public class AppUser extends Object {
         return builder.toString();
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        AppUser appUser = (AppUser) o; // explicit type casting!
-        return Objects.equals(firstName, appUser.firstName)
-                && Objects.equals(lastName, appUser.lastName)
-                && Objects.equals(email, appUser.email)
-                && Objects.equals(username, appUser.username)
-                && Objects.equals(password, appUser.password);
+    public String getId() {
+        return id;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(firstName, lastName, email, username, password);
+    public void setId(String id) {
+        this.id = id;
     }
 
     @Override
     public String toString() {
         return "AppUser{" +
-                "firstName='" + firstName + '\'' +
+                "id='" + id + '\'' +
+                ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
                 ", username='" + username + '\'' +

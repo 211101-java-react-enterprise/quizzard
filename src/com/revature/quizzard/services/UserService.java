@@ -1,5 +1,6 @@
 package com.revature.quizzard.services;
 
+import com.revature.quizzard.daos.AppUserDAO;
 import com.revature.quizzard.exceptions.InvalidRequestException;
 import com.revature.quizzard.models.AppUser;
 
@@ -11,6 +12,8 @@ import java.io.FileWriter;
 //*************************************************
 
 public class UserService {
+
+    private AppUserDAO userDAO = new AppUserDAO();
 
     //-------------------------------------------------
 
@@ -45,21 +48,7 @@ public class UserService {
             return false;
         }
 
-
-        // TODO: Find a better place for this logic (hint: DAO pattern)
-
-        try {
-            File usersFile = new File("resources/data.txt");
-
-            // the true argument here allows for us to append to the file, rather than completely overwriting it
-            FileWriter fileWriter = new FileWriter(usersFile, true);
-            fileWriter.write(newUser.toFileString() + "\n");
-            fileWriter.close();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
+        userDAO.save(newUser);
 
         return true;
 

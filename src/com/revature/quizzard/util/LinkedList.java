@@ -67,7 +67,10 @@ public class LinkedList<T> implements List<T> {
     // TODO: IMPLEMENT ME!
     @Override
     public boolean remove(T element) {
-        // check edge case of requested value being in head first
+        // Check for empty list return false if empty
+        if (size == 0) return false;
+
+        // check edge case of requested value being in head
         if (head.data.equals(element)) {
             head = head.nextNode;
             size--;
