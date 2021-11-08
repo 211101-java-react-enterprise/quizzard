@@ -32,8 +32,15 @@ public class UserService {
         // Have username and password from user input
         // Need from file
 
-
-        return new AppUser("","","","","");
+        // Just make sure we're not receiving garbage
+        if (username == null || username.equals("") || password == null || password.equals("")) {
+            throw new InvalidRequestException("Invalid credential values provided");
+        }
+        AppUser authenticatedUser = userDAO.findUserByUsernameAndPassword(username, password);
+        if (authenticatedUser != null) {
+            return authenticatedUser;
+        }
+        throw new RuntimeException("No account found with provided credentials");
     }
 
     public boolean isUserValid(AppUser user) {

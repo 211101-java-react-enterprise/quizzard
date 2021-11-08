@@ -9,6 +9,7 @@ import java.io.BufferedReader;
 // TODO: Implement me!
 
 public class LoginScreen extends Screen {
+    private final UserService userService;
     public LoginScreen(BufferedReader consoleReader, ScreenRouter router, UserService userService) {
         super("LoginScreen", "/login", consoleReader, router);
         this.userService = userService;
@@ -26,6 +27,11 @@ public class LoginScreen extends Screen {
         // Add new BufferedReader - point to file versus System.in
         // We have Console input (above) and File input
         // Compare Console In to File In - with Authenticate
-        AppUser user = UserService.auhenticateUser(username, password);
+        try {
+            AppUser user = userService.authenticateUser(username, password);
+            System.out.println(user);
+        } catch (RuntimeException e) {
+            System.out.println("Could not authenticate using provided credentials. Navigating back to Welcome Screen...");
+        }
     }
 }

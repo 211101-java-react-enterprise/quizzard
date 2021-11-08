@@ -25,7 +25,7 @@ public class WelcomeScreen extends Screen {
 
         switch (userSelection) {
             case "1":
-//                login();
+                router.navigate("/login");
                 break;
             case "2":
                 router.navigate("/register");
