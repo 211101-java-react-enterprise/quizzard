@@ -1,6 +1,7 @@
 package com.revature.quizzard.services;
 
 import com.revature.quizzard.daos.AppUserDAO;
+import com.revature.quizzard.exceptions.AuthenticationException;
 import com.revature.quizzard.exceptions.InvalidRequestException;
 import com.revature.quizzard.models.AppUser;
 
@@ -27,7 +28,19 @@ public class UserService {
 
     // TODO: Implement me!
     public AppUser authenticateUser(String username, String password) {
-        return null;
+
+        if (username == null || username.trim().equals("") || password == null || password.trim().equals("")) {
+            throw new InvalidRequestException("Invalid credential values provided!");
+        }
+
+        AppUser authenticatedUser = userDAO.findUserByUsernameAndPassword(username, password);
+
+        if (authenticatedUser == null) {
+            throw new AuthenticationException();
+        }
+
+        return authenticatedUser;
+
     }
 
     public boolean isUserValid(AppUser user) {

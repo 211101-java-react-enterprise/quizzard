@@ -1,5 +1,6 @@
 package com.revature.quizzard.util;
 
+import com.revature.quizzard.screens.LoginScreen;
 import com.revature.quizzard.screens.RegisterScreen;
 import com.revature.quizzard.screens.WelcomeScreen;
 import com.revature.quizzard.services.UserService;
@@ -27,6 +28,7 @@ public class AppState {
         UserService userService = new UserService();
         router.addScreen(new WelcomeScreen(consoleReader, router));
         router.addScreen(new RegisterScreen(consoleReader, router, userService));
+        router.addScreen(new LoginScreen(consoleReader, router, userService));
 
     }
 

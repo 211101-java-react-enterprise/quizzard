@@ -39,6 +39,11 @@ public class AppUser extends Object {
         this.password = password;
     }
 
+    public AppUser(String id, String firstName, String lastName, String email, String username, String password) {
+        this(firstName, lastName, email, username, password);
+        this.id = id;
+    }
+
     public String getId() {
         return id;
     }
