@@ -37,7 +37,8 @@ public class RegisterScreen extends Screen {
         System.out.printf("Provided user first and last name: { \"firstName\": %s, \"lastName\": %s}\n", firstName, lastName);
         // String format specifiers: %s (strings), %d (whole numbers), %f (decimal values)
 
-        AppUser newUser = new AppUser(firstName, lastName, email, username, password);
+        //left blank to resolve error
+        AppUser newUser = new AppUser("", firstName, lastName, email, username, password);
 
         boolean registerSuccessful = userService.registerNewUser(newUser);
 

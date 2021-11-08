@@ -31,7 +31,8 @@ public class AppUser extends Object {
     private String username;
     private String password;
 
-    public AppUser(String firstName, String lastName, String email, String username, String password) {
+    public AppUser(String id, String firstName, String lastName, String email, String username, String password) {
+        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;

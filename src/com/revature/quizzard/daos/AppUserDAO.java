@@ -3,17 +3,42 @@ package com.revature.quizzard.daos;
 import com.revature.quizzard.models.AppUser;
 import com.revature.quizzard.util.List;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
+import java.nio.Buffer;
 import java.util.UUID;
 
 public class AppUserDAO implements CrudDAO<AppUser> {
 
     // TODO: Implement me!
-    public AppUser findUserByUsernameAndPassword(String username, String password) {
-        return null;
+    public AppUser findUserByUsernameAndPassword(String username, String password) throws IOException {
+
+        //Reference to an empty app user
+        //AppUser userCredentials;
+        File userData = new File("resources/data.txt");
+        String rawData;
+        //make a filter for the strings in the file
+        try (BufferedReader reader = new BufferedReader(new FileReader(userData)))
+        {
+            while ((rawData = reader.readLine()) != null)
+            {
+                // UUID Name LastName Email Username Password
+                String[] currentSelection = rawData.split(":");
+                //compare data collected with data from user
+                if (username.equals(currentSelection[4]) && password.equals(currentSelection[5]))
+                {
+                        AppUser userCredentials = new AppUser(currentSelection[1], currentSelection[2], currentSelection[3], currentSelection[4], currentSelection[5], currentSelection[6]);
+                        return userCredentials;
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        //If we get here, we did not find user
+
+
+      return null;
     }
 
     @Override
