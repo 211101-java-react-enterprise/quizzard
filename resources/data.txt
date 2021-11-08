@@ -1,3 +1,6 @@
 4756836b-cd04-4ddb-8a7a-f95b9f26ad18:Tester:McTesterson:test@revature.com:tester:test
 c0bb9bbb-4977-4e9c-b2cb-a97e0d7acb18:Wezley:Singleton:wezley.singleton@revature.com:wsingleton:password
 ca7e11e1-7872-4d98-904e-84052a3a5abc:Alice:Anderson:alice.anderson@revature.com:aanderson:password
+a190bf73-ffd2-401a-84a1-69257d1a8095:Cole:Paris:cole.paris@revature.net:coleparis:password
+9cc7a0fa-ee79-4c96-b6fd-30ab6bd66de8:Bob:McFarren:bob.mcfarren@revature.net:bobbyF:password1
+26aaa792-fa2b-43db-a1c8-ef0576a1c6ac:James:Smith:james.smith@revature.net:jamessmith222:password2

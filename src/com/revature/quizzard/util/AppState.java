@@ -3,6 +3,7 @@ package com.revature.quizzard.util;
 import com.revature.quizzard.screens.RegisterScreen;
 import com.revature.quizzard.screens.WelcomeScreen;
 import com.revature.quizzard.services.UserService;
+import com.revature.quizzard.services.VerifyService;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -24,10 +25,12 @@ public class AppState {
         router = new ScreenRouter();
         BufferedReader consoleReader = new BufferedReader(new InputStreamReader(System.in));
 
+
         UserService userService = new UserService();
+        VerifyService verifyService = new VerifyService();
         router.addScreen(new WelcomeScreen(consoleReader, router));
         router.addScreen(new RegisterScreen(consoleReader, router, userService));
-
+        router.addScreen(new LoginScreen(consoleReader, router, verifyService));
     }
 
     public void startup() {
