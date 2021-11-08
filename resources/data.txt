@@ -1,5 +1,3 @@
-Wezley:Singleton:wezley.singleton@revature.com:wsingleton:password
-Tester:McTesterson:test@revature.com:tester:test
-Alice:Anderson:alice.anderson@revature.com:aanderson:password
-Bob:Bailey:bob.bailey@revature.com:bbailey:bob
-Charlie:Cantrell:charlie.cantrell@revature.com:ccantrell:password
+4756836b-cd04-4ddb-8a7a-f95b9f26ad18:Tester:McTesterson:test@revature.com:tester:test
+c0bb9bbb-4977-4e9c-b2cb-a97e0d7acb18:Wezley:Singleton:wezley.singleton@revature.com:wsingleton:password
+ca7e11e1-7872-4d98-904e-84052a3a5abc:Alice:Anderson:alice.anderson@revature.com:aanderson:password

@@ -1,5 +1,6 @@
 package com.revature.quizzard.services;
 
+import com.revature.quizzard.daos.AppUserDAO;
 import com.revature.quizzard.exceptions.InvalidRequestException;
 import com.revature.quizzard.models.AppUser;
 
@@ -7,6 +8,8 @@ import java.io.File;
 import java.io.FileWriter;
 
 public class UserService {
+
+    private AppUserDAO userDAO = new AppUserDAO();
 
     public boolean registerNewUser(AppUser newUser) {
 
@@ -16,16 +19,7 @@ public class UserService {
 
         // TODO: write logic that verifies that the new user's username and email are not already taken
 
-        // TODO: Find a better place for this logic (hint: DAO pattern)
-        try {
-            File usersFile = new File("resources/data.txt");
-            FileWriter fileWriter = new FileWriter(usersFile, true);
-            fileWriter.write(newUser.toFileString() + "\n");
-            fileWriter.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
+        userDAO.save(newUser);
 
         return true;
 
