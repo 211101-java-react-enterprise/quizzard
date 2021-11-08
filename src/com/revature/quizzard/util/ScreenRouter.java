@@ -14,7 +14,7 @@ public class ScreenRouter {
         screens.add(screen);
     }
 
-    public void navigate(String route) throws Exception{
+    public void navigate(String route) throws Exception {
 
         System.out.println("DEBUG, screen size: " + screens.size());
         for (int i = 0; i < screens.size(); i++) {
