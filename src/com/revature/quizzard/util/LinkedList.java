@@ -76,10 +76,47 @@ public class LinkedList<T> implements List<T> {
         return size;
     }
 
-    // TODO: IMPLEMENT ME!
     @Override
     public T get(int index) {
+        if (index < 0 || index >= size) {
+            throw new RuntimeException("Provided index value is out of bounds!");
+        }
+
+        Node<T> currentNode = head;
+        for (int i = 0; i < index; i++) {
+            if (i == index) {
+                return currentNode.data;
+            }
+            currentNode = currentNode.nextNode;
+        }
+
         return null;
+
+    }
+
+    @Override
+    public String toString() {
+
+        if (head == null) {
+            return "[ ]";
+        }
+
+        StringBuilder strBldr = new StringBuilder();
+        strBldr.append("[ ");
+
+        Node<T> runner = head;
+        for (int i = 0; i < this.size; i++) {
+            if (i == size - 1) {
+                strBldr.append(runner.data.toString()).append(" ");
+            } else {
+                strBldr.append(runner.data.toString()).append(", ");
+            }
+            runner = runner.nextNode;
+        }
+
+        strBldr.append("]");
+
+        return strBldr.toString();
     }
 
 //    @Override // works without issue!

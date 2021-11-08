@@ -1,21 +1,20 @@
 package com.revature.quizzard.util;
 
-/**
- * Interfaces
- *
- *      - acts as a "contract" for implementing classes (layman's terms: any concrete class that implements
- *        this interface will be required to provide logic for the declared methods of this interface)
- *
-*       - do not have constructors (and therefore cannot be instantiated)
- *
- *       - the interface declaration is implicitly abstract
- *
- *       - all method stubs declared within an interface are implicitly abstract and public
- *
- *       - can contain concrete (non-abstract) methods:
- *          + static methods
- *          + default methods (introduced in Java 8)
- */
+/* Interfaces
+
+    - acts as a "contract" for implementing classes (layman's terms: any concrete class that implements
+        this interface will be required to provide logic for the declared methods of this interface)
+
+    - do not have constructors (and therefore cannot be instantiated)
+
+    - the interface declaration is implicitly abstract
+
+    - all method stubs declared within an interface are implicitly abstract and public
+
+    - can contain concrete (non-abstract) methods:
+        + static methods
+        + default methods (introduced in Java 8) */
+
 public interface List<T> extends Collection<T> {
 
     // the line below is an example of a method stub (a method without an implementation; can only be declared
@@ -36,7 +35,5 @@ public interface List<T> extends Collection<T> {
     static void staticMethodExample() {
         System.out.println("This is a static method in an interface, it CANNOT be overridden - but it can be shadowed.");
     }
-
-
 
 }
