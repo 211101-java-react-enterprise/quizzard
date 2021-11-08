@@ -1,19 +1,42 @@
 package com.revature.quizzard.daos;
 
 import com.revature.quizzard.models.AppUser;
+import com.revature.quizzard.util.LinkedList;
 import com.revature.quizzard.util.List;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.UUID;
 
 public class AppUserDAO implements CrudDAO<AppUser> {
 
     // TODO: Implement me!
-    public AppUser findUserByUsernameAndPassword(String username, String password) {
-        return null;
+    public AppUser findUserByUsernameAndPassword(String username, String password) throws Exception {
+        // Read file to variable
+        // Loop through lines of file as LinkedList
+        //// Split the file by colons, save as another LinkedList
+        // We'll know where in each nested list the username/password should be
+        // Return the whole user record (line of text file)
+        File file = new File("resources/data.txt");
+        BufferedReader fileReader = new BufferedReader(new FileReader(file));
+        String line = fileReader.readLine();
+        System.out.println(line);
+        while(line != null){
+            String[] lineBits = line.split(":");
+            String lineUsername = lineBits[4];
+            String linePassword = lineBits[5];
+
+            if (username.equals(lineUsername) && password.equals(linePassword)) {
+                AppUser foundUser = new AppUser(lineBits[1], lineBits[2], lineBits[3], lineBits[4], lineBits[5]);
+            } else {
+                line = fileReader.readLine();
+            }
+        }
+
+
+
+
+
+        return new AppUser("","","","","");
     }
 
     @Override

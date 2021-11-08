@@ -27,7 +27,13 @@ public class UserService {
 
     // TODO: Implement me!
     public AppUser authenticateUser(String username, String password) {
-        return null;
+        // Calls findByUserNameAndPassword in AppUserDAO
+        // Receives either a user record or an error
+        // Have username and password from user input
+        // Need from file
+
+
+        return new AppUser("","","","","");
     }
 
     public boolean isUserValid(AppUser user) {
