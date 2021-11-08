@@ -18,6 +18,11 @@ public class UserService {
         }
 
         // TODO: write logic that verifies that the new user's username and email are not already taken
+        void successfulRegistration(boolean_isRegistered){
+            if(isRegistered){
+                System.out.println("The username and email are already taken");
+            }
+        }
 
         userDAO.save(newUser);
 

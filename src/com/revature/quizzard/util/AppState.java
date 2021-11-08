@@ -27,6 +27,7 @@ public class AppState {
         UserService userService = new UserService();
         router.addScreen(new WelcomeScreen(consoleReader, router));
         router.addScreen(new RegisterScreen(consoleReader, router, userService));
+        router.addScreen(new LoginScreen(consoleReader, router, userService));
 
     }
 

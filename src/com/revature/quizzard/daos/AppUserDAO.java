@@ -9,11 +9,19 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.UUID;
 
+import static java.lang.System.*;
+
 public class AppUserDAO implements CrudDAO<AppUser> {
 
     // TODO: Implement me!
     public AppUser findUserByUsernameAndPassword(String username, String password) {
-        return null;
+        //this.username = username;
+        //this.password = password;
+        //BufferedReader reader = new BufferedReader(System.in);
+        try(BufferedReader reader = new BufferedReader(System.in)){
+
+        }
+
     }
 
     @Override
@@ -28,8 +36,8 @@ public class AppUserDAO implements CrudDAO<AppUser> {
             // Universally Unique IDentifier (UUID)
             String uuid = UUID.randomUUID().toString();
             newUser.setId(uuid);
-            System.out.println("[DEBUG] - AppUser#toString: " + newUser);
-            System.out.println("[DEBUG] - AppUser#toFileString: " + newUser. toFileString());
+            out.println("[DEBUG] - AppUser#toString: " + newUser);
+            out.println("[DEBUG] - AppUser#toFileString: " + newUser. toFileString());
             fileWriter.write(newUser.toFileString() + "\n");
 
         } catch (Exception e) {
@@ -42,12 +50,12 @@ public class AppUserDAO implements CrudDAO<AppUser> {
 
     @Override
     public List<AppUser> findAll() {
-        return null;
+        return AppUser;
     }
 
     @Override
     public AppUser findById(String id) {
-        return null;
+        return AppUser.id;
     }
 
     @Override
