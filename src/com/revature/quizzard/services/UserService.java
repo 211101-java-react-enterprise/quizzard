@@ -27,7 +27,8 @@ public class UserService {
 
     // TODO: Implement me!
     public AppUser authenticateUser(String username, String password) {
-        return null;
+
+        
     }
 
     public boolean isUserValid(AppUser user) {
