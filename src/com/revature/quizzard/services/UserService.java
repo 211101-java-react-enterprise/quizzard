@@ -5,9 +5,6 @@ import com.revature.quizzard.exceptions.AuthenticationException;
 import com.revature.quizzard.exceptions.InvalidRequestException;
 import com.revature.quizzard.models.AppUser;
 
-import java.io.File;
-import java.io.FileWriter;
-
 public class UserService {
 
     private AppUserDAO userDAO = new AppUserDAO();
@@ -26,7 +23,6 @@ public class UserService {
 
     }
 
-    // TODO: Implement me!
     public AppUser authenticateUser(String username, String password) {
 
         if (username == null || username.trim().equals("") || password == null || password.trim().equals("")) {
@@ -44,7 +40,6 @@ public class UserService {
     }
 
     public boolean isUserValid(AppUser user) {
-        System.out.println(user);
         if (user == null) return false;
         if (user.getFirstName() == null || user.getFirstName().trim().equals("")) return false;
         if (user.getLastName() == null || user.getLastName().trim().equals("")) return false;
