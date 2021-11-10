@@ -1,9 +1,13 @@
 package com.revature.quizzard.daos;
 
 import com.revature.quizzard.models.AppUser;
+import com.revature.quizzard.util.ConnectionFactory;
 import com.revature.quizzard.util.List;
 
 import java.io.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.UUID;
 
 public class AppUserDAO implements CrudDAO<AppUser> {
@@ -30,25 +34,33 @@ public class AppUserDAO implements CrudDAO<AppUser> {
     @Override
     public AppUser save(AppUser newUser) {
 
-        File usersFile = new File("resources/data.txt");
+        try (Connection conn = ConnectionFactory.getInstance().getConnection()) {
 
-        // try-with-resources (allows for the instantiation of AutoCloseable types that are implicitly
-        // closed when the try logic is finished)
-        try (FileWriter fileWriter = new FileWriter(usersFile, true)) {
+            newUser.setId(UUID.randomUUID().toString());
 
-            // Universally Unique IDentifier (UUID)
-            String uuid = UUID.randomUUID().toString();
-            newUser.setId(uuid);
-            System.out.println("[DEBUG] - AppUser#toString: " + newUser);
-            System.out.println("[DEBUG] - AppUser#toFileString: " + newUser. toFileString());
-            fileWriter.write(newUser.toFileString() + "\n");
+            String sql = "insert into app_users (id, first_name, last_name, email, username, password) values (?, ?, ?, ?, ?, ?)";
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, newUser.getId());
+            pstmt.setString(2, newUser.getFirstName());
+            pstmt.setString(3, newUser.getLastName());
+            pstmt.setString(4, newUser.getEmail());
+            pstmt.setString(5, newUser.getUsername());
+            pstmt.setString(6, newUser.getPassword());
 
-        } catch (Exception e) {
-            e.printStackTrace(); // leave for debugging purposes (preferably, write it to a file) - definitely remove before "production"
-            throw new RuntimeException("Error persisting user to file.");
+            int rowsInserted = pstmt.executeUpdate();
+
+            if (rowsInserted != 0) {
+                return newUser;
+            }
+
+        } catch (SQLException e) {
+            // TODO log this and throw our own custom exception to be caught in the service layer
+            e.printStackTrace();
+
         }
 
-        return newUser;
+        return null;
+
     }
 
     @Override

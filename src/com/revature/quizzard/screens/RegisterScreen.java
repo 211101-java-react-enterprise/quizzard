@@ -1,5 +1,7 @@
 package com.revature.quizzard.screens;
 
+import com.revature.quizzard.exceptions.InvalidRequestException;
+import com.revature.quizzard.exceptions.ResourcePersistenceException;
 import com.revature.quizzard.models.AppUser;
 import com.revature.quizzard.services.UserService;
 import com.revature.quizzard.util.ScreenRouter;
@@ -39,12 +41,13 @@ public class RegisterScreen extends Screen {
 
         AppUser newUser = new AppUser(firstName, lastName, email, username, password);
 
-        boolean registerSuccessful = userService.registerNewUser(newUser);
-
-        if (registerSuccessful) {
-            // router.navigate("/dashboard");
-        } else {
+        try {
+            userService.registerNewUser(newUser);
+            System.out.println(newUser);
+        } catch (InvalidRequestException e) {
             System.out.println("You have provided invalid data. Please try again.");
+        } catch (ResourcePersistenceException e) {
+            System.out.println("There was an issue when trying to persist the user to the datasource.");
         }
 
 

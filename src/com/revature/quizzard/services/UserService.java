@@ -3,6 +3,7 @@ package com.revature.quizzard.services;
 import com.revature.quizzard.daos.AppUserDAO;
 import com.revature.quizzard.exceptions.AuthenticationException;
 import com.revature.quizzard.exceptions.InvalidRequestException;
+import com.revature.quizzard.exceptions.ResourcePersistenceException;
 import com.revature.quizzard.models.AppUser;
 
 public class UserService {
@@ -17,7 +18,11 @@ public class UserService {
 
         // TODO: write logic that verifies that the new user's username and email are not already taken
 
-        userDAO.save(newUser);
+        AppUser registeredUser = userDAO.save(newUser);
+
+        if (registeredUser == null) {
+            throw new ResourcePersistenceException("The user could not be persisted to the datasource!");
+        }
 
         return true;
 
