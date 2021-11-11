@@ -101,4 +101,16 @@ public class UserServiceTestSuite {
 
     }
 
+    @Test
+    public void test_isauthenticateUser_returnsTrue_givenUserWithvalidUsername_validUsername() {
+
+        // Arrange
+        String username= "test",  password="test";
+
+        // Act
+        AppUser actualResult_1 = sut.authenticateUser(username, password);
+
+        // Assert
+        Assert.assertTrue("Expected user to be considered true.", actualResult_1 != null);
+    }
 }
