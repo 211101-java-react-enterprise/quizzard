@@ -19,7 +19,7 @@ public class DashboardScreen extends Screen {
     public void render() throws Exception {
         System.out.println("DashboardScreen.render still under construction...");
         user = getUser();
-        System.out.println(user.getUsername());
+        System.out.println("Hello, " + user.getFirstName());
     }
 
 }
