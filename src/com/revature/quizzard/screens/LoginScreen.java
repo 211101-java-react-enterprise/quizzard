@@ -7,6 +7,8 @@ import com.revature.quizzard.util.ScreenRouter;
 
 import java.io.BufferedReader;
 
+import static com.revature.quizzard.util.AppState.loadAccount;
+
 // TODO: Implement me!
 public class LoginScreen extends Screen {
 
@@ -29,6 +31,7 @@ public class LoginScreen extends Screen {
         try {
             AppUser authenticatedUser = userService.authenticateUser(username, password);
             System.out.println("Credentials validated, matching user found: " + authenticatedUser);
+            loadAccount(authenticatedUser);
             router.navigate("/dashboard");
         } catch (AuthenticationException e) {
             System.out.println("Incorrect credentials provided! No matching user account found.");

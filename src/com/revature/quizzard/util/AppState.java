@@ -1,5 +1,6 @@
 package com.revature.quizzard.util;
 
+import com.revature.quizzard.models.AppUser;
 import com.revature.quizzard.screens.DashboardScreen;
 import com.revature.quizzard.screens.LoginScreen;
 import com.revature.quizzard.screens.RegisterScreen;
@@ -19,11 +20,13 @@ import java.io.InputStreamReader;
 public class AppState {
 
     private static boolean appRunning;
+    static AppUser user;
     private final ScreenRouter router;
 
     public AppState() {
         appRunning = true;
         router = new ScreenRouter();
+        user = new AppUser();
         BufferedReader consoleReader = new BufferedReader(new InputStreamReader(System.in));
 
         UserService userService = new UserService();
@@ -43,6 +46,15 @@ public class AppState {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public static void loadAccount(AppUser user1){
+        user = user1;
+        System.out.println(user);
+    }
+
+    public static AppUser getUser(){
+        return user;
     }
 
     public static void shutdown() {
