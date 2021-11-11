@@ -3,16 +3,43 @@ package com.revature.quizzard.daos;
 import com.revature.quizzard.models.AppUser;
 import com.revature.quizzard.util.ConnectionFactory;
 import com.revature.quizzard.util.List;
+import org.omg.CORBA.PUBLIC_MEMBER;
 
 import java.io.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.UUID;
 
 public class AppUserDAO implements CrudDAO<AppUser> {
 
-    // TODO: Implement me!
+    public AppUser findUserByUsername(String username) {
+        //TODO
+        try (Connection conn = ConnectionFactory.getInstance().getConnection()) {
+            String sql = "select * from app_users where username = ?";
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, username);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()){
+                AppUser user = new AppUser();
+                user.setID(rs.getString("id"));
+                user.setFirstName(rs.getString("first_name"));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public AppUser findUserByEmail(String email) {
+        //TODO
+        return null;
+    }
+
+    // Replace with jdbc logic
     public AppUser findUserByUsernameAndPassword(String username, String password) {
 
         try (BufferedReader dataReader = new BufferedReader(new FileReader("resources/data.txt"))) {
@@ -30,6 +57,7 @@ public class AppUserDAO implements CrudDAO<AppUser> {
 
         return null;
     }
+
 
     @Override
     public AppUser save(AppUser newUser) {
