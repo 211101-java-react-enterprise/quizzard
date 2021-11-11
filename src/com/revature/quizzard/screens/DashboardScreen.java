@@ -12,7 +12,7 @@ public class DashboardScreen extends Screen {
 
     @Override
     public void render() throws Exception {
-        System.out.println("DashboardScreen.render still under construction...");
+        System.out.println("Welcom!");
     }
 
 }
