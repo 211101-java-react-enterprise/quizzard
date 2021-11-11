@@ -6,12 +6,14 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import static org.mockito.Mockito.*;
 
 public class UserServiceTestSuite {
 
     // System Under Test
 //    UserService sut = new UserService();
     UserService sut;
+    AppUserDAO mockUserDAO;
 
     /*
         JUnit Annotations
@@ -25,8 +27,8 @@ public class UserServiceTestSuite {
 
     @Before
     public void testCaseSetup() {
-        // TODO: fix tests following login refactor
-        sut = new UserService(null);
+        mockUserDAO = Mocito.mock(AppUserDAO.class);
+        sut = new UserService(mockUserDAO);
     }
 
     @After
@@ -70,19 +72,23 @@ public class UserServiceTestSuite {
 
     }
 
-    // TODO correct implementation so that UserService#registerNewUser is tested in isolation (hint: mock/fake the AppUserDAO)
+
     @Test
     public void test_registerNewUser_returnsTrue_givenValidUser() {
 
+
         // Arrange
         AppUser validUser = new AppUser("valid", "valid", "valid", "valid", "valid");
+        when(mockUserDAO.findUserByUsername(anyString())).thenReturn(null);
+        when(mockUserDAO.findUserByEmail(anyString())).thenReturn(null);
+        when(mockUserDAO.save(validUser).thenReturn(validUser));
 
         // Act
         boolean actualResult = sut.registerNewUser(validUser);
 
         // Assert
         Assert.assertTrue("Expected result to be true with valid user provided.", actualResult);
-
+        verify(mockUserDAO, times(1).save(validUser));
     }
 
     @Test(expected = InvalidRequestException.class)
@@ -99,6 +105,18 @@ public class UserServiceTestSuite {
         // Act
 
         // Assert
+
+    }
+
+
+    //TODO THIS
+    @Test
+    public void test_registerNewUser_throwsResourcePersistenceException_givenValidUserWithTakenUsername() {
+
+    }
+
+    @Test
+    public void test_registerNewUser_throwsResourcePersistenceException_givenValidUserWithTakenEmail() {
 
     }
 
