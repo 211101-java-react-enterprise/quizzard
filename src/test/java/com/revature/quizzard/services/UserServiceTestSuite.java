@@ -1,7 +1,8 @@
-package com.revature.quizzard.services;
+package java.com.revature.quizzard.services;
 
 import com.revature.quizzard.exceptions.InvalidRequestException;
 import com.revature.quizzard.models.AppUser;
+import com.revature.quizzard.services.UserService;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;

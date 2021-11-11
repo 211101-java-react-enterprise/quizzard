@@ -21,11 +21,11 @@ public class AppState {
 
     private static boolean appRunning;
     static AppUser user;
-    private final ScreenRouter router;
+    private final com.revature.quizzard.util.ScreenRouter router;
 
     public AppState() {
         appRunning = true;
-        router = new ScreenRouter();
+        router = new com.revature.quizzard.util.ScreenRouter();
         user = new AppUser();
         BufferedReader consoleReader = new BufferedReader(new InputStreamReader(System.in));
 
