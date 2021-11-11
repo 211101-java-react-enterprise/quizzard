@@ -67,23 +67,33 @@ public class AppUserDAO implements CrudDAO<AppUser> {
 
     }
 
-    // TODO: Replace this logic with JDBC.
     public AppUser findUserByUsernameAndPassword(String username, String password) {
 
-        try (BufferedReader dataReader = new BufferedReader(new FileReader("resources/data.txt"))) {
+        try (Connection conn = ConnectionFactory.getInstance().getConnection()) {
 
-            String dataCursor;
-            while((dataCursor = dataReader.readLine()) != null) {
-                String[] userData = dataCursor.split(":");
-                if (userData[4].equals(username) && userData[5].equals(password)) {
-                    return new AppUser(userData[0], userData[1], userData[2], userData[3], userData[4], userData[5]);
-                }
+            String sql = "select * from app_users where username = ? and password = ?";
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, username);
+            pstmt.setString(2, password);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                AppUser user = new AppUser();
+                user.setId(rs.getString("id"));
+                user.setFirstName(rs.getString("first_name"));
+                user.setLastName(rs.getString("last_name"));
+                user.setEmail(rs.getString("email"));
+                user.setUsername(rs.getString("username"));
+                user.setPassword(rs.getString("password"));
+                return user;
             }
-        } catch (IOException e) {
+
+        } catch (SQLException e) {
             e.printStackTrace();
         }
 
         return null;
+
     }
 
     @Override

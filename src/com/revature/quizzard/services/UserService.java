@@ -9,6 +9,15 @@ import com.revature.quizzard.models.AppUser;
 public class UserService {
 
     private AppUserDAO userDAO = new AppUserDAO();
+    private AppUser sessionUser;
+
+    public UserService(AppUser sessionUser) {
+        this.sessionUser = sessionUser;
+    }
+
+    public AppUser getSessionUser() {
+        return sessionUser;
+    }
 
     public boolean registerNewUser(AppUser newUser) {
 
@@ -39,7 +48,7 @@ public class UserService {
 
     }
 
-    public AppUser authenticateUser(String username, String password) {
+    public void authenticateUser(String username, String password) {
 
         if (username == null || username.trim().equals("") || password == null || password.trim().equals("")) {
             throw new InvalidRequestException("Invalid credential values provided!");
@@ -51,8 +60,16 @@ public class UserService {
             throw new AuthenticationException();
         }
 
-        return authenticatedUser;
+        sessionUser = authenticatedUser;
 
+    }
+
+    public void logout() {
+        sessionUser = null;
+    }
+
+    public boolean isSessionActive() {
+        return sessionUser != null;
     }
 
     public boolean isUserValid(AppUser user) {

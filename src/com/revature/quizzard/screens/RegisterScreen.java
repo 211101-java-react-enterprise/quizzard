@@ -43,7 +43,8 @@ public class RegisterScreen extends Screen {
 
         try {
             userService.registerNewUser(newUser);
-            System.out.println(newUser);
+            router.navigate("/dashboard");
+
         } catch (InvalidRequestException | ResourcePersistenceException e) {
             System.out.println(e.getMessage());
         } catch (Exception e) {
