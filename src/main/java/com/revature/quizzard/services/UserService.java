@@ -8,13 +8,12 @@ import com.revature.quizzard.models.AppUser;
 
 public class UserService {
 
-    private AppUserDAO userDAO;
+    private final AppUserDAO userDAO;
     private AppUser sessionUser;
 
-    public UserService(AppUser)
-
-    public UserService(AppUser sessionUser) {
-        this.sessionUser = sessionUser;
+    public UserService(AppUserDAO userDAO){
+        this.userDAO = userDAO;
+        this.sessionUser = null;
     }
 
     public AppUser getSessionUser() {
@@ -30,14 +29,13 @@ public class UserService {
         boolean usernameAvailable = userDAO.findUserByUsername(newUser.getUsername()) == null;
         boolean emailAvailable = userDAO.findUserByEmail(newUser.getEmail()) == null;
 
-        if (!usernameAvailable || !emailAvailable) {
-            if (!usernameAvailable && emailAvailable) {
-                throw new ResourcePersistenceException("The provided username was already taken in the datasource!");
-            } else if (usernameAvailable) {
-                throw new ResourcePersistenceException("The provided email was already taken in the datasource!");
-            } else {
-                throw new ResourcePersistenceException("The provided username and email was already taken in the datasource!");
-            }
+        if (!usernameAvailable || !emailAvailable)
+        {
+
+            String msg = "The provided username was already taken in the datasource:";
+            if (!usernameAvailable) msg = msg + "\n\t- username";
+            if (!emailAvailable) msg = msg + "\n\t- email";
+            throw new ResourcePersistenceException(msg);
         }
 
         AppUser registeredUser = userDAO.save(newUser);

@@ -1,5 +1,6 @@
 package com.revature.quizzard.services;
 
+import com.revature.quizzard.daos.AppUserDAO;
 import com.revature.quizzard.exceptions.InvalidRequestException;
 import com.revature.quizzard.models.AppUser;
 import org.junit.After;
@@ -11,7 +12,7 @@ import static org.mockito.Mockito.*;
 public class UserServiceTestSuite {
 
     // System Under Test
-//    UserService sut = new UserService();
+    //    UserService sut = new UserService();
     UserService sut;
     AppUserDAO mockUserDAO;
 
@@ -27,7 +28,7 @@ public class UserServiceTestSuite {
 
     @Before
     public void testCaseSetup() {
-        mockUserDAO = Mocito.mock(AppUserDAO.class);
+        mockUserDAO = mock(AppUserDAO.class);
         sut = new UserService(mockUserDAO);
     }
 
@@ -81,14 +82,25 @@ public class UserServiceTestSuite {
         AppUser validUser = new AppUser("valid", "valid", "valid", "valid", "valid");
         when(mockUserDAO.findUserByUsername(anyString())).thenReturn(null);
         when(mockUserDAO.findUserByEmail(anyString())).thenReturn(null);
-        when(mockUserDAO.save(validUser).thenReturn(validUser));
+        when(mockUserDAO.save(validUser)).thenReturn(validUser);
 
         // Act
         boolean actualResult = sut.registerNewUser(validUser);
 
         // Assert
         Assert.assertTrue("Expected result to be true with valid user provided.", actualResult);
-        verify(mockUserDAO, times(1).save(validUser));
+        verify(mockUserDAO, times(1)).save(validUser);
+    }
+
+    //TODO THIS
+    @Test
+    public void test_registerNewUser_throwsResourcePersistenceException_givenValidUserWithTakenUsername() {
+
+    }
+
+    @Test
+    public void test_registerNewUser_throwsResourcePersistenceException_givenValidUserWithTakenEmail() {
+
     }
 
     @Test(expected = InvalidRequestException.class)
@@ -109,15 +121,6 @@ public class UserServiceTestSuite {
     }
 
 
-    //TODO THIS
-    @Test
-    public void test_registerNewUser_throwsResourcePersistenceException_givenValidUserWithTakenUsername() {
 
-    }
-
-    @Test
-    public void test_registerNewUser_throwsResourcePersistenceException_givenValidUserWithTakenEmail() {
-
-    }
 
 }

@@ -1,5 +1,6 @@
 package com.revature.quizzard.util;
 
+import com.revature.quizzard.daos.AppUserDAO;
 import com.revature.quizzard.models.AppUser;
 import com.revature.quizzard.screens.DashboardScreen;
 import com.revature.quizzard.screens.LoginScreen;
@@ -27,7 +28,7 @@ public class AppState {
         router = new ScreenRouter();
         BufferedReader consoleReader = new BufferedReader(new InputStreamReader(System.in));
 
-        AppUser sessionUser = null;
+        AppUserDAO sessionUser = new AppUserDAO();
         UserService userService = new UserService(sessionUser);
         router.addScreen(new WelcomeScreen(consoleReader, router));
         router.addScreen(new RegisterScreen(consoleReader, router, userService));
