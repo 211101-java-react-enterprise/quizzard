@@ -16,6 +16,15 @@ public class UserService {
             throw new InvalidRequestException("Invalid user data provided!");
         }
 
+        boolean usernameAvailable = userDAO.findUserByUsername(newUser.getUsername()) == null;
+        boolean emailAvailable = userDAO.findUserByEmail(newUser.getEmail()) == null;
+
+        if (!usernameAvailable) {
+            throw new ResourcePersistenceException("That username is unavailable.");
+        } else if (!emailAvailable) {
+            throw new ResourcePersistenceException("That email is unavailable.");
+        }
+
         // TODO: write logic that verifies that the new user's username and email are not already taken
 
         AppUser registeredUser = userDAO.save(newUser);

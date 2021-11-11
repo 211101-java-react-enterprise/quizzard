@@ -31,6 +31,11 @@ public class AppUser extends Object {
     private String username;
     private String password;
 
+    public AppUser() {
+        // implicit super() call
+        super();
+    }
+
     public AppUser(String firstName, String lastName, String email, String username, String password) {
         this.firstName = firstName;
         this.lastName = lastName;

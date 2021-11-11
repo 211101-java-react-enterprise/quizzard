@@ -22,6 +22,7 @@ public class ScreenRouter {
             System.out.println("DEBUG: " + thisScreen);
             if (thisScreen.getRoute().equals(route)) {
                 thisScreen.render();
+                thisScreen.render();
             }
         }
 
