@@ -26,6 +26,7 @@ public class AppState {
         appRunning = true;
         router = new ScreenRouter();
         BufferedReader consoleReader = new BufferedReader(new InputStreamReader(System.in));
+        currentUser = new CurrentUser();
 
         UserService userService = new UserService();
         router.addScreen(new WelcomeScreen(consoleReader, router));
