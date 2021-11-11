@@ -3,6 +3,7 @@ package com.revature.quizzard.screens;
 import com.revature.quizzard.exceptions.AuthenticationException;
 import com.revature.quizzard.models.AppUser;
 import com.revature.quizzard.services.UserService;
+import com.revature.quizzard.util.CurrentUser;
 import com.revature.quizzard.util.ScreenRouter;
 
 import java.io.BufferedReader;
@@ -11,10 +12,12 @@ import java.io.BufferedReader;
 public class LoginScreen extends Screen {
 
     private final UserService userService;
+    private CurrentUser currentUser;
 
-    public LoginScreen(BufferedReader consoleReader, ScreenRouter router, UserService userService) {
+    public LoginScreen(BufferedReader consoleReader, ScreenRouter router, UserService userService, CurrentUser currentUser) {
         super("LoginScreen", "/login", consoleReader, router);
         this.userService = userService;
+        this.currentUser = currentUser;
     }
 
     @Override

@@ -18,6 +18,7 @@ import java.io.InputStreamReader;
  */
 public class AppState {
 
+    private static CurrentUser currentUser;
     private static boolean appRunning;
     private final ScreenRouter router;
 
@@ -29,8 +30,9 @@ public class AppState {
         UserService userService = new UserService();
         router.addScreen(new WelcomeScreen(consoleReader, router));
         router.addScreen(new RegisterScreen(consoleReader, router, userService));
-        router.addScreen(new LoginScreen(consoleReader, router, userService));
-        router.addScreen(new DashboardScreen(consoleReader, router));
+        router.addScreen(new LoginScreen(consoleReader, router, userService, currentUser));
+        router.addScreen(new DashboardScreen(consoleReader, router, currentUser));
+
 
     }
 
