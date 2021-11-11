@@ -5,6 +5,7 @@ import com.revature.quizzard.screens.LoginScreen;
 import com.revature.quizzard.screens.RegisterScreen;
 import com.revature.quizzard.screens.WelcomeScreen;
 import com.revature.quizzard.services.UserService;
+import com.revature.quizzard.models.AppUser;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -20,6 +21,7 @@ public class AppState {
 
     private static boolean appRunning;
     private final ScreenRouter router;
+    private AppUser AuthenticatedUser;
 
     public AppState() {
         appRunning = true;
@@ -30,7 +32,7 @@ public class AppState {
         router.addScreen(new WelcomeScreen(consoleReader, router));
         router.addScreen(new RegisterScreen(consoleReader, router, userService));
         router.addScreen(new LoginScreen(consoleReader, router, userService));
-        router.addScreen(new DashboardScreen(consoleReader, router));
+        router.addScreen(new DashboardScreen(consoleReader, router, AuthenticatedUser));
 
     }
 
