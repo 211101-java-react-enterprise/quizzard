@@ -46,8 +46,8 @@ public class RegisterScreen extends Screen {
             System.out.println(newUser);
         } catch (InvalidRequestException | ResourcePersistenceException e) {
             System.out.println(e.getMessage());
-        } catch ( Exception e) {
-            // TODO something
+        } catch (Exception e) {
+            // TODO log this unexpected exception to a file
             e.printStackTrace();
         }
 

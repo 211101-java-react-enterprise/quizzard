@@ -16,20 +16,18 @@ public class UserService {
             throw new InvalidRequestException("Invalid user data provided!");
         }
 
-        boolean usernameAvailable = userDAO.findUserByUsername(newUser.getUsername() == null;
-        boolean emailAvailable = userDAO.findUserByEmail(newUser.getEmail()) ==null;
+        boolean usernameAvailable = userDAO.findUserByUsername(newUser.getUsername()) == null;
+        boolean emailAvailable = userDAO.findUserByEmail(newUser.getEmail()) == null;
 
         if (!usernameAvailable || !emailAvailable) {
             if (!usernameAvailable && emailAvailable) {
                 throw new ResourcePersistenceException("The provided username was already taken in the datasource!");
-            } else if (usernameAvailable){
+            } else if (usernameAvailable) {
                 throw new ResourcePersistenceException("The provided email was already taken in the datasource!");
-            }else {
-                throw new ResourcePersistenceException("The provided email was already taken in the datasource!");
+            } else {
+                throw new ResourcePersistenceException("The provided username and email was already taken in the datasource!");
             }
         }
-
-        // TODO: write logic that verifies that the new user's username and email are not already taken
 
         AppUser registeredUser = userDAO.save(newUser);
 

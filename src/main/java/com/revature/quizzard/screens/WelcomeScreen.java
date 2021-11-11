@@ -1,10 +1,9 @@
 package com.revature.quizzard.screens;
 
 import com.revature.quizzard.util.ScreenRouter;
+import com.revature.quizzard.util.AppState;
 
 import java.io.BufferedReader;
-
-import static com.revature.quizzard.util.AppState.shutdown;
 
 public class WelcomeScreen extends Screen {
 
@@ -32,7 +31,7 @@ public class WelcomeScreen extends Screen {
                 break;
             case "3":
                 System.out.println("Exiting application...");
-                shutdown();
+                AppState.shutdown();
                 break;
             case "throw exception":
                 throw new RuntimeException(); // "throw" is used to explicitly throw an exception that will (hopefully) be handled elsewhere
