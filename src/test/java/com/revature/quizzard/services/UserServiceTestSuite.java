@@ -2,6 +2,7 @@ package com.revature.quizzard.services;
 
 import com.revature.quizzard.daos.AppUserDAO;
 import com.revature.quizzard.exceptions.InvalidRequestException;
+import com.revature.quizzard.exceptions.ResourcePersistenceException;
 import com.revature.quizzard.models.AppUser;
 import org.junit.After;
 import org.junit.Assert;
@@ -92,13 +93,41 @@ public class UserServiceTestSuite {
 
     }
 
-    @Test
+    @Test(expected = ResourcePersistenceException.class)
     public void test_registerNewUser_throwsResourcePersistenceException_givenValidUserWithTakenUsername() {
+
+        // Arrange
+        AppUser validUser = new AppUser("valid", "valid", "valid", "valid", "valid");
+        when(mockUserDAO.findUserByUsername(validUser.getUsername())).thenReturn(new AppUser());
+        when(mockUserDAO.findUserByEmail(validUser.getEmail())).thenReturn(null);
+        when(mockUserDAO.save(validUser)).thenReturn(validUser);
+
+        // Act
+        try {
+            boolean actualResult = sut.registerNewUser(validUser);
+        } finally {
+            // Assert
+            verify(mockUserDAO, times(0)).save(validUser);
+        }
 
     }
 
-    @Test
+    @Test(expected = ResourcePersistenceException.class)
     public void test_registerNewUser_throwsResourcePersistenceException_givenValidUserWithTakenEmail() {
+
+        // Arrange
+        AppUser validUser = new AppUser("valid", "valid", "valid", "valid", "valid");
+        when(mockUserDAO.findUserByUsername(validUser.getUsername())).thenReturn(null);
+        when(mockUserDAO.findUserByEmail(validUser.getEmail())).thenReturn(new AppUser());
+        when(mockUserDAO.save(validUser)).thenReturn(validUser);
+
+        // Act
+        try {
+            boolean actualResult = sut.registerNewUser(validUser);
+        } finally {
+            // Assert
+            verify(mockUserDAO, times(0)).save(validUser);
+        }
 
     }
 
