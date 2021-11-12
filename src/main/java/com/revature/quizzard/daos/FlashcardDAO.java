@@ -2,9 +2,9 @@ package com.revature.quizzard.daos;
 
 import com.revature.quizzard.models.AppUser;
 import com.revature.quizzard.models.Flashcard;
-import com.revature.quizzard.util.ConnectionFactory;
-import com.revature.quizzard.util.LinkedList;
-import com.revature.quizzard.util.List;
+import com.revature.quizzard.util.datasource.ConnectionFactory;
+import com.revature.quizzard.util.collections.LinkedList;
+import com.revature.quizzard.util.collections.List;
 
 import java.sql.*;
 import java.util.UUID;

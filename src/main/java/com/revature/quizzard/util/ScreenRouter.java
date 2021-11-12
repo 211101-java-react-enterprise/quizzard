@@ -1,6 +1,7 @@
 package com.revature.quizzard.util;
 
 import com.revature.quizzard.screens.Screen;
+import com.revature.quizzard.util.collections.LinkedList;
 
 public class ScreenRouter {
 

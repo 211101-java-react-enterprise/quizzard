@@ -1,6 +1,6 @@
 package com.revature.quizzard.daos;
 
-import com.revature.quizzard.util.List;
+import com.revature.quizzard.util.collections.List;
 
 // CRUD: Create, Read, Update, Delete
 public interface CrudDAO<T> {

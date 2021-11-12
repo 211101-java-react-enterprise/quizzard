@@ -1,8 +1,8 @@
 package com.revature.quizzard.daos;
 
 import com.revature.quizzard.models.AppUser;
-import com.revature.quizzard.util.ConnectionFactory;
-import com.revature.quizzard.util.List;
+import com.revature.quizzard.util.datasource.ConnectionFactory;
+import com.revature.quizzard.util.collections.List;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
