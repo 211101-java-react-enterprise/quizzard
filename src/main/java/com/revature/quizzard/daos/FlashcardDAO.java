@@ -17,7 +17,12 @@ public class FlashcardDAO implements CrudDAO<Flashcard> {
 
         try (Connection conn = ConnectionFactory.getInstance().getConnection()) {
 
-            String sql = "select * from flashcards f join app_users u on f.creator_id = u.user_id where u.user_id = ?";
+            String sql = "select * " +
+                         "from flashcards f " +
+                         "join app_users u " +
+                         "on f.creator_id = u.user_id " +
+                         "where u.user_id = ?";
+
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, creatorId);
             ResultSet rs = pstmt.executeQuery();

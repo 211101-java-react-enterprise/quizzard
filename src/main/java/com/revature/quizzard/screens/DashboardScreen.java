@@ -18,7 +18,6 @@ public class DashboardScreen extends Screen {
     @Override
     public void render() throws Exception {
 
-        // TODO Implement user options and make this screen loop until the user logs out.
         AppUser sessionUser = userService.getSessionUser();
         if (sessionUser == null) {
             System.out.println("You are not currently logged in! Navigating to Login Screen");

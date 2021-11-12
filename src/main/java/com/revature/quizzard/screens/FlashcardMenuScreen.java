@@ -17,13 +17,14 @@ public class FlashcardMenuScreen extends Screen {
                 "1) View all flashcards\n" +
                 "2) View my flashcards\n" +
                 "3) Create new flashcard\n" +
-                "4) Go back" +
+                "4) Go back\n" +
                 "> ");
 
         String userSelection = consoleReader.readLine();
 
         switch (userSelection) {
             case "1":
+                // TODO: implement view all flashcards screen
                 router.navigate("/all-flashcards");
                 break;
             case "2":

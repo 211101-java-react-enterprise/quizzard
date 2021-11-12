@@ -2,7 +2,6 @@ package com.revature.quizzard.screens;
 
 import com.revature.quizzard.models.Flashcard;
 import com.revature.quizzard.services.FlashcardService;
-import com.revature.quizzard.services.UserService;
 import com.revature.quizzard.util.List;
 import com.revature.quizzard.util.ScreenRouter;
 

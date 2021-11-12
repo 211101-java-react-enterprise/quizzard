@@ -1,7 +1,5 @@
 package com.revature.quizzard.models;
 
-import java.util.Objects;
-
 public class Flashcard {
 
     private String id;
