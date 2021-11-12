@@ -1,11 +1,10 @@
 package com.revature.quizzard.util;
 
 import com.revature.quizzard.daos.AppUserDAO;
+import com.revature.quizzard.daos.FlashcardDAO;
 import com.revature.quizzard.models.AppUser;
-import com.revature.quizzard.screens.DashboardScreen;
-import com.revature.quizzard.screens.LoginScreen;
-import com.revature.quizzard.screens.RegisterScreen;
-import com.revature.quizzard.screens.WelcomeScreen;
+import com.revature.quizzard.screens.*;
+import com.revature.quizzard.services.FlashcardService;
 import com.revature.quizzard.services.UserService;
 
 import java.io.BufferedReader;
@@ -30,10 +29,17 @@ public class AppState {
 
         AppUserDAO userDAO = new AppUserDAO();
         UserService userService = new UserService(userDAO);
+
+        FlashcardDAO cardDAO = new FlashcardDAO();
+        FlashcardService cardService = new FlashcardService(cardDAO, userService);
+
         router.addScreen(new WelcomeScreen(consoleReader, router));
         router.addScreen(new RegisterScreen(consoleReader, router, userService));
         router.addScreen(new LoginScreen(consoleReader, router, userService));
         router.addScreen(new DashboardScreen(consoleReader, router, userService));
+        router.addScreen(new FlashcardMenuScreen(consoleReader, router));
+        router.addScreen(new FlashcardCreatorScreen(consoleReader, router, cardService));
+        router.addScreen(new ViewMyFlashcardsScreen(consoleReader, router, cardService));
 
     }
 
