@@ -17,8 +17,10 @@ import java.util.Properties;
  *   - Creational pattern
  *   - Used to abstract away the creation/instantiation logic of an object
  */
-public class ConnectionFactory {
 
+public class ConnectionFactory
+
+{
     private static final ConnectionFactory connectionFactory = new ConnectionFactory();
     private Properties props = new Properties();
 
@@ -57,4 +59,5 @@ public class ConnectionFactory {
 
     }
 
-}
+    }
+
