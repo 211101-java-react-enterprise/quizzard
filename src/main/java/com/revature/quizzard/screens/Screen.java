@@ -1,6 +1,7 @@
 package com.revature.quizzard.screens;
 
 import com.revature.quizzard.util.ScreenRouter;
+import com.revature.quizzard.util.logging.Logger;
 
 import java.io.BufferedReader;
 
@@ -13,6 +14,7 @@ import java.io.BufferedReader;
  */
 public abstract class Screen {
 
+    protected Logger logger = Logger.getLogger(true);
     protected String name;
     protected String route;
     protected BufferedReader consoleReader;

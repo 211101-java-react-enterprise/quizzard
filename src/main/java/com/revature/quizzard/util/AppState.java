@@ -6,6 +6,7 @@ import com.revature.quizzard.models.AppUser;
 import com.revature.quizzard.screens.*;
 import com.revature.quizzard.services.FlashcardService;
 import com.revature.quizzard.services.UserService;
+import com.revature.quizzard.util.logging.Logger;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -19,10 +20,15 @@ import java.io.InputStreamReader;
  */
 public class AppState {
 
+    private final Logger logger;
     private static boolean appRunning;
     private final ScreenRouter router;
 
     public AppState() {
+
+        logger = Logger.getLogger(true);
+        logger.log("Initializing application...");
+
         appRunning = true;
         router = new ScreenRouter();
         BufferedReader consoleReader = new BufferedReader(new InputStreamReader(System.in));
@@ -40,6 +46,8 @@ public class AppState {
         router.addScreen(new FlashcardMenuScreen(consoleReader, router));
         router.addScreen(new FlashcardCreatorScreen(consoleReader, router, cardService));
         router.addScreen(new ViewMyFlashcardsScreen(consoleReader, router, cardService));
+
+        logger.log("Application initialized!");
 
     }
 
