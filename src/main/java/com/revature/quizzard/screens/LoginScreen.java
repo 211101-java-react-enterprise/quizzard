@@ -21,7 +21,7 @@ public class LoginScreen extends Screen {
     @Override
     public void render() throws Exception {
 
-        System.out.println("Please provide your credentials to log into your account.");
+        System.out.println("\nPlease provide your credentials to log into your account.");
         System.out.print("Username > ");
         String username = consoleReader.readLine();
         System.out.print("Password > ");
