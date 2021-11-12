@@ -47,13 +47,13 @@ public class DashboardScreen extends Screen {
                     System.out.println("View/edit study sets selected");
                     break;
                 case "3":
-                    System.out.println("View/edit flashcards selected");
+                    router.navigate("/flashcards");
                     break;
                 case "4":
                     userService.logout();
                     break;
                 default:
-                    System.out.println("The user made an invalid selection");
+                    System.out.println("You have made an invalid selection");
             }
         }
 
