@@ -6,7 +6,7 @@ package com.revature.quizzard.util.collections;
  *
  * @param <T> the type of elements maintained by this list
  */
-public class LinkedList<T> implements List<T> {
+public class LinkedList<T> implements List<T>, Deque<T> {
 
     private int size;
     private Node<T> head; // implicitly null
@@ -216,6 +216,98 @@ public class LinkedList<T> implements List<T> {
     @Override
     public int lastIndexOf(T element) {
         return -1;
+    }
+
+    /**
+     * Inserts the specified element at the front of this deque.
+     *
+     * @param element the element to add
+     * @throws NullPointerException if the specified element is null
+     */
+    @Override
+    public void addFirst(T element) {
+
+    }
+
+    /**
+     * Inserts the specified element at the end of this deque.
+     *
+     * @param element the element to add
+     * @throws NullPointerException if the specified element is null
+     */
+    @Override
+    public void addLast(T element) {
+
+    }
+
+    /**
+     * Retrieves and removes the first element of this deque, or returns null
+     * if this deque is empty.
+     *
+     * @return the head of this deque, or null if this deque is empty
+     */
+    @Override
+    public T pollFirst() {
+        return null;
+    }
+
+    /**
+     * Retrieves and removes the last element of this deque, or returns null if
+     * this deque is empty.
+     *
+     * @return the tail of this deque, or null if this deque is empty
+     */
+    @Override
+    public T pollLast() {
+        return null;
+    }
+
+    /**
+     * Retrieves, but does not remove, the first element of this deque, or returns null
+     * if this deque is empty.
+     *
+     * @return the head of this deque, or null if this deque is empty
+     */
+    @Override
+    public T peekFirst() {
+        return null;
+    }
+
+    /**
+     * Retrieves, but does not remove, the last element of this deque, or returns null
+     * if this deque is empty.
+     *
+     * @return the tail of this deque, or null if this deque is empty
+     */
+    @Override
+    public T peekLast() {
+        return null;
+    }
+
+    /**
+     * Retrieves and removes the head of the queue represented by this deque (in other words,
+     * the first element of this deque), or returns null if this deque is empty.
+     *
+     * This method is equivalent to pollFirst().
+     *
+     * @return the head of the queue represented by this deque, or null if this deque is empty
+     */
+    @Override
+    public T poll() {
+        return null;
+    }
+
+    /**
+     * Retrieves, but does not remove, the head of the queue represented by this deque, or
+     * returns null if this deque is empty.
+     *
+     * This method is equivalent to peekFirst().
+     *
+     * @return the head of the queue represented by this deque, or null if this deque is empty
+     */
+    @Override
+    public T peek() {
+        return null;
     }
 
     @Override
