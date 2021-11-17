@@ -19,6 +19,7 @@ public class DashboardScreen extends Screen {
     public void render() throws Exception {
 
         AppUser sessionUser = userService.getSessionUser();
+
         if (sessionUser == null) {
             System.out.println("You are not currently logged in! Navigating to Login Screen");
             router.navigate("/login");

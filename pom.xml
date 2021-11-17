@@ -12,8 +12,13 @@
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
+<<<<<<< HEAD
     </properties>
 
+=======
+
+    </properties>
+>>>>>>> 81164a4c12ca0d742a2f4509ddb9a8d1f1ebddc2
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
@@ -22,16 +27,36 @@
             <scope>test</scope>
         </dependency>
         <dependency>
+<<<<<<< HEAD
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
             <version>3.9.0</version>
             <scope>test</scope>
+=======
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-core</artifactId>
+                <version>3.9.0</version>
+                <scope>test</scope>
+>>>>>>> 81164a4c12ca0d742a2f4509ddb9a8d1f1ebddc2
         </dependency>
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
+<<<<<<< HEAD
             <version>42.2.12</version>
         </dependency>
     </dependencies>
 
 </project>
+=======
+            <version>42.3.1</version>
+        </dependency>
+
+    </dependencies>
+
+
+
+
+
+</project>
+>>>>>>> 81164a4c12ca0d742a2f4509ddb9a8d1f1ebddc2

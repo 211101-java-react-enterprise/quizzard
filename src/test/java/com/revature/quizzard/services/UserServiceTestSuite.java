@@ -8,13 +8,14 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import static org.mockito.Mockito.*;
 
 import static org.mockito.Mockito.*;
 
 public class UserServiceTestSuite {
 
     // System Under Test
-//    UserService sut = new UserService();
+    //    UserService sut = new UserService();
     UserService sut;
     AppUserDAO mockUserDAO;
 
@@ -75,13 +76,23 @@ public class UserServiceTestSuite {
 
     }
 
+<<<<<<< HEAD:src/test/java/com/revature/quizzard/services/UserServiceTestSuite.java
+=======
+
+>>>>>>> 81164a4c12ca0d742a2f4509ddb9a8d1f1ebddc2:test/com/revature/quizzard/services/UserServiceTestSuite.java
     @Test
     public void test_registerNewUser_returnsTrue_givenValidUser() {
 
+
         // Arrange
         AppUser validUser = new AppUser("valid", "valid", "valid", "valid", "valid");
+<<<<<<< HEAD:src/test/java/com/revature/quizzard/services/UserServiceTestSuite.java
         when(mockUserDAO.findUserByUsername(validUser.getUsername())).thenReturn(null);
         when(mockUserDAO.findUserByEmail(validUser.getEmail())).thenReturn(null);
+=======
+        when(mockUserDAO.findUserByUsername(anyString())).thenReturn(null);
+        when(mockUserDAO.findUserByEmail(anyString())).thenReturn(null);
+>>>>>>> 81164a4c12ca0d742a2f4509ddb9a8d1f1ebddc2:test/com/revature/quizzard/services/UserServiceTestSuite.java
         when(mockUserDAO.save(validUser)).thenReturn(validUser);
 
         // Act
@@ -90,6 +101,7 @@ public class UserServiceTestSuite {
         // Assert
         Assert.assertTrue("Expected result to be true with valid user provided.", actualResult);
         verify(mockUserDAO, times(1)).save(validUser);
+<<<<<<< HEAD:src/test/java/com/revature/quizzard/services/UserServiceTestSuite.java
 
     }
 
@@ -128,6 +140,18 @@ public class UserServiceTestSuite {
             // Assert
             verify(mockUserDAO, times(0)).save(validUser);
         }
+=======
+    }
+
+    //TODO THIS
+    @Test
+    public void test_registerNewUser_throwsResourcePersistenceException_givenValidUserWithTakenUsername() {
+
+    }
+
+    @Test
+    public void test_registerNewUser_throwsResourcePersistenceException_givenValidUserWithTakenEmail() {
+>>>>>>> 81164a4c12ca0d742a2f4509ddb9a8d1f1ebddc2:test/com/revature/quizzard/services/UserServiceTestSuite.java
 
     }
 
@@ -147,5 +171,8 @@ public class UserServiceTestSuite {
         // Assert
 
     }
+
+
+
 
 }

@@ -1,7 +1,10 @@
 package com.revature.quizzard.util;
 
 import com.revature.quizzard.daos.AppUserDAO;
+<<<<<<< HEAD:src/main/java/com/revature/quizzard/util/AppState.java
 import com.revature.quizzard.daos.FlashcardDAO;
+=======
+>>>>>>> 81164a4c12ca0d742a2f4509ddb9a8d1f1ebddc2:src/com/revature/quizzard/util/AppState.java
 import com.revature.quizzard.models.AppUser;
 import com.revature.quizzard.screens.*;
 import com.revature.quizzard.services.FlashcardService;
@@ -33,12 +36,17 @@ public class AppState {
         router = new ScreenRouter();
         BufferedReader consoleReader = new BufferedReader(new InputStreamReader(System.in));
 
+<<<<<<< HEAD:src/main/java/com/revature/quizzard/util/AppState.java
         AppUserDAO userDAO = new AppUserDAO();
         UserService userService = new UserService(userDAO);
 
         FlashcardDAO cardDAO = new FlashcardDAO();
         FlashcardService cardService = new FlashcardService(cardDAO, userService);
 
+=======
+        AppUserDAO sessionUser = new AppUserDAO();
+        UserService userService = new UserService(sessionUser);
+>>>>>>> 81164a4c12ca0d742a2f4509ddb9a8d1f1ebddc2:src/com/revature/quizzard/util/AppState.java
         router.addScreen(new WelcomeScreen(consoleReader, router));
         router.addScreen(new RegisterScreen(consoleReader, router, userService));
         router.addScreen(new LoginScreen(consoleReader, router, userService));
