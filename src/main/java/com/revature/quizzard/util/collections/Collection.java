@@ -1,4 +1,4 @@
-package com.revature.quizzard.util;
+package com.revature.quizzard.util.collections;
 
 // <T> is an example of a parameterized type
 // The value of this type will be determined at object instantiation (aka when we call a constructor for a concrete implementation)
