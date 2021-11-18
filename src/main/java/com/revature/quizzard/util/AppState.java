@@ -26,8 +26,8 @@ public class AppState {
 
     public AppState() {
 
-        logger = Logger.getLogger(true);
-        logger.log("Initializing application...");
+        logger = Logger.getLogger();
+        logger.info("Initializing application");
 
         appRunning = true;
         router = new ScreenRouter();
@@ -47,7 +47,7 @@ public class AppState {
         router.addScreen(new FlashcardCreatorScreen(consoleReader, router, cardService));
         router.addScreen(new ViewMyFlashcardsScreen(consoleReader, router, cardService));
 
-        logger.log("Application initialized!");
+        logger.info("Application initialized!");
 
     }
 

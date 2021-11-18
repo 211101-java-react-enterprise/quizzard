@@ -5,13 +5,18 @@ import com.revature.quizzard.models.Flashcard;
 import com.revature.quizzard.util.datasource.ConnectionFactory;
 import com.revature.quizzard.util.collections.LinkedList;
 import com.revature.quizzard.util.collections.List;
+import com.revature.quizzard.util.logging.Logger;
 
 import java.sql.*;
 import java.util.UUID;
 
 public class FlashcardDAO implements CrudDAO<Flashcard> {
 
+    public static final Logger logger = Logger.getLogger();
+
     public List<Flashcard> findCardsByCreatorId(String creatorId) {
+
+        logger.info("FlashcardDAO#findCardsByCreatorId invoked with argument %s", creatorId);
 
         List<Flashcard> cards = new LinkedList<>();
 
@@ -45,6 +50,8 @@ public class FlashcardDAO implements CrudDAO<Flashcard> {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        logger.info("FlashcardDAO#findCardsByCreatorId returning with value %s", cards);
 
         return cards;
 
@@ -80,6 +87,8 @@ public class FlashcardDAO implements CrudDAO<Flashcard> {
 
     @Override
     public List<Flashcard> findAll() {
+
+
 
         List<Flashcard> cards = new LinkedList<>();
 
