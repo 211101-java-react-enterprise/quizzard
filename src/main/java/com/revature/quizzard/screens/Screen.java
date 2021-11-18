@@ -14,7 +14,7 @@ import java.io.BufferedReader;
  */
 public abstract class Screen {
 
-    protected Logger logger = Logger.getLogger(true);
+    protected Logger logger = Logger.getLogger();
     protected String name;
     protected String route;
     protected BufferedReader consoleReader;
