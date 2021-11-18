@@ -26,21 +26,7 @@ public class FlashcardDAO implements CrudDAO<Flashcard> {
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, creatorId);
             ResultSet rs = pstmt.executeQuery();
-
-            while (rs.next()) {
-                Flashcard card = new Flashcard();
-                AppUser cardCreator = new AppUser();
-                card.setId(rs.getString("card_id"));
-                card.setQuestionText(rs.getString("question_text"));
-                card.setAnswerText(rs.getString("answer_text"));
-                cardCreator.setId(rs.getString("user_id"));
-                cardCreator.setFirstName(rs.getString("first_name"));
-                cardCreator.setLastName(rs.getString("last_name"));
-                cardCreator.setEmail(rs.getString("email"));
-                cardCreator.setUsername(rs.getString("username"));
-                card.setCreator(cardCreator);
-                cards.add(card);
-            }
+            return mapResultSet(rs);
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -84,26 +70,10 @@ public class FlashcardDAO implements CrudDAO<Flashcard> {
         List<Flashcard> cards = new LinkedList<>();
 
         try (Connection conn = ConnectionFactory.getInstance().getConnection()) {
-
             String sql = "select * from flashcards f join app_users u on f.creator_id = u.id";
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
-
-            while (rs.next()) {
-                Flashcard card = new Flashcard();
-                AppUser cardCreator = new AppUser();
-                card.setId(rs.getString("card_id"));
-                card.setQuestionText(rs.getString("question_text"));
-                card.setAnswerText(rs.getString("answer_text"));
-                cardCreator.setId(rs.getString("user_id"));
-                cardCreator.setFirstName(rs.getString("first_name"));
-                cardCreator.setLastName(rs.getString("last_name"));
-                cardCreator.setEmail(rs.getString("email"));
-                cardCreator.setUsername(rs.getString("username"));
-                card.setCreator(cardCreator);
-                cards.add(card);
-            }
-
+            return mapResultSet(rs);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -113,7 +83,19 @@ public class FlashcardDAO implements CrudDAO<Flashcard> {
 
     @Override
     public Flashcard findById(String cardId) {
-        return null;
+        Flashcard card = null;
+
+        try (Connection conn = ConnectionFactory.getInstance().getConnection()) {
+            String sql = "select * from flashcards f join app_users u on f.creator_id = u.id where f.card_id = ?";
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, cardId);
+            ResultSet rs = pstmt.executeQuery();
+            card = mapResultSet(rs).get(0);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return card;
     }
 
     @Override
@@ -124,6 +106,29 @@ public class FlashcardDAO implements CrudDAO<Flashcard> {
     @Override
     public boolean removeById(String id) {
         return false;
+    }
+
+    private List<Flashcard> mapResultSet(ResultSet rs) throws SQLException {
+
+        List<Flashcard> cards = new LinkedList<>();
+
+        while (rs.next()) {
+            Flashcard card = new Flashcard();
+            AppUser cardCreator = new AppUser();
+            card.setId(rs.getString("card_id"));
+            card.setQuestionText(rs.getString("question_text"));
+            card.setAnswerText(rs.getString("answer_text"));
+            cardCreator.setId(rs.getString("user_id"));
+            cardCreator.setFirstName(rs.getString("first_name"));
+            cardCreator.setLastName(rs.getString("last_name"));
+            cardCreator.setEmail(rs.getString("email"));
+            cardCreator.setUsername(rs.getString("username"));
+            card.setCreator(cardCreator);
+            cards.add(card);
+        }
+
+        return cards;
+
     }
 
 }
