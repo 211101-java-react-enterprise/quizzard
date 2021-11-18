@@ -1,5 +1,8 @@
 package com.revature.quizzard.util.collections;
 
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
 /**
  * Singly-linked list implementation of the List and Deque interfaces. Permits
  * all elements (including null).
@@ -180,6 +183,46 @@ public class LinkedList<T> implements List<T> {
 
         return strBldr.toString();
     }
+
+    @Override
+    public Iterator<T> iterator() {
+        // Local Anonymous Class (not replaced by lambas!)
+        Iterator<T> myIterator = new Iterator<T>() {
+
+            Node<T> current = head;
+
+            @Override
+            public boolean hasNext() {
+                return current != null;
+            }
+
+            @Override
+            public T next() {
+                if (!this.hasNext()) {
+                    throw new NoSuchElementException();
+                }
+
+                T data = current.data;
+                current = current.nextNode;
+                return data;
+            }
+        };
+
+        return myIterator;
+    }
+
+//    private static class LinkedListIterator<T> implements Iterator<T> {
+//
+//        @Override
+//        public boolean hasNext() {
+//            return false;
+//        }
+//
+//        @Override
+//        public T next() {
+//            return null;
+//        }
+//    }
 
     // Nested Inner Class
     // The outer class (LinkedList) can see all of the members of this class
