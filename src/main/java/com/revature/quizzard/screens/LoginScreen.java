@@ -31,7 +31,7 @@ public class LoginScreen extends Screen {
 
         try {
             userService.authenticateUser(username, password);
-            logger.info("Successful authentication of user: %s at %d", username, System.currentTimeMillis());
+            logger.info("Successful authentication of user: {} at {}", username, System.currentTimeMillis());
             router.navigate("/dashboard");
         } catch (InvalidRequestException | AuthenticationException e) {
             logger.warn(e.getMessage());
