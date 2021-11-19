@@ -2,11 +2,11 @@ package com.revature.quizzard.util;
 
 import com.revature.quizzard.daos.AppUserDAO;
 import com.revature.quizzard.daos.FlashcardDAO;
-import com.revature.quizzard.models.AppUser;
 import com.revature.quizzard.screens.*;
 import com.revature.quizzard.services.FlashcardService;
 import com.revature.quizzard.services.UserService;
-import com.revature.quizzard.util.logging.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -20,13 +20,12 @@ import java.io.InputStreamReader;
  */
 public class AppState {
 
-    private final Logger logger;
+    private final Logger logger = LogManager.getLogger();
     private static boolean appRunning;
     private final ScreenRouter router;
 
     public AppState() {
 
-        logger = Logger.getLogger();
         logger.info("Initializing application");
 
         appRunning = true;

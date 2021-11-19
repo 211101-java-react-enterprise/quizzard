@@ -1,6 +1,10 @@
-Initializing application...
-Application initialized!
-Successful authentication of user: test at 1636754667601
-Initializing application...
-Application initialized!
-Successful authentication of user: test at 1637253745182
+2021-11-19 14:30:08,369 [main] INFO  com.revature.quizzard.util.AppState - Initializing application
+2021-11-19 14:30:08,377 [main] INFO  com.revature.quizzard.util.AppState - Application initialized!
+2021-11-19 14:30:19,714 [main] INFO  com.revature.quizzard.screens.Screen - LoginScreen#render invoked
+2021-11-19 14:30:21,935 [main] WARN  com.revature.quizzard.screens.Screen - Incorrect credentials provided. Could not authenticate.
+2021-11-19 14:30:29,283 [main] INFO  com.revature.quizzard.screens.Screen - LoginScreen#render invoked
+2021-11-19 14:30:31,369 [main] INFO  com.revature.quizzard.screens.Screen - Successful authentication of user: test at 1637350231368
+2021-11-19 14:31:19,335 [main] INFO  com.revature.quizzard.util.AppState - Initializing application
+2021-11-19 14:31:19,346 [main] INFO  com.revature.quizzard.util.AppState - Application initialized!
+2021-11-19 14:31:21,667 [main] INFO  com.revature.quizzard.screens.Screen - LoginScreen#render invoked
+2021-11-19 14:31:23,569 [main] INFO  com.revature.quizzard.screens.Screen - Successful authentication of user: test
