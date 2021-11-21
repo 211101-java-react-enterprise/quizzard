@@ -9,7 +9,7 @@ import static com.revature.quizzard.util.AppState.shutdown;
 public class WelcomeScreen extends Screen {
 
     public WelcomeScreen(BufferedReader consoleReader, ScreenRouter router) {
-        super("WelcomeScreen", "/welcome", consoleReader, router);
+        super(consoleReader, router);
     }
 
     @Override

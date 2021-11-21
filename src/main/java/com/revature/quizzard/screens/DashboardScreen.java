@@ -11,7 +11,7 @@ public class DashboardScreen extends Screen {
     private final UserService userService;
 
     public DashboardScreen(BufferedReader consoleReader, ScreenRouter router, UserService userService) {
-        super("DashboardScreen", "/dashboard", consoleReader, router);
+        super(consoleReader, router);
         this.userService = userService;
     }
 

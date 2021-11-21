@@ -1,34 +1,28 @@
 package com.revature.quizzard.util;
 
-import com.revature.quizzard.screens.Screen;
-import com.revature.quizzard.util.collections.LinkedList;
+import com.revature.quizzard.screens.View;
 
-import java.util.stream.Collectors;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ScreenRouter {
 
-    private final LinkedList<Screen> screens;
+    private final HashMap<String, View> screens;
 
     public ScreenRouter() {
-        screens = new LinkedList<>();
+        screens = new HashMap<>();
     }
 
-    public void addScreen(Screen screen) {
-        screens.add(screen);
+    public void addView(String route, View view) {
+        screens.put(route, view);
     }
 
     public void navigate(String route) throws Exception {
-//        for (int i = 0; i < screens.size(); i++) {
-//            Screen thisScreen = screens.get(i);
-//            if (thisScreen.getRoute().equals(route)) {
-//                thisScreen.render();
-//            }
-//        }
-//        throw new RuntimeException("No screen found with provided route");
 
-        // Does the same thing as the above logic
-       screens.stream()
-              .filter(screen -> screen.getRoute().equals(route))
+       screens.entrySet()
+              .stream()
+              .filter(entry -> entry.getKey().equals(route))
+              .map(Map.Entry::getValue)
               .findFirst()
               .orElseThrow(() -> new RuntimeException("No screen found with provided route"))
               .render();

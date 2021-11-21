@@ -14,7 +14,7 @@ public class LoginScreen extends Screen {
     private final UserService userService;
 
     public LoginScreen(BufferedReader consoleReader, ScreenRouter router, UserService userService) {
-        super("LoginScreen", "/login", consoleReader, router);
+        super(consoleReader, router);
         this.userService = userService;
     }
 

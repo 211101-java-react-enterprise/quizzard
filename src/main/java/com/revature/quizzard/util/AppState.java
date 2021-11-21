@@ -38,13 +38,14 @@ public class AppState {
         FlashcardDAO cardDAO = new FlashcardDAO();
         FlashcardService cardService = new FlashcardService(cardDAO, userService);
 
-        router.addScreen(new WelcomeScreen(consoleReader, router));
-        router.addScreen(new RegisterScreen(consoleReader, router, userService));
-        router.addScreen(new LoginScreen(consoleReader, router, userService));
-        router.addScreen(new DashboardScreen(consoleReader, router, userService));
-        router.addScreen(new FlashcardMenuScreen(consoleReader, router));
-        router.addScreen(new FlashcardCreatorScreen(consoleReader, router, cardService));
-        router.addScreen(new ViewMyFlashcardsScreen(consoleReader, router, cardService));
+        router.addView("/test", () -> System.out.println("This is a test/placeholder screen."));
+        router.addView("/welcome", new WelcomeScreen(consoleReader, router));
+        router.addView("/register", new RegisterScreen(consoleReader, router, userService));
+        router.addView("/login", new LoginScreen(consoleReader, router, userService));
+        router.addView("/dashboard", new DashboardScreen(consoleReader, router, userService));
+        router.addView("/flashcards", new FlashcardMenuScreen(consoleReader, router));
+        router.addView("/create-flashcards", new FlashcardCreatorScreen(consoleReader, router, cardService));
+        router.addView("/my-flashcards", new ViewMyFlashcardsScreen(consoleReader, router, cardService));
 
         logger.info("Application initialized!");
 

@@ -12,7 +12,7 @@ public class ViewMyFlashcardsScreen extends Screen {
     private final FlashcardService cardService;
 
     public ViewMyFlashcardsScreen(BufferedReader consoleReader, ScreenRouter router, FlashcardService cardService) {
-        super("FlashcardViewerScreen", "/my-flashcards", consoleReader, router);
+        super(consoleReader, router);
         this.cardService = cardService;
     }
 

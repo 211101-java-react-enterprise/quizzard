@@ -13,7 +13,7 @@ public class FlashcardCreatorScreen extends Screen {
     private final FlashcardService cardService;
 
     public FlashcardCreatorScreen(BufferedReader consoleReader, ScreenRouter router, FlashcardService cardService) {
-        super("FlashcardCreatorScreen", "/create-flashcards", consoleReader, router);
+        super(consoleReader, router);
         this.cardService = cardService;
     }
 

@@ -7,7 +7,7 @@ import java.io.BufferedReader;
 public class FlashcardMenuScreen extends Screen {
 
     public FlashcardMenuScreen(BufferedReader consoleReader, ScreenRouter router) {
-        super("FlashcardMenuScreen", "/flashcards", consoleReader, router);
+        super(consoleReader, router);
     }
 
     @Override

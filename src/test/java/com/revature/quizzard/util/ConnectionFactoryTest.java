@@ -7,7 +7,7 @@ import org.junit.Test;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-public class ConnectionFactoryTestSuite {
+public class ConnectionFactoryTest {
 
     @Test
     public void test_getConnection_returnsValidConnection_givenProvidedCredentials() {

@@ -11,7 +11,7 @@ import org.junit.Test;
 
 import static org.mockito.Mockito.*;
 
-public class UserServiceTestSuite {
+public class UserServiceTest {
 
     // System Under Test
 //    UserService sut = new UserService();

@@ -13,7 +13,7 @@ public class RegisterScreen extends Screen {
     private final UserService userService;
 
     public RegisterScreen(BufferedReader consoleReader, ScreenRouter router, UserService userService) {
-        super("RegisterScreen", "/register", consoleReader, router);
+        super(consoleReader, router);
         this.userService = userService;
     }
 
