@@ -2,7 +2,6 @@ package com.revature.quizzard.util;
 
 import com.revature.quizzard.daos.AppUserDAO;
 import com.revature.quizzard.daos.FlashcardDAO;
-import com.revature.quizzard.screens.*;
 import com.revature.quizzard.services.FlashcardService;
 import com.revature.quizzard.services.UserService;
 import org.apache.logging.log4j.LogManager;
@@ -22,14 +21,12 @@ public class AppState {
 
     private final Logger logger = LogManager.getLogger();
     private static boolean appRunning;
-    private final ScreenRouter router;
 
     public AppState() {
 
         logger.info("Initializing application");
 
         appRunning = true;
-        router = new ScreenRouter();
         BufferedReader consoleReader = new BufferedReader(new InputStreamReader(System.in));
 
         AppUserDAO userDAO = new AppUserDAO();
@@ -37,15 +34,6 @@ public class AppState {
 
         FlashcardDAO cardDAO = new FlashcardDAO();
         FlashcardService cardService = new FlashcardService(cardDAO, userService);
-
-        router.addView("/test", () -> System.out.println("This is a test/placeholder screen."));
-        router.addView("/welcome", new WelcomeScreen(consoleReader, router));
-        router.addView("/register", new RegisterScreen(consoleReader, router, userService));
-        router.addView("/login", new LoginScreen(consoleReader, router, userService));
-        router.addView("/dashboard", new DashboardScreen(consoleReader, router, userService));
-        router.addView("/flashcards", new FlashcardMenuScreen(consoleReader, router));
-        router.addView("/create-flashcards", new FlashcardCreatorScreen(consoleReader, router, cardService));
-        router.addView("/my-flashcards", new ViewMyFlashcardsScreen(consoleReader, router, cardService));
 
         logger.info("Application initialized!");
 
@@ -55,7 +43,7 @@ public class AppState {
 
         try {
             while (appRunning) {
-                router.navigate("/welcome");
+                // TODO something here probably
             }
         } catch (Exception e) {
             e.printStackTrace();
