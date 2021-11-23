@@ -1,5 +1,8 @@
 package com.revature.quizzard.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.Objects;
 
 /*
@@ -22,9 +25,12 @@ import java.util.Objects;
         - int hashCode()
         - String toString()
  */
+//@JsonIgnoreProperties(ignoreUnknown = true)
 public class AppUser extends Object {
 
     private String id;
+
+    @JsonProperty("first_name")
     private String firstName;
     private String lastName;
     private String email;

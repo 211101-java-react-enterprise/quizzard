@@ -3,12 +3,12 @@ package com.revature.quizzard.daos;
 import com.revature.quizzard.models.AppUser;
 import com.revature.quizzard.models.Flashcard;
 import com.revature.quizzard.util.datasource.ConnectionFactory;
-import com.revature.quizzard.util.collections.LinkedList;
-import com.revature.quizzard.util.collections.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.UUID;
 
 public class FlashcardDAO implements CrudDAO<Flashcard> {
@@ -80,7 +80,7 @@ public class FlashcardDAO implements CrudDAO<Flashcard> {
         List<Flashcard> cards = new LinkedList<>();
 
         try (Connection conn = ConnectionFactory.getInstance().getConnection()) {
-            String sql = "select * from flashcards f join app_users u on f.creator_id = u.id";
+            String sql = "select * from flashcards f join app_users u on f.creator_id = u.user_id";
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
             return mapResultSet(rs);
