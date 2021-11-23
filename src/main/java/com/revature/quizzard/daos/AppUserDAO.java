@@ -2,12 +2,12 @@ package com.revature.quizzard.daos;
 
 import com.revature.quizzard.models.AppUser;
 import com.revature.quizzard.util.datasource.ConnectionFactory;
-import com.revature.quizzard.util.collections.List;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.UUID;
 
 public class AppUserDAO implements CrudDAO<AppUser> {

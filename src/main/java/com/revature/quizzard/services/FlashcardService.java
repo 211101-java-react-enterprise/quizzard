@@ -5,7 +5,8 @@ import com.revature.quizzard.exceptions.AuthorizationException;
 import com.revature.quizzard.exceptions.InvalidRequestException;
 import com.revature.quizzard.exceptions.ResourcePersistenceException;
 import com.revature.quizzard.models.Flashcard;
-import com.revature.quizzard.util.collections.List;
+
+import java.util.List;
 
 public class FlashcardService {
 

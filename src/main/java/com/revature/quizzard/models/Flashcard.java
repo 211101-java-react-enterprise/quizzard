@@ -1,5 +1,7 @@
 package com.revature.quizzard.models;
 
+import java.util.Objects;
+
 public class Flashcard {
 
     private String id;
@@ -56,6 +58,29 @@ public class Flashcard {
 
     public void setCreator(AppUser creator) {
         this.creator = creator;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Flashcard flashcard = (Flashcard) o;
+        return Objects.equals(id, flashcard.id) && Objects.equals(questionText, flashcard.questionText) && Objects.equals(answerText, flashcard.answerText) && Objects.equals(creator, flashcard.creator);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, questionText, answerText, creator);
+    }
+
+    @Override
+    public String toString() {
+        return "Flashcard{" +
+                "id='" + id + '\'' +
+                ", questionText='" + questionText + '\'' +
+                ", answerText='" + answerText + '\'' +
+                ", creator=" + creator +
+                '}';
     }
 
 }
