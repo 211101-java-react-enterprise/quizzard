@@ -8,3 +8,5 @@
 2021-11-19 14:31:19,346 [main] INFO  com.revature.quizzard.util.AppState - Application initialized!
 2021-11-19 14:31:21,667 [main] INFO  com.revature.quizzard.screens.Screen - LoginScreen#render invoked
 2021-11-19 14:31:23,569 [main] INFO  com.revature.quizzard.screens.Screen - Successful authentication of user: test
+2021-11-23 07:45:36,290 [main] INFO  com.revature.quizzard.util.AppState - Initializing application
+2021-11-23 07:45:36,306 [main] INFO  com.revature.quizzard.util.AppState - Application initialized!
