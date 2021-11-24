@@ -5,6 +5,7 @@ import com.revature.quizzard.daos.AppUserDAO;
 import com.revature.quizzard.daos.FlashcardDAO;
 import com.revature.quizzard.services.FlashcardService;
 import com.revature.quizzard.services.UserService;
+import com.revature.quizzard.web.servlets.AuthServlet;
 import com.revature.quizzard.web.servlets.FlashcardServlet;
 import com.revature.quizzard.web.servlets.UserServlet;
 import org.apache.logging.log4j.LogManager;
@@ -31,14 +32,16 @@ public class ContextLoaderListener implements ServletContextListener {
         UserService userService = new UserService(userDAO);
 
         FlashcardDAO cardDAO = new FlashcardDAO();
-        FlashcardService cardService = new FlashcardService(cardDAO, userService);
+        FlashcardService cardService = new FlashcardService(cardDAO);
 
         FlashcardServlet cardServlet = new FlashcardServlet(cardService, objectMapper);
         UserServlet userServlet = new UserServlet(userService, objectMapper);
+        AuthServlet authServlet = new AuthServlet(userService, objectMapper);
 
         ServletContext context = sce.getServletContext();
         context.addServlet("FlashcardServlet", cardServlet).addMapping("/flashcards");
         context.addServlet("UserServlet", userServlet).addMapping("/users/*");
+        context.addServlet("AuthServlet", authServlet).addMapping("/auth");
 
         System.out.println("Application initialized!");
 //        logger.info("Application initialized!");

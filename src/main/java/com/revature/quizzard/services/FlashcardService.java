@@ -1,7 +1,6 @@
 package com.revature.quizzard.services;
 
 import com.revature.quizzard.daos.FlashcardDAO;
-import com.revature.quizzard.exceptions.AuthorizationException;
 import com.revature.quizzard.exceptions.InvalidRequestException;
 import com.revature.quizzard.exceptions.ResourcePersistenceException;
 import com.revature.quizzard.models.Flashcard;
@@ -11,24 +10,24 @@ import java.util.List;
 public class FlashcardService {
 
     private final FlashcardDAO cardDAO;
-    private final UserService userService;
 
-    public FlashcardService(FlashcardDAO cardDAO, UserService userService) {
+    public FlashcardService(FlashcardDAO cardDAO) {
         this.cardDAO = cardDAO;
-        this.userService = userService;
     }
 
     public List<Flashcard> findAllCards() {
         return cardDAO.findAll();
     }
 
-    public List<Flashcard> findMyCards() {
+    public List<Flashcard> findMyCards(String ownerId) {
 
-        if (!userService.isSessionActive()) {
-            throw new AuthorizationException("No active user session to perform operation!");
+        System.out.println("OwnerId = " + ownerId);
+
+        if (ownerId == null || ownerId.equals("")) {
+            throw new InvalidRequestException("Invalid owner id provided!");
         }
 
-        return cardDAO.findCardsByCreatorId(userService.getSessionUser().getId());
+        return cardDAO.findCardsByCreatorId(ownerId);
 
     }
 
@@ -38,7 +37,8 @@ public class FlashcardService {
             throw new InvalidRequestException("Invalid card information values provided!");
         }
 
-        newCard.setCreator(userService.getSessionUser());
+        // TODO refactor to use HttpSession
+//        newCard.setCreator(userService.getSessionUser());
         Flashcard addedCard = cardDAO.save(newCard);
 
         if (addedCard == null) {
