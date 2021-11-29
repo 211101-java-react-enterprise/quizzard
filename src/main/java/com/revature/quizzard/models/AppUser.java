@@ -1,36 +1,10 @@
 package com.revature.quizzard.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.util.Objects;
 
-/*
-    POJO = Plain Ol' Java Object
-
-    Simple encapsulations of data. They do not have rich features, they simply hold related values.
-
-    Common convention re: class structures:
-        class {
-            fields
-            constructors
-            instance methods
-            overridden methods
-            static methods
-            nested classes/enums/interfaces
-        }
-
-    Common methods from java.lang.Object that are overridden in most POJOs:
-        - boolean equals(Object o)
-        - int hashCode()
-        - String toString()
- */
-//@JsonIgnoreProperties(ignoreUnknown = true)
 public class AppUser extends Object {
 
     private String id;
-
-    @JsonProperty("first_name")
     private String firstName;
     private String lastName;
     private String email;
@@ -67,7 +41,6 @@ public class AppUser extends Object {
     }
 
     public void setFirstName(String firstName) {
-        // potentially add validation logic here (but there's really a better place to do this kind of logic)
         this.firstName = firstName;
     }
 
@@ -101,17 +74,6 @@ public class AppUser extends Object {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public String toFileString() {
-        StringBuilder builder = new StringBuilder();
-        builder.append(id).append(":")
-               .append(firstName).append(":")
-               .append(lastName).append(":")
-               .append(email).append(":")
-               .append(username).append(":")
-               .append(password);
-        return builder.toString();
     }
 
     @Override

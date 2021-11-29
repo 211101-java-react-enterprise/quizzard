@@ -8,11 +8,9 @@ import com.revature.quizzard.models.AppUser;
 import com.revature.quizzard.services.UserService;
 import com.revature.quizzard.web.dtos.Credentials;
 
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.*;
 import java.io.IOException;
-import java.util.Enumeration;
 
 public class AuthServlet extends HttpServlet {
 
@@ -24,7 +22,6 @@ public class AuthServlet extends HttpServlet {
         this.mapper = mapper;
     }
 
-    // login
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         try {
@@ -49,9 +46,11 @@ public class AuthServlet extends HttpServlet {
 
     }
 
-    // logout
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getSession().invalidate(); // invalidates the session associated with this request (logging the user out)
+        HttpSession session = req.getSession(false);
+        if (session != null) {
+            session.invalidate(); // invalidates the session associated with this request (logging the user out)
+        }
     }
 
 }
