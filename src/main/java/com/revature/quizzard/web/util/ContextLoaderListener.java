@@ -28,9 +28,8 @@ public class ContextLoaderListener implements ServletContextListener {
     public void contextInitialized(ServletContextEvent sce) {
 
         try {
-            System.out.println("Initializing application");
 
-    //        logger.info("Initializing application");
+            logger.info("Initializing application");
 
             ObjectMapper objectMapper = new ObjectMapper();
 
@@ -68,8 +67,7 @@ public class ContextLoaderListener implements ServletContextListener {
             ServletContext context = sce.getServletContext();
             context.addServlet("DispatcherServlet", dispatcherServlet).addMapping("/*");
 
-            System.out.println("Application initialized!");
-    //        logger.info("Application initialized!");
+            logger.info("Application initialized!");
 
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
