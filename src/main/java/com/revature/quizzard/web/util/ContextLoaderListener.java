@@ -5,15 +5,20 @@ import com.revature.quizzard.daos.AppUserDAO;
 import com.revature.quizzard.daos.FlashcardDAO;
 import com.revature.quizzard.services.FlashcardService;
 import com.revature.quizzard.services.UserService;
-import com.revature.quizzard.web.servlets.AuthServlet;
-import com.revature.quizzard.web.servlets.FlashcardServlet;
-import com.revature.quizzard.web.servlets.UserServlet;
+import com.revature.quizzard.web.controllers.AuthController;
+import com.revature.quizzard.web.controllers.FlashcardController;
+import com.revature.quizzard.web.controllers.TestController;
+import com.revature.quizzard.web.controllers.UserController;
+import com.revature.quizzard.web.servlets.DispatcherServlet;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.lang.reflect.Method;
 
 public class ContextLoaderListener implements ServletContextListener {
 
@@ -22,29 +27,54 @@ public class ContextLoaderListener implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent sce) {
 
-        System.out.println("Initializing application");
+        try {
+            System.out.println("Initializing application");
 
-//        logger.info("Initializing application");
+    //        logger.info("Initializing application");
 
-        ObjectMapper objectMapper = new ObjectMapper();
+            ObjectMapper objectMapper = new ObjectMapper();
 
-        AppUserDAO userDAO = new AppUserDAO();
-        UserService userService = new UserService(userDAO);
+            AppUserDAO userDAO = new AppUserDAO();
+            UserService userService = new UserService(userDAO);
 
-        FlashcardDAO cardDAO = new FlashcardDAO();
-        FlashcardService cardService = new FlashcardService(cardDAO);
+            FlashcardDAO cardDAO = new FlashcardDAO();
+            FlashcardService cardService = new FlashcardService(cardDAO);
 
-        FlashcardServlet cardServlet = new FlashcardServlet(cardService, objectMapper);
-        UserServlet userServlet = new UserServlet(userService, objectMapper);
-        AuthServlet authServlet = new AuthServlet(userService, objectMapper);
+            TestController testController = new TestController();
+            Method test = TestController.class.getMethod("test", HttpServletRequest.class, HttpServletResponse.class);
 
-        ServletContext context = sce.getServletContext();
-        context.addServlet("FlashcardServlet", cardServlet).addMapping("/flashcards");
-        context.addServlet("UserServlet", userServlet).addMapping("/users/*");
-        context.addServlet("AuthServlet", authServlet).addMapping("/auth");
+            FlashcardController flashcardController = new FlashcardController(cardService, objectMapper);
+            Method getCards = FlashcardController.class.getMethod("getCards", HttpServletRequest.class, HttpServletResponse.class);
+            Method addNewCard = FlashcardController.class.getMethod("addNewCard", HttpServletRequest.class, HttpServletResponse.class);
 
-        System.out.println("Application initialized!");
-//        logger.info("Application initialized!");
+            UserController userController = new UserController(userService, objectMapper);
+            Method registerNewUser = UserController.class.getMethod("registerNewUser", HttpServletRequest.class, HttpServletResponse.class);
+
+            AuthController authController = new AuthController(userService, objectMapper);
+            Method login = AuthController.class.getMethod("login", HttpServletRequest.class, HttpServletResponse.class);
+            Method logout = AuthController.class.getMethod("logout", HttpServletRequest.class, HttpServletResponse.class);
+
+            HandlerMapping handlerMapping = new HandlerMapping();
+            handlerMapping.addHandler(new RequestMapping("GET", "test"), new RequestHandle(testController, test));
+            handlerMapping.addHandler(new RequestMapping("GET", "flashcards"), new RequestHandle(flashcardController, getCards));
+            handlerMapping.addHandler(new RequestMapping("POST", "flashcards"), new RequestHandle(flashcardController, addNewCard));
+            handlerMapping.addHandler(new RequestMapping("POST", "users"), new RequestHandle(userController, registerNewUser));
+            handlerMapping.addHandler(new RequestMapping("POST", "auth"), new RequestHandle(authController, login));
+            handlerMapping.addHandler(new RequestMapping("DELETE", "auth"), new RequestHandle(authController, logout));
+
+            DispatcherServlet dispatcherServlet = new DispatcherServlet(handlerMapping, objectMapper);
+
+
+            ServletContext context = sce.getServletContext();
+            context.addServlet("DispatcherServlet", dispatcherServlet).addMapping("/*");
+
+            System.out.println("Application initialized!");
+    //        logger.info("Application initialized!");
+
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.revature.quizzard.web.servlets;
+package com.revature.quizzard.web.controllers;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -6,38 +6,35 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.quizzard.exceptions.AuthenticationException;
 import com.revature.quizzard.exceptions.InvalidRequestException;
 import com.revature.quizzard.models.AppUser;
-import com.revature.quizzard.models.Flashcard;
 import com.revature.quizzard.services.FlashcardService;
 import com.revature.quizzard.web.dtos.CardResponse;
 import com.revature.quizzard.web.dtos.ErrorResponse;
 import com.revature.quizzard.web.dtos.NewCardRequest;
+import com.revature.quizzard.web.util.Handler;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.List;
 
-public class FlashcardServlet extends HttpServlet {
+public class FlashcardController implements Handler {
 
     private final FlashcardService cardService;
     private final ObjectMapper mapper;
 
-    public FlashcardServlet(FlashcardService cardService, ObjectMapper mapper) {
+    public FlashcardController(FlashcardService cardService, ObjectMapper mapper) {
         this.cardService = cardService;
         this.mapper = mapper;
     }
 
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.setContentType("application/json");
+    public List<CardResponse> getCards(HttpServletRequest req, HttpServletResponse resp) {
+
         List<CardResponse> cards;
 
         HttpSession session = req.getSession(false);
+
         if (session == null) {
             cards = cardService.findAllCards();
         } else {
@@ -47,22 +44,14 @@ public class FlashcardServlet extends HttpServlet {
 
         if (cards.isEmpty()) {
             resp.setStatus(404); // no cards found
-            return; // return here so you don't try to execute the logic after this block
+            return null;
         }
 
-        String payload = mapper.writeValueAsString(cards);
-        resp.getWriter().write(payload);
+        return cards;
 
     }
 
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-        // if no session is found then throw an exception (set status code and let requester know)
-        // if a session is found, then attempt to persist the provided card information to the database
-
-        PrintWriter respWriter = resp.getWriter();
-        resp.setContentType("application/json");
+    public void addNewCard(HttpServletRequest req, HttpServletResponse resp) {
 
         try {
             HttpSession currentSession = req.getSession(false);
@@ -85,21 +74,12 @@ public class FlashcardServlet extends HttpServlet {
 
         } catch (JsonParseException | JsonMappingException |InvalidRequestException e) {
             resp.setStatus(400);
-            ErrorResponse errorResp = new ErrorResponse(400, e);
-            String payload = mapper.writeValueAsString(errorResp);
-            respWriter.write(payload);
         } catch (AuthenticationException e) {
             resp.setStatus(401);
-            ErrorResponse errorResp = new ErrorResponse(401, e);
-            String payload = mapper.writeValueAsString(errorResp);
-            respWriter.write(payload);
         } catch (Throwable t) {
             resp.setStatus(500);
-            System.out.println(Arrays.toString(t.getStackTrace()));
-            ErrorResponse errorResp = new ErrorResponse(500, "An unexpected exception occurred. Please check the server logs", t);
-            String payload = mapper.writeValueAsString(errorResp);
-            respWriter.write(payload);
         }
 
     }
+
 }
