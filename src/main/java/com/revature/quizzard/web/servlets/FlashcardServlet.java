@@ -19,7 +19,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -91,7 +90,7 @@ public class FlashcardServlet extends HttpServlet {
             respWriter.write(payload);
         } catch (AuthenticationException e) {
             resp.setStatus(401);
-            ErrorResponse errorResp = new ErrorResponse(401, "No session found.", new AuthenticationException());
+            ErrorResponse errorResp = new ErrorResponse(401, e);
             String payload = mapper.writeValueAsString(errorResp);
             respWriter.write(payload);
         } catch (Throwable t) {

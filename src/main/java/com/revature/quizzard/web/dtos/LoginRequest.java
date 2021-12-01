@@ -2,7 +2,7 @@ package com.revature.quizzard.web.dtos;
 
 import java.util.Objects;
 
-public class Credentials {
+public class LoginRequest {
 
     private String username;
     private String password;
@@ -27,7 +27,7 @@ public class Credentials {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Credentials that = (Credentials) o;
+        LoginRequest that = (LoginRequest) o;
         return Objects.equals(username, that.username) && Objects.equals(password, that.password);
     }
 

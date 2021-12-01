@@ -6,7 +6,7 @@ import com.revature.quizzard.exceptions.AuthenticationException;
 import com.revature.quizzard.exceptions.InvalidRequestException;
 import com.revature.quizzard.models.AppUser;
 import com.revature.quizzard.services.UserService;
-import com.revature.quizzard.web.dtos.Credentials;
+import com.revature.quizzard.web.dtos.LoginRequest;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.*;
@@ -25,10 +25,11 @@ public class AuthServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         try {
-            Credentials creds = mapper.readValue(req.getInputStream(), Credentials.class);
+            LoginRequest creds = mapper.readValue(req.getInputStream(), LoginRequest.class);
             AppUser authUser = userService.authenticateUser(creds.getUsername(), creds.getPassword());
 
-            // adds a Cookie to the response that is stored within Tomcat
+            // adds a Cookie to the response containing a SESSION_ID
+            // that SESSION_ID is stored within Tomcat
             // and is used to identify the requester in future requests
             HttpSession httpSession = req.getSession();
             httpSession.setAttribute("authUser", authUser);
