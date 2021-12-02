@@ -14,10 +14,6 @@ public class HandlerMapping {
         return handlerMap.get(requestContext);
     }
 
-    public void addHandler(RequestContext requestMapping, RequestHandle requestHandle) {
-        handlerMap.put(requestMapping, requestHandle);
-    }
-
     public void addHandler(Handler handler) {
 
         Class<? extends Handler> handlerType = handler.getClass();
