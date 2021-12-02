@@ -8,6 +8,8 @@ import com.revature.quizzard.models.AppUser;
 import com.revature.quizzard.web.dtos.NewRegistration;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 @Service
 public class UserService {
 
@@ -45,6 +47,7 @@ public class UserService {
         if (registeredUser == null) {
             throw new ResourcePersistenceException("The user could not be persisted to the datasource!");
         }
+
 
         return true;
 
