@@ -1,13 +1,10 @@
 package com.revature.quizzard.web.controllers;
 
-import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
 import com.revature.quizzard.exceptions.AuthenticationException;
 import com.revature.quizzard.exceptions.InvalidRequestException;
-import com.revature.quizzard.exceptions.ResourceNotFoundException;
 import com.revature.quizzard.models.AppUser;
 import com.revature.quizzard.services.FlashcardService;
 import com.revature.quizzard.web.dtos.CardResponse;
-import com.revature.quizzard.web.dtos.ErrorResponse;
 import com.revature.quizzard.web.dtos.NewCardRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -56,31 +53,6 @@ public class FlashcardController {
         newCardRequest.setCreator((AppUser) authUserAttribute);
         cardService.createNewCard(newCardRequest);
 
-    }
-
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler({InvalidRequestException.class, UnrecognizedPropertyException.class})
-    public ErrorResponse handleBadRequests(Exception e) {
-        return new ErrorResponse(400, e);
-    }
-
-    @ExceptionHandler
-    @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    public ErrorResponse handleAuthenticationException(AuthenticationException e) {
-        return new ErrorResponse(401, e);
-    }
-
-    @ExceptionHandler
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ErrorResponse handleResourceNotFoundException(ResourceNotFoundException e) {
-        return new ErrorResponse(404, e);
-    }
-
-    @ExceptionHandler
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ErrorResponse handleOtherExceptions(Exception e) {
-        e.printStackTrace();
-        return new ErrorResponse(500, "An internal server exception occurred. Please check the server logs for more info.", e);
     }
 
 }
