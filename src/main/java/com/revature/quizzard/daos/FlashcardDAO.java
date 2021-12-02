@@ -5,12 +5,14 @@ import com.revature.quizzard.models.Flashcard;
 import com.revature.quizzard.util.datasource.ConnectionFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.stereotype.Repository;
 
 import java.sql.*;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
+@Repository
 public class FlashcardDAO implements CrudDAO<Flashcard> {
 
     public static final Logger logger = LogManager.getLogger();

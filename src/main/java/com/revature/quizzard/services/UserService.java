@@ -5,7 +5,10 @@ import com.revature.quizzard.exceptions.AuthenticationException;
 import com.revature.quizzard.exceptions.InvalidRequestException;
 import com.revature.quizzard.exceptions.ResourcePersistenceException;
 import com.revature.quizzard.models.AppUser;
+import com.revature.quizzard.web.dtos.NewRegistration;
+import org.springframework.stereotype.Service;
 
+@Service
 public class UserService {
 
     private final AppUserDAO userDAO ;
@@ -14,7 +17,14 @@ public class UserService {
         this.userDAO = userDAO;
     }
 
-    public boolean registerNewUser(AppUser newUser) {
+    public boolean registerNewUser(NewRegistration newRegistration) {
+
+        AppUser newUser = new AppUser();
+        newUser.setFirstName(newRegistration.getFirstName());
+        newUser.setLastName(newRegistration.getLastName());
+        newUser.setEmail(newRegistration.getEmail());
+        newUser.setUsername(newRegistration.getUsername());
+        newUser.setPassword(newRegistration.getPassword());
 
         if (!isUserValid(newUser)) {
             throw new InvalidRequestException("Invalid user data provided!");

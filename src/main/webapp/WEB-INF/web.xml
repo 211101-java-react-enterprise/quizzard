@@ -5,9 +5,5 @@
          version="3.1">
 
     <display-name>Quizzard</display-name>
-    
-    <listener>
-        <listener-class>com.revature.quizzard.web.util.ContextLoaderListener</listener-class>
-    </listener>
 
 </web-app>

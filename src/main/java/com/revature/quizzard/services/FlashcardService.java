@@ -2,15 +2,18 @@ package com.revature.quizzard.services;
 
 import com.revature.quizzard.daos.FlashcardDAO;
 import com.revature.quizzard.exceptions.InvalidRequestException;
+import com.revature.quizzard.exceptions.ResourceNotFoundException;
 import com.revature.quizzard.exceptions.ResourcePersistenceException;
-import com.revature.quizzard.models.AppUser;
 import com.revature.quizzard.models.Flashcard;
 import com.revature.quizzard.web.dtos.CardResponse;
 import com.revature.quizzard.web.dtos.NewCardRequest;
+import org.springframework.stereotype.Service;
 
+import javax.smartcardio.Card;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Service
 public class FlashcardService {
 
     private final FlashcardDAO cardDAO;
@@ -20,7 +23,17 @@ public class FlashcardService {
     }
 
     public List<CardResponse> findAllCards() {
-        return cardDAO.findAll().stream().map(CardResponse::new).collect(Collectors.toList());
+        List<CardResponse> cards =  cardDAO.findAll()
+                                           .stream()
+                                           .map(CardResponse::new)
+                                           .collect(Collectors.toList());
+
+        if (cards.isEmpty()) {
+            throw new ResourceNotFoundException();
+        }
+
+        return cards;
+
     }
 
     public List<CardResponse> findMyCards(String ownerId) {
@@ -31,7 +44,16 @@ public class FlashcardService {
             throw new InvalidRequestException("Invalid owner id provided!");
         }
 
-        return cardDAO.findCardsByCreatorId(ownerId).stream().map(CardResponse::new).collect(Collectors.toList());
+        List<CardResponse> cards = cardDAO.findCardsByCreatorId(ownerId)
+                                          .stream()
+                                          .map(CardResponse::new)
+                                          .collect(Collectors.toList());
+
+        if (cards.isEmpty()) {
+            throw new ResourceNotFoundException();
+        }
+
+        return cards;
 
     }
 
