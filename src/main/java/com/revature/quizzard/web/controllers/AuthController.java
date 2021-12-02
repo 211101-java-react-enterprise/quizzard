@@ -8,6 +8,8 @@ import com.revature.quizzard.models.AppUser;
 import com.revature.quizzard.services.UserService;
 import com.revature.quizzard.web.dtos.LoginRequest;
 import com.revature.quizzard.web.util.Handler;
+import com.revature.quizzard.web.util.HttpMethod;
+import com.revature.quizzard.web.util.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,33 +25,31 @@ public class AuthController implements Handler {
         this.mapper = mapper;
     }
 
+    @RequestMapping(value = "/quizzard/auth", method = HttpMethod.POST, consumes = "application/json")
     public void login(HttpServletRequest req, HttpServletResponse resp) {
         try {
             LoginRequest creds = mapper.readValue(req.getInputStream(), LoginRequest.class);
             AppUser authUser = userService.authenticateUser(creds.getUsername(), creds.getPassword());
-
-            // adds a Cookie to the response containing a SESSION_ID
-            // that SESSION_ID is stored within Tomcat
-            // and is used to identify the requester in future requests
             HttpSession httpSession = req.getSession();
             httpSession.setAttribute("authUser", authUser);
-
-
-            resp.setStatus(204); // success, but nothing to return (NO_CONTENT)
+            resp.setStatus(204);
         } catch (InvalidRequestException | UnrecognizedPropertyException e) {
-            resp.setStatus(400); // user made a bad request
+            resp.setStatus(400);
         } catch (AuthenticationException e) {
-            resp.setStatus(401); // user provided incorrect credentials
+            resp.setStatus(401);
         } catch (Exception e) {
-            e.printStackTrace(); // for dev purposes only, to be deleted before push to prod
+            e.printStackTrace();
             resp.setStatus(500);
         }
     }
 
+    @RequestMapping(value = "/quizzard/auth", method = HttpMethod.DELETE)
     public void logout(HttpServletRequest req, HttpServletResponse resp) {
         HttpSession session = req.getSession(false);
         if (session != null) {
             session.invalidate();
         }
+        resp.setStatus(204);
     }
+
 }

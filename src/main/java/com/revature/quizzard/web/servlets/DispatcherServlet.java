@@ -1,10 +1,9 @@
 package com.revature.quizzard.web.servlets;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.revature.quizzard.web.util.Handler;
 import com.revature.quizzard.web.util.HandlerMapping;
 import com.revature.quizzard.web.util.RequestHandle;
-import com.revature.quizzard.web.util.RequestMapping;
+import com.revature.quizzard.web.util.RequestContext;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -28,8 +27,9 @@ public class DispatcherServlet extends HttpServlet {
         try {
 
             resp.setContentType("application/json");
-            RequestMapping requestMapping = new RequestMapping(req.getMethod(), req.getRequestURI().split("/")[2]);
+            RequestContext requestMapping = new RequestContext(req.getMethod(), req.getRequestURI());
             RequestHandle requestHandle = handlerMapping.getHandler(requestMapping);
+            System.out.println("DispatcherServlet line 32, requestHandle = " + requestHandle);
             Object payload = requestHandle.invokeHandlerMethod(req, resp);
             resp.getWriter().write(mapper.writeValueAsString(payload));
 

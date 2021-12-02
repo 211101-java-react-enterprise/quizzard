@@ -11,6 +11,8 @@ import com.revature.quizzard.web.dtos.CardResponse;
 import com.revature.quizzard.web.dtos.ErrorResponse;
 import com.revature.quizzard.web.dtos.NewCardRequest;
 import com.revature.quizzard.web.util.Handler;
+import com.revature.quizzard.web.util.HttpMethod;
+import com.revature.quizzard.web.util.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -29,6 +31,7 @@ public class FlashcardController implements Handler {
         this.mapper = mapper;
     }
 
+    @RequestMapping(value = "/quizzard/cards", method = HttpMethod.GET, produces = "application/json")
     public List<CardResponse> getCards(HttpServletRequest req, HttpServletResponse resp) {
 
         List<CardResponse> cards;
@@ -43,7 +46,7 @@ public class FlashcardController implements Handler {
         }
 
         if (cards.isEmpty()) {
-            resp.setStatus(404); // no cards found
+            resp.setStatus(404);
             return null;
         }
 
@@ -51,6 +54,7 @@ public class FlashcardController implements Handler {
 
     }
 
+    @RequestMapping(value = "/quizzard/cards", method = HttpMethod.POST, consumes = "application/json")
     public void addNewCard(HttpServletRequest req, HttpServletResponse resp) {
 
         try {

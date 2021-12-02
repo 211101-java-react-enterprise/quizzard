@@ -27,53 +27,37 @@ public class ContextLoaderListener implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent sce) {
 
-        try {
-            System.out.println("Initializing application");
+        System.out.println("Initializing application");
 
-    //        logger.info("Initializing application");
+//        logger.info("Initializing application");
 
-            ObjectMapper objectMapper = new ObjectMapper();
+        ObjectMapper objectMapper = new ObjectMapper();
 
-            AppUserDAO userDAO = new AppUserDAO();
-            UserService userService = new UserService(userDAO);
+        AppUserDAO userDAO = new AppUserDAO();
+        UserService userService = new UserService(userDAO);
 
-            FlashcardDAO cardDAO = new FlashcardDAO();
-            FlashcardService cardService = new FlashcardService(cardDAO);
+        FlashcardDAO cardDAO = new FlashcardDAO();
+        FlashcardService cardService = new FlashcardService(cardDAO);
 
-            TestController testController = new TestController();
-            Method test = TestController.class.getMethod("test", HttpServletRequest.class, HttpServletResponse.class);
+        TestController testController = new TestController();
+        FlashcardController flashcardController = new FlashcardController(cardService, objectMapper);
+        UserController userController = new UserController(userService, objectMapper);
+        AuthController authController = new AuthController(userService, objectMapper);
 
-            FlashcardController flashcardController = new FlashcardController(cardService, objectMapper);
-            Method getCards = FlashcardController.class.getMethod("getCards", HttpServletRequest.class, HttpServletResponse.class);
-            Method addNewCard = FlashcardController.class.getMethod("addNewCard", HttpServletRequest.class, HttpServletResponse.class);
+        HandlerMapping handlerMapping = new HandlerMapping();
+        handlerMapping.addHandler(testController);
+        handlerMapping.addHandler(flashcardController);
+        handlerMapping.addHandler(userController);
+        handlerMapping.addHandler(authController);
 
-            UserController userController = new UserController(userService, objectMapper);
-            Method registerNewUser = UserController.class.getMethod("registerNewUser", HttpServletRequest.class, HttpServletResponse.class);
-
-            AuthController authController = new AuthController(userService, objectMapper);
-            Method login = AuthController.class.getMethod("login", HttpServletRequest.class, HttpServletResponse.class);
-            Method logout = AuthController.class.getMethod("logout", HttpServletRequest.class, HttpServletResponse.class);
-
-            HandlerMapping handlerMapping = new HandlerMapping();
-            handlerMapping.addHandler(new RequestMapping("GET", "test"), new RequestHandle(testController, test));
-            handlerMapping.addHandler(new RequestMapping("GET", "flashcards"), new RequestHandle(flashcardController, getCards));
-            handlerMapping.addHandler(new RequestMapping("POST", "flashcards"), new RequestHandle(flashcardController, addNewCard));
-            handlerMapping.addHandler(new RequestMapping("POST", "users"), new RequestHandle(userController, registerNewUser));
-            handlerMapping.addHandler(new RequestMapping("POST", "auth"), new RequestHandle(authController, login));
-            handlerMapping.addHandler(new RequestMapping("DELETE", "auth"), new RequestHandle(authController, logout));
-
-            DispatcherServlet dispatcherServlet = new DispatcherServlet(handlerMapping, objectMapper);
+        DispatcherServlet dispatcherServlet = new DispatcherServlet(handlerMapping, objectMapper);
 
 
-            ServletContext context = sce.getServletContext();
-            context.addServlet("DispatcherServlet", dispatcherServlet).addMapping("/*");
+        ServletContext context = sce.getServletContext();
+        context.addServlet("DispatcherServlet", dispatcherServlet).addMapping("/*");
 
-            System.out.println("Application initialized!");
-    //        logger.info("Application initialized!");
-
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        }
+        System.out.println("Application initialized!");
+//        logger.info("Application initialized!");
 
     }
 
