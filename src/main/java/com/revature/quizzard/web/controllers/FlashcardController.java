@@ -6,6 +6,7 @@ import com.revature.quizzard.models.AppUser;
 import com.revature.quizzard.services.FlashcardService;
 import com.revature.quizzard.web.dtos.CardResponse;
 import com.revature.quizzard.web.dtos.NewCardRequest;
+import com.revature.quizzard.web.util.Secured;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +26,7 @@ public class FlashcardController {
         this.cardService = cardService;
     }
 
+    @Secured(allowedUsers = {"test"})
     @GetMapping(produces = "application/json")
     public List<CardResponse> getCards(HttpServletRequest req) {
         HttpSession session = req.getSession(false);

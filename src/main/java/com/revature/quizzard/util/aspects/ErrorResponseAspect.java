@@ -2,6 +2,7 @@ package com.revature.quizzard.util.aspects;
 
 import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
 import com.revature.quizzard.exceptions.AuthenticationException;
+import com.revature.quizzard.exceptions.AuthorizationException;
 import com.revature.quizzard.exceptions.InvalidRequestException;
 import com.revature.quizzard.exceptions.ResourceNotFoundException;
 import com.revature.quizzard.web.dtos.ErrorResponse;
@@ -23,6 +24,12 @@ public class ErrorResponseAspect {
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     public ErrorResponse handleAuthenticationException(AuthenticationException e) {
         return new ErrorResponse(401, e);
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public ErrorResponse handleAuthorizationException(AuthorizationException e) {
+        return new ErrorResponse(403, e);
     }
 
     @ExceptionHandler
