@@ -1,13 +1,31 @@
 package com.revature.quizzard.models;
 
+import javax.persistence.*;
 import java.util.List;
 import java.util.Objects;
 
+@Entity
+@Table(name = "study_sets", uniqueConstraints = {
+        @UniqueConstraint(name = "unique_user_set_names", columnNames = {"name", "owner_id"})
+})
 public class StudySet {
 
+    @Id
     private String id;
+
+    @Column(nullable = false)
     private String name;
+
+    @ManyToOne
+    @JoinColumn(name = "owner_id", nullable = false)
     private AppUser owner;
+
+    @ManyToMany
+    @JoinTable(
+            name = "study_set_cards",
+            joinColumns = @JoinColumn(name = "study_set_id"),
+            inverseJoinColumns = @JoinColumn(name = "card_id")
+    )
     private List<Flashcard> cards;
 
     public String getId() {

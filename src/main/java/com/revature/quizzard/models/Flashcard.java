@@ -1,12 +1,23 @@
 package com.revature.quizzard.models;
 
+import javax.persistence.*;
 import java.util.Objects;
 
+@Entity
+@Table(name = "flashcards")
 public class Flashcard {
 
+    @Id
     private String id;
+
+    @Column(name = "question_text", nullable = false, columnDefinition = "CHECK (question_text <> '')")
     private String questionText;
+
+    @Column(name = "answer_text", nullable = false, columnDefinition = "CHECK (answer_text <> '')")
     private String answerText;
+
+    @ManyToOne
+    @JoinColumn(name = "creator_id", nullable = false, columnDefinition = "CHECK (creator_id <> '')")
     private AppUser creator;
 
     public Flashcard(String questionText, String answerText) {

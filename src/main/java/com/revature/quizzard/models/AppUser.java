@@ -1,6 +1,7 @@
 package com.revature.quizzard.models;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -29,6 +30,13 @@ public class AppUser {
     @Column(name = "account_type", columnDefinition = "DEFAULT 'LOCKED'")
     private AccountType accountType;
 
+    @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY)
+    private List<StudySet> userStudySets;
+
+    protected AppUser() {
+        super();
+    }
+
     public AppUser(String firstName, String lastName, String email, String username, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -45,10 +53,6 @@ public class AppUser {
     public AppUser(String id, String firstName, String lastName, String email, String username, String password, AccountType accountType) {
         this(id, firstName, lastName, email, username, password);
         this.accountType = accountType;
-    }
-
-    public AppUser() {
-        super();
     }
 
     public String getId() {
@@ -107,17 +111,25 @@ public class AppUser {
         this.accountType = accountType;
     }
 
+    public List<StudySet> getUserStudySets() {
+        return userStudySets;
+    }
+
+    public void setUserStudySets(List<StudySet> userStudySet) {
+        this.userStudySets = userStudySet;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AppUser appUser = (AppUser) o;
-        return Objects.equals(id, appUser.id) && Objects.equals(firstName, appUser.firstName) && Objects.equals(lastName, appUser.lastName) && Objects.equals(email, appUser.email) && Objects.equals(username, appUser.username) && Objects.equals(password, appUser.password) && accountType == appUser.accountType;
+        return Objects.equals(id, appUser.id) && Objects.equals(firstName, appUser.firstName) && Objects.equals(lastName, appUser.lastName) && Objects.equals(email, appUser.email) && Objects.equals(username, appUser.username) && Objects.equals(password, appUser.password) && accountType == appUser.accountType && Objects.equals(userStudySets, appUser.userStudySets);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, firstName, lastName, email, username, password, accountType);
+        return Objects.hash(id, firstName, lastName, email, username, password, accountType, userStudySets);
     }
 
     @Override
