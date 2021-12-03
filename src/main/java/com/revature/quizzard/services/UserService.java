@@ -8,7 +8,7 @@ import com.revature.quizzard.models.AppUser;
 import com.revature.quizzard.web.dtos.NewRegistration;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
+// TODO Refactor to include Spring Bean validators
 
 @Service
 public class UserService {

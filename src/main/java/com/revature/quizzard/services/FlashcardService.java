@@ -9,9 +9,10 @@ import com.revature.quizzard.web.dtos.CardResponse;
 import com.revature.quizzard.web.dtos.NewCardRequest;
 import org.springframework.stereotype.Service;
 
-import javax.smartcardio.Card;
 import java.util.List;
 import java.util.stream.Collectors;
+
+// TODO Refactor to include Spring Bean validators
 
 @Service
 public class FlashcardService {
@@ -23,6 +24,7 @@ public class FlashcardService {
     }
 
     public List<CardResponse> findAllCards() {
+
         List<CardResponse> cards =  cardDAO.findAll()
                                            .stream()
                                            .map(CardResponse::new)
@@ -37,8 +39,6 @@ public class FlashcardService {
     }
 
     public List<CardResponse> findMyCards(String ownerId) {
-
-        System.out.println("OwnerId = " + ownerId);
 
         if (ownerId == null || ownerId.equals("")) {
             throw new InvalidRequestException("Invalid owner id provided!");
@@ -59,7 +59,6 @@ public class FlashcardService {
 
     public void createNewCard(NewCardRequest newCardRequest) {
 
-        // Map dto to data model
         Flashcard newCard = new Flashcard();
         newCard.setQuestionText(newCardRequest.getQuestion());
         newCard.setAnswerText(newCardRequest.getAnswer());
@@ -82,4 +81,5 @@ public class FlashcardService {
         if (card.getQuestionText() == null || card.getQuestionText().trim().equals("")) return false;
         return (card.getAnswerText() != null && !card.getAnswerText().trim().equals(""));
     }
+
 }
