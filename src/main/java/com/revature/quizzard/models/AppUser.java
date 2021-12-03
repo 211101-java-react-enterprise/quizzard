@@ -9,25 +9,26 @@ import java.util.Objects;
 public class AppUser {
 
     @Id
+    @Column(name = "user_id")
     private String id;
 
-    @Column(name = "first_name", nullable = false, columnDefinition = "CHECK (first_name <> '')")
+    @Column(name = "first_name", nullable = false, columnDefinition = "VARCHAR CHECK (first_name <> '')")
     private String firstName;
 
-    @Column(name = "last_name", nullable = false, columnDefinition = "CHECK (last_name <> '')")
+    @Column(name = "last_name", nullable = false, columnDefinition = "VARCHAR CHECK (last_name <> '')")
     private String lastName;
 
-    @Column(nullable = false, unique = true, columnDefinition = "CHECK (email <> '')")
+    @Column(nullable = false, unique = true, columnDefinition = "VARCHAR CHECK (email <> '')")
     private String email;
 
-    @Column(nullable = false, unique = true, columnDefinition = "CHECK (LENGTH(username) > 4)")
+    @Column(nullable = false, unique = true, columnDefinition = "VARCHAR CHECK (LENGTH(username) >= 4)")
     private String username;
 
-    @Column(nullable = false, unique = true, columnDefinition = "CHECK (LENGTH(username) > 4)")
+    @Column(nullable = false, unique = true, columnDefinition = "VARCHAR CHECK (LENGTH(username) >= 4)")
     private String password;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "account_type", columnDefinition = "DEFAULT 'LOCKED'")
+    @Column(name = "account_type", columnDefinition = "VARCHAR DEFAULT 'LOCKED'")
     private AccountType accountType;
 
     @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY)

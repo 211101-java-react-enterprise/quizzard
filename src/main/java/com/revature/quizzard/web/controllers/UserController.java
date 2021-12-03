@@ -17,7 +17,7 @@ public class UserController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(consumes = "application/json")
-    public void register(NewRegistrationRequest newRegistrationRequest) {
+    public void register(@RequestBody NewRegistrationRequest newRegistrationRequest) {
         userService.registerNewUser(newRegistrationRequest);
     }
 

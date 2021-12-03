@@ -8,16 +8,17 @@ import java.util.Objects;
 public class Flashcard {
 
     @Id
+    @Column(name = "card_id")
     private String id;
 
-    @Column(name = "question_text", nullable = false, columnDefinition = "CHECK (question_text <> '')")
+    @Column(name = "question_text", nullable = false, columnDefinition = "VARCHAR CHECK (question_text <> '')")
     private String questionText;
 
-    @Column(name = "answer_text", nullable = false, columnDefinition = "CHECK (answer_text <> '')")
+    @Column(name = "answer_text", nullable = false, columnDefinition = "VARCHAR CHECK (answer_text <> '')")
     private String answerText;
 
     @ManyToOne
-    @JoinColumn(name = "creator_id", nullable = false, columnDefinition = "CHECK (creator_id <> '')")
+    @JoinColumn(name = "creator_id", nullable = false, columnDefinition = "VARCHAR CHECK (creator_id <> '')")
     private AppUser creator;
 
     public Flashcard(String questionText, String answerText) {

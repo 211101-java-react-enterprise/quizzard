@@ -1,14 +1,21 @@
 package com.revature.quizzard.daos;
 
 import com.revature.quizzard.models.AppUser;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-// TODO Refactor to use Spring ORM
-
 @Repository
 public class AppUserDAO implements CrudDAO<AppUser> {
+
+    private final SessionFactory sessionFactory;
+
+    @Autowired
+    public AppUserDAO(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
+    }
 
     public AppUser findUserByUsername(String username) {
         return null;
@@ -19,12 +26,17 @@ public class AppUserDAO implements CrudDAO<AppUser> {
     }
 
     public AppUser findUserByUsernameAndPassword(String username, String password) {
-        return null;
+        return sessionFactory.getCurrentSession()
+                             .createQuery("from AppUser au where au.username = :username and au.password = :password", AppUser.class)
+                             .setParameter("username", username)
+                             .setParameter("password", password)
+                             .getSingleResult();
     }
 
     @Override
     public AppUser save(AppUser newUser) {
-        return null;
+        sessionFactory.getCurrentSession().save(newUser);
+        return newUser;
     }
 
     @Override

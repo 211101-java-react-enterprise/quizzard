@@ -7,6 +7,10 @@ import com.revature.quizzard.exceptions.ResourcePersistenceException;
 import com.revature.quizzard.models.AppUser;
 import com.revature.quizzard.web.dtos.NewRegistrationRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.UUID;
+
 
 // TODO Refactor to include Spring Bean validators
 
@@ -19,6 +23,7 @@ public class UserService {
         this.userDAO = userDAO;
     }
 
+    @Transactional
     public boolean registerNewUser(NewRegistrationRequest newRegistration) {
 
         AppUser newUser = new AppUser();
@@ -42,6 +47,8 @@ public class UserService {
             throw new ResourcePersistenceException(msg);
         }
 
+        newUser.setId(UUID.randomUUID().toString());
+        newUser.setAccountType(AppUser.AccountType.BASIC);
         AppUser registeredUser = userDAO.save(newUser);
 
         if (registeredUser == null) {
@@ -53,6 +60,7 @@ public class UserService {
 
     }
 
+    @Transactional(readOnly = true)
     public AppUser authenticateUser(String username, String password) {
 
         if (username == null || username.trim().equals("") || password == null || password.trim().equals("")) {
@@ -66,10 +74,10 @@ public class UserService {
         }
 
         return authenticatedUser;
-
     }
 
     public boolean isUserValid(AppUser user) {
+        System.out.println(user);
         if (user == null) return false;
         if (user.getFirstName() == null || user.getFirstName().trim().equals("")) return false;
         if (user.getLastName() == null || user.getLastName().trim().equals("")) return false;

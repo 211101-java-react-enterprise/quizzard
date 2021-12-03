@@ -11,6 +11,7 @@ import java.util.Objects;
 public class StudySet {
 
     @Id
+    @Column(name = "study_set_id")
     private String id;
 
     @Column(nullable = false)

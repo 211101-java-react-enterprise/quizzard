@@ -45,18 +45,18 @@ public class AppConfig {
     }
 
     @Bean
-    public SessionFactory sessionFactory() {
+    public LocalSessionFactoryBean sessionFactory() {
         LocalSessionFactoryBean sessionFactoryBean = new LocalSessionFactoryBean();
         sessionFactoryBean.setDataSource(dataSource());
         sessionFactoryBean.setPackagesToScan("com.revature.quizzard.models");
         sessionFactoryBean.setHibernateProperties(configureHibernateProps());
-        return sessionFactoryBean.getObject();
+        return sessionFactoryBean;
     }
 
     @Bean
     public PlatformTransactionManager txManager() {
         HibernateTransactionManager txManager = new HibernateTransactionManager();
-        txManager.setSessionFactory(sessionFactory());
+        txManager.setSessionFactory(sessionFactory().getObject());
         return txManager;
     }
 
