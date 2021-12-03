@@ -6,7 +6,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "study_sets", uniqueConstraints = {
-        @UniqueConstraint(name = "unique_user_set_names", columnNames = {"name", "owner_id"})
+    @UniqueConstraint(name = "unique_user_set_names", columnNames = {"name", "owner_id"})
 })
 public class StudySet {
 
@@ -22,9 +22,9 @@ public class StudySet {
 
     @ManyToMany
     @JoinTable(
-            name = "study_set_cards",
-            joinColumns = @JoinColumn(name = "study_set_id"),
-            inverseJoinColumns = @JoinColumn(name = "card_id")
+        name = "study_set_cards",
+        joinColumns = @JoinColumn(name = "study_set_id"),
+        inverseJoinColumns = @JoinColumn(name = "card_id")
     )
     private List<Flashcard> cards;
 

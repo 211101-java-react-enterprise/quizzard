@@ -33,7 +33,7 @@ public class AppUser {
     @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY)
     private List<StudySet> userStudySets;
 
-    protected AppUser() {
+    public AppUser() {
         super();
     }
 

@@ -1,0 +1,1 @@
+INSERT INTO app_users (user_id, first_name, last_name, email, username, password) VALUES ('e05e00f9-bf63-4947-b504-02859c33158e', 'Tester', 'McTesterson', 'test@revature.com', 'test', 'test');
