@@ -1,42 +1,29 @@
 package com.revature.quizzard.util.datasource;
 
-import java.io.FileReader;
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
-/**
- * Singleton Design Pattern
- *  - Creational pattern
- *  - Restricts a class so that only a single instance of it can be made within an application
- *  - Constructor cannot be invoked outside of the class
- *
- *  Factory Design Pattern
- *   - Creational pattern
- *   - Used to abstract away the creation/instantiation logic of an object
- */
 public class ConnectionFactory {
 
     private static final ConnectionFactory connectionFactory = new ConnectionFactory();
-    private Properties props = new Properties();
-
-    static {
-        try {
-            // Forcibly load the PostgreSQL Driver into JVM memory so that it can create a connection
-            Class.forName("org.postgresql.Driver");
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
+    private final Properties props = new Properties();
+    private List<Connection> connectionPool;
+    private List<Connection> usedConnections;
+    private final int poolSize = 10;
 
     private ConnectionFactory() {
         try {
+            Class.forName("org.postgresql.Driver");
             ClassLoader loader = Thread.currentThread().getContextClassLoader();
             props.load(loader.getResourceAsStream("db.properties"));
-        } catch (IOException e) {
-            e.printStackTrace();
+            initalizePool();
+        } catch (Throwable t) {
+            t.printStackTrace();
+            throw new Error(t);
         }
     }
 
@@ -45,16 +32,28 @@ public class ConnectionFactory {
     }
 
     public Connection getConnection() {
-
-        Connection conn = null;
-
-        try {
-            conn = DriverManager.getConnection(props.getProperty("url"), props.getProperty("username"), props.getProperty("password"));
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
+        Connection conn = connectionPool.remove(connectionPool.size() - 1);
+        usedConnections.add(conn);
         return conn;
+    }
+
+    public Connection createConnection() throws SQLException {
+        return DriverManager.getConnection(props.getProperty("url"), props.getProperty("username"), props.getProperty("password"));
+    }
+
+    public void releaseConnection(Connection conn) {
+        usedConnections.remove(conn);
+        connectionPool.add(conn);
+    }
+
+    private void initalizePool() throws SQLException {
+
+        connectionPool = new ArrayList<>();
+        usedConnections = new ArrayList<>();
+
+        for (int i = 0; i < poolSize; i++) {
+            connectionPool.add(createConnection());
+        }
 
     }
 
