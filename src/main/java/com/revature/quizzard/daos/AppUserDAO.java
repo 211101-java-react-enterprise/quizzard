@@ -7,98 +7,94 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 public class AppUserDAO implements CrudDAO<AppUser> {
 
+    private final ConnectionFactory connectionFactory;
+
+    public AppUserDAO(ConnectionFactory connectionFactory) {
+        this.connectionFactory = connectionFactory;
+    }
+
     public AppUser findUserByUsername(String username) {
 
-        try (Connection conn = ConnectionFactory.getInstance().getConnection()) {
+        Connection conn = connectionFactory.getConnection();
+        AppUser retrievedUser = null;
+
+        try {
 
             String sql = "select * from app_users where username = ?";
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, username);
             ResultSet rs = pstmt.executeQuery();
-            if (rs.next()) {
-                AppUser user = new AppUser();
-                user.setId(rs.getString("user_id"));
-                user.setFirstName(rs.getString("first_name"));
-                user.setLastName(rs.getString("last_name"));
-                user.setEmail(rs.getString("email"));
-                user.setUsername(rs.getString("username"));
-                user.setPassword(rs.getString("password"));
-                return user;
-            }
+            retrievedUser = mapResultSet(rs).stream().findFirst().orElse(null);
 
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            connectionFactory.releaseConnection(conn);
         }
 
-        return null;
+        return retrievedUser;
 
     }
 
     public AppUser findUserByEmail(String email) {
 
-        try (Connection conn = ConnectionFactory.getInstance().getConnection()) {
+        Connection conn = connectionFactory.getConnection();
+        AppUser retrievedUser = null;
+
+        try {
 
             String sql = "select * from app_users where email = ?";
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, email);
             ResultSet rs = pstmt.executeQuery();
-            if (rs.next()) {
-                AppUser user = new AppUser();
-                user.setId(rs.getString("user_id"));
-                user.setFirstName(rs.getString("first_name"));
-                user.setLastName(rs.getString("last_name"));
-                user.setEmail(rs.getString("email"));
-                user.setUsername(rs.getString("username"));
-                user.setPassword(rs.getString("password"));
-                return user;
-            }
+            retrievedUser = mapResultSet(rs).stream().findFirst().orElse(null);
 
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            connectionFactory.releaseConnection(conn);
         }
 
-        return null;
+        return retrievedUser;
 
     }
 
     public AppUser findUserByUsernameAndPassword(String username, String password) {
 
-        try (Connection conn = ConnectionFactory.getInstance().getConnection()) {
+        Connection conn = connectionFactory.getConnection();
+        AppUser retrievedUser = null;
+
+        try {
 
             String sql = "select * from app_users where username = ? and password = ?";
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, username);
             pstmt.setString(2, password);
             ResultSet rs = pstmt.executeQuery();
-
-            if (rs.next()) {
-                AppUser user = new AppUser();
-                user.setId(rs.getString("user_id"));
-                user.setFirstName(rs.getString("first_name"));
-                user.setLastName(rs.getString("last_name"));
-                user.setEmail(rs.getString("email"));
-                user.setUsername(rs.getString("username"));
-                user.setPassword(rs.getString("password"));
-                return user;
-            }
+            retrievedUser = mapResultSet(rs).stream().findFirst().orElse(null);
 
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            connectionFactory.releaseConnection(conn);
         }
 
-        return null;
+        return retrievedUser;
 
     }
 
     @Override
     public AppUser save(AppUser newUser) {
 
-        try (Connection conn = ConnectionFactory.getInstance().getConnection()) {
+        Connection conn = connectionFactory.getConnection();
+
+        try {
 
             newUser.setId(UUID.randomUUID().toString());
 
@@ -118,9 +114,9 @@ public class AppUserDAO implements CrudDAO<AppUser> {
             }
 
         } catch (SQLException e) {
-            // TODO log this and throw our own custom exception to be caught in the service layer
             e.printStackTrace();
-
+        } finally {
+            connectionFactory.releaseConnection(conn);
         }
 
         return null;
@@ -145,6 +141,21 @@ public class AppUserDAO implements CrudDAO<AppUser> {
     @Override
     public boolean removeById(String id) {
         return false;
+    }
+
+    private List<AppUser> mapResultSet(ResultSet rs) throws SQLException {
+        List<AppUser> users = new ArrayList<>();
+        while (rs.next()) {
+            AppUser user = new AppUser();
+            user.setId(rs.getString("user_id"));
+            user.setFirstName(rs.getString("first_name"));
+            user.setLastName(rs.getString("last_name"));
+            user.setEmail(rs.getString("email"));
+            user.setUsername(rs.getString("username"));
+            user.setPassword(rs.getString("password"));
+            users.add(user);
+        }
+        return users;
     }
 
 }

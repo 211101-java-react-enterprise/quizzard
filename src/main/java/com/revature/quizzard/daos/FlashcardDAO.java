@@ -15,13 +15,20 @@ public class FlashcardDAO implements CrudDAO<Flashcard> {
 
     public static final Logger logger = LogManager.getLogger();
 
+    private final ConnectionFactory connectionFactory;
+
+    public FlashcardDAO(ConnectionFactory connectionFactory) {
+        this.connectionFactory = connectionFactory;
+    }
+
     public List<Flashcard> findCardsByCreatorId(String creatorId) {
 
         logger.info("FlashcardDAO#findCardsByCreatorId invoked with argument {}", creatorId);
 
+        Connection conn = connectionFactory.getConnection();
         List<Flashcard> cards = new LinkedList<>();
 
-        try (Connection conn = ConnectionFactory.getInstance().getConnection()) {
+        try {
 
             String sql = "select * " +
                          "from flashcards f " +
@@ -36,6 +43,8 @@ public class FlashcardDAO implements CrudDAO<Flashcard> {
 
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            connectionFactory.releaseConnection(conn);
         }
 
         logger.info("FlashcardDAO#findCardsByCreatorId returning with value {}", cards);
@@ -47,7 +56,8 @@ public class FlashcardDAO implements CrudDAO<Flashcard> {
     @Override
     public Flashcard save(Flashcard newCard) {
 
-        try (Connection conn = ConnectionFactory.getInstance().getConnection()) {
+        Connection conn = connectionFactory.getConnection();
+        try {
 
             newCard.setId(UUID.randomUUID().toString());
 
@@ -66,6 +76,8 @@ public class FlashcardDAO implements CrudDAO<Flashcard> {
 
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            connectionFactory.releaseConnection(conn);
         }
 
         return null;
@@ -75,17 +87,19 @@ public class FlashcardDAO implements CrudDAO<Flashcard> {
     @Override
     public List<Flashcard> findAll() {
 
-
+        Connection conn = connectionFactory.getConnection();
 
         List<Flashcard> cards = new LinkedList<>();
 
-        try (Connection conn = ConnectionFactory.getInstance().getConnection()) {
+        try {
             String sql = "select * from flashcards f join app_users u on f.creator_id = u.user_id";
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
             return mapResultSet(rs);
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            connectionFactory.releaseConnection(conn);
         }
 
         return cards;
@@ -93,9 +107,11 @@ public class FlashcardDAO implements CrudDAO<Flashcard> {
 
     @Override
     public Flashcard findById(String cardId) {
+
+        Connection conn = connectionFactory.getConnection();
         Flashcard card = null;
 
-        try (Connection conn = ConnectionFactory.getInstance().getConnection()) {
+        try {
             String sql = "select * from flashcards f join app_users u on f.creator_id = u.id where f.card_id = ?";
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, cardId);
@@ -103,6 +119,8 @@ public class FlashcardDAO implements CrudDAO<Flashcard> {
             card = mapResultSet(rs).get(0);
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            connectionFactory.releaseConnection(conn);
         }
 
         return card;

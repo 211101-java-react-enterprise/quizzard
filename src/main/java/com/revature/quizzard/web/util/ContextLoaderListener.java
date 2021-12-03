@@ -5,6 +5,7 @@ import com.revature.quizzard.daos.AppUserDAO;
 import com.revature.quizzard.daos.FlashcardDAO;
 import com.revature.quizzard.services.FlashcardService;
 import com.revature.quizzard.services.UserService;
+import com.revature.quizzard.util.datasource.ConnectionFactory;
 import com.revature.quizzard.web.controllers.AuthController;
 import com.revature.quizzard.web.controllers.FlashcardController;
 import com.revature.quizzard.web.controllers.TestController;
@@ -27,16 +28,15 @@ public class ContextLoaderListener implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent sce) {
 
-        System.out.println("Initializing application");
-
-//        logger.info("Initializing application");
+        logger.info("Initializing application");
 
         ObjectMapper objectMapper = new ObjectMapper();
 
-        AppUserDAO userDAO = new AppUserDAO();
+        ConnectionFactory connFactory = ConnectionFactory.getInstance();
+        AppUserDAO userDAO = new AppUserDAO(connFactory);
         UserService userService = new UserService(userDAO);
 
-        FlashcardDAO cardDAO = new FlashcardDAO();
+        FlashcardDAO cardDAO = new FlashcardDAO(connFactory);
         FlashcardService cardService = new FlashcardService(cardDAO);
 
         TestController testController = new TestController();
@@ -52,12 +52,10 @@ public class ContextLoaderListener implements ServletContextListener {
 
         DispatcherServlet dispatcherServlet = new DispatcherServlet(handlerMapping, objectMapper);
 
-
         ServletContext context = sce.getServletContext();
         context.addServlet("DispatcherServlet", dispatcherServlet).addMapping("/*");
 
-        System.out.println("Application initialized!");
-//        logger.info("Application initialized!");
+        logger.info("Application initialized!");
 
     }
 
