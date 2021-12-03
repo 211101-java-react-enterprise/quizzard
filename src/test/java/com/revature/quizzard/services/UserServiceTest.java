@@ -4,7 +4,7 @@ import com.revature.quizzard.daos.AppUserDAO;
 import com.revature.quizzard.exceptions.InvalidRequestException;
 import com.revature.quizzard.exceptions.ResourcePersistenceException;
 import com.revature.quizzard.models.AppUser;
-import com.revature.quizzard.web.dtos.NewRegistration;
+import com.revature.quizzard.web.dtos.NewRegistrationRequest;
 import org.junit.*;
 
 import static org.mockito.Mockito.*;
@@ -78,7 +78,7 @@ public class UserServiceTest {
     public void test_registerNewUser_returnsTrue_givenValidUser() {
 
         // Arrange
-        NewRegistration validUser = new NewRegistration("valid", "valid", "valid", "valid", "valid");
+        NewRegistrationRequest validUser = new NewRegistrationRequest("valid", "valid", "valid", "valid", "valid");
         when(mockUserDAO.findUserByUsername(validUser.getUsername())).thenReturn(null);
         when(mockUserDAO.findUserByEmail(validUser.getEmail())).thenReturn(null);
         when(mockUserDAO.save(any())).thenReturn(any());
@@ -96,7 +96,7 @@ public class UserServiceTest {
     public void test_registerNewUser_throwsResourcePersistenceException_givenValidUserWithTakenUsername() {
 
         // Arrange
-        NewRegistration validUser = new NewRegistration("valid", "valid", "valid", "valid", "valid");
+        NewRegistrationRequest validUser = new NewRegistrationRequest("valid", "valid", "valid", "valid", "valid");
         when(mockUserDAO.findUserByUsername(validUser.getUsername())).thenReturn(new AppUser());
         when(mockUserDAO.findUserByEmail(validUser.getEmail())).thenReturn(null);
         when(mockUserDAO.save(any())).thenReturn(any());
@@ -115,7 +115,7 @@ public class UserServiceTest {
     public void test_registerNewUser_throwsResourcePersistenceException_givenValidUserWithTakenEmail() {
 
         // Arrange
-        NewRegistration validUser = new NewRegistration("valid", "valid", "valid", "valid", "valid");
+        NewRegistrationRequest validUser = new NewRegistrationRequest("valid", "valid", "valid", "valid", "valid");
         when(mockUserDAO.findUserByUsername(validUser.getUsername())).thenReturn(null);
         when(mockUserDAO.findUserByEmail(validUser.getEmail())).thenReturn(new AppUser());
         when(mockUserDAO.save(any())).thenReturn(any());

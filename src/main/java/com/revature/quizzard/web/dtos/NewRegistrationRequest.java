@@ -1,6 +1,6 @@
 package com.revature.quizzard.web.dtos;
 
-public class NewRegistration {
+public class NewRegistrationRequest {
 
     private String firstName;
     private String lastName;
@@ -8,11 +8,11 @@ public class NewRegistration {
     private String username;
     private String password;
 
-    public NewRegistration() {
+    public NewRegistrationRequest() {
         super();
     }
 
-    public NewRegistration(String firstName, String lastName, String email, String username, String password) {
+    public NewRegistrationRequest(String firstName, String lastName, String email, String username, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;

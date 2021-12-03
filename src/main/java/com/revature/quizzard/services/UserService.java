@@ -5,7 +5,7 @@ import com.revature.quizzard.exceptions.AuthenticationException;
 import com.revature.quizzard.exceptions.InvalidRequestException;
 import com.revature.quizzard.exceptions.ResourcePersistenceException;
 import com.revature.quizzard.models.AppUser;
-import com.revature.quizzard.web.dtos.NewRegistration;
+import com.revature.quizzard.web.dtos.NewRegistrationRequest;
 import org.springframework.stereotype.Service;
 
 // TODO Refactor to include Spring Bean validators
@@ -19,7 +19,7 @@ public class UserService {
         this.userDAO = userDAO;
     }
 
-    public boolean registerNewUser(NewRegistration newRegistration) {
+    public boolean registerNewUser(NewRegistrationRequest newRegistration) {
 
         AppUser newUser = new AppUser();
         newUser.setFirstName(newRegistration.getFirstName());

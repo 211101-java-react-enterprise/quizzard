@@ -1,7 +1,7 @@
 package com.revature.quizzard.web.controllers;
 
 import com.revature.quizzard.services.UserService;
-import com.revature.quizzard.web.dtos.NewRegistration;
+import com.revature.quizzard.web.dtos.NewRegistrationRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,7 +17,7 @@ public class UserController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(consumes = "application/json")
-    public void register(NewRegistration newRegistrationRequest) {
+    public void register(NewRegistrationRequest newRegistrationRequest) {
         userService.registerNewUser(newRegistrationRequest);
     }
 
