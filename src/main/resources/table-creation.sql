@@ -27,3 +27,33 @@ create table flashcards (
     references app_users
 );
 
+create table study_sets (
+    study_set_id varchar check (study_set_id <> ''),
+    set_name varchar check (set_name <> ''),
+    owner_id varchar check (owner_id <> ''),
+
+    constraint study_sets_pk
+    primary key (study_set_id),
+
+    constraint study_set_owner_fk
+    foreign key (owner_id)
+    references app_users
+);
+
+create table study_set_cards (
+    study_set_id varchar check (study_set_id <> ''),
+    card_id varchar check (card_id <> ''),
+
+    constraint study_set_cards_pk
+    primary key (study_set_id, card_id),
+
+    constraint study_set_fk
+    foreign key (study_set_id)
+    references study_sets,
+
+    constraint card_fk
+    foreign key (card_id)
+    references flashcards
+
+)
+
