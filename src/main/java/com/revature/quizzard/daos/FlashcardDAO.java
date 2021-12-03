@@ -40,8 +40,4 @@ public class FlashcardDAO implements CrudDAO<Flashcard> {
         return false;
     }
 
-    private List<Flashcard> mapResultSet(ResultSet rs) throws SQLException {
-        return null;
-    }
-
 }

@@ -10,7 +10,8 @@ create table app_users (
     password varchar(255) not null check (password <> ''),
 
     constraint app_users_pk
-    primary key (user_id)
+    primary key (user_id),
+
 );
 
 create table flashcards (

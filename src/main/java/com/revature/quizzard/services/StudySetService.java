@@ -2,7 +2,6 @@ package com.revature.quizzard.services;
 
 import com.revature.quizzard.daos.StudySetDAO;
 import com.revature.quizzard.exceptions.ResourceNotFoundException;
-import com.revature.quizzard.models.StudySet;
 import com.revature.quizzard.web.dtos.StudySetResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

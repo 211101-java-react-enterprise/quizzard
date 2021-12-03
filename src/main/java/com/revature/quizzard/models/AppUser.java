@@ -1,15 +1,33 @@
 package com.revature.quizzard.models;
 
+import javax.persistence.*;
 import java.util.Objects;
 
-public class AppUser extends Object {
+@Entity
+@Table(name = "app_users")
+public class AppUser {
 
+    @Id
     private String id;
+
+    @Column(name = "first_name", nullable = false, columnDefinition = "CHECK (first_name <> '')")
     private String firstName;
+
+    @Column(name = "last_name", nullable = false, columnDefinition = "CHECK (last_name <> '')")
     private String lastName;
+
+    @Column(nullable = false, unique = true, columnDefinition = "CHECK (email <> '')")
     private String email;
+
+    @Column(nullable = false, unique = true, columnDefinition = "CHECK (LENGTH(username) > 4)")
     private String username;
+
+    @Column(nullable = false, unique = true, columnDefinition = "CHECK (LENGTH(username) > 4)")
     private String password;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "account_type", columnDefinition = "DEFAULT 'LOCKED'")
+    private AccountType accountType;
 
     public AppUser(String firstName, String lastName, String email, String username, String password) {
         this.firstName = firstName;
@@ -22,6 +40,11 @@ public class AppUser extends Object {
     public AppUser(String id, String firstName, String lastName, String email, String username, String password) {
         this(firstName, lastName, email, username, password);
         this.id = id;
+    }
+
+    public AppUser(String id, String firstName, String lastName, String email, String username, String password, AccountType accountType) {
+        this(id, firstName, lastName, email, username, password);
+        this.accountType = accountType;
     }
 
     public AppUser() {
@@ -76,17 +99,25 @@ public class AppUser extends Object {
         this.password = password;
     }
 
+    public AccountType getAccountType() {
+        return accountType;
+    }
+
+    public void setAccountType(AccountType accountType) {
+        this.accountType = accountType;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AppUser appUser = (AppUser) o;
-        return Objects.equals(id, appUser.id) && Objects.equals(firstName, appUser.firstName) && Objects.equals(lastName, appUser.lastName) && Objects.equals(email, appUser.email) && Objects.equals(username, appUser.username) && Objects.equals(password, appUser.password);
+        return Objects.equals(id, appUser.id) && Objects.equals(firstName, appUser.firstName) && Objects.equals(lastName, appUser.lastName) && Objects.equals(email, appUser.email) && Objects.equals(username, appUser.username) && Objects.equals(password, appUser.password) && accountType == appUser.accountType;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, firstName, lastName, email, username, password);
+        return Objects.hash(id, firstName, lastName, email, username, password, accountType);
     }
 
     @Override
@@ -98,7 +129,12 @@ public class AppUser extends Object {
                 ", email='" + email + '\'' +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
+                ", accountType=" + accountType +
                 '}';
+    }
+
+    public enum AccountType {
+        ADMIN, DEV, BASIC, PREMIUM, LOCKED, BANNED
     }
 
 }
