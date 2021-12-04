@@ -8,7 +8,7 @@ import java.util.List;
 // TODO Refactor to use Spring ORM
 
 @Repository
-public class FlashcardDAO implements CrudDAO<Flashcard> {
+public class FlashcardRepository implements CrudDAO<Flashcard> {
 
     public List<Flashcard> findCardsByCreatorId(String creatorId) {
         return null;

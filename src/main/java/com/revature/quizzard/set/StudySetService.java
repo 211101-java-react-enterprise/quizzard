@@ -11,19 +11,19 @@ import java.util.stream.Collectors;
 @Service
 public class StudySetService {
 
-    private final StudySetDAO studySetDAO;
+    private final StudySetRepository studySetRepository;
 
     @Autowired
-    public StudySetService(StudySetDAO studySetDAO) {
-        this.studySetDAO = studySetDAO;
+    public StudySetService(StudySetRepository studySetRepository) {
+        this.studySetRepository = studySetRepository;
     }
 
     public List<StudySetResponse> getAllStudySets() {
 
-        List<StudySetResponse> setResponses = studySetDAO.findAll()
-                                                         .stream()
-                                                         .map(StudySetResponse::new)
-                                                         .collect(Collectors.toList());
+        List<StudySetResponse> setResponses = studySetRepository.findAll()
+                                                                .stream()
+                                                                .map(StudySetResponse::new)
+                                                                .collect(Collectors.toList());
 
         setResponses.stream()
                     .findAny()
@@ -35,10 +35,10 @@ public class StudySetService {
 
     public List<StudySetResponse> getStudySetsByOwnerId(String ownerId) {
 
-        List<StudySetResponse> setResponses = studySetDAO.findStudySetsByOwnerId(ownerId)
-                                                         .stream()
-                                                         .map(StudySetResponse::new)
-                                                         .collect(Collectors.toList());
+        List<StudySetResponse> setResponses = studySetRepository.findStudySetsByOwnerId(ownerId)
+                                                                .stream()
+                                                                .map(StudySetResponse::new)
+                                                                .collect(Collectors.toList());
 
         setResponses.stream()
                     .findAny()

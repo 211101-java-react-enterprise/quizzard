@@ -8,12 +8,12 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public class AppUserDAO implements CrudDAO<AppUser> {
+public class UserRepository implements CrudDAO<AppUser> {
 
     private final SessionFactory sessionFactory;
 
     @Autowired
-    public AppUserDAO(SessionFactory sessionFactory) {
+    public UserRepository(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
 

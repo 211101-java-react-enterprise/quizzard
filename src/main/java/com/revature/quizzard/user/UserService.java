@@ -15,9 +15,9 @@ import java.util.UUID;
 @Service
 public class UserService {
 
-    private final AppUserDAO userDAO ;
+    private final UserRepository userDAO ;
 
-    public UserService(AppUserDAO userDAO) {
+    public UserService(UserRepository userDAO) {
         this.userDAO = userDAO;
     }
 

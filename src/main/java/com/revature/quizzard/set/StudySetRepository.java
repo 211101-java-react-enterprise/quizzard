@@ -1,7 +1,6 @@
 package com.revature.quizzard.set;
 
 import com.revature.quizzard.common.data.CrudDAO;
-import com.revature.quizzard.set.StudySet;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -9,7 +8,7 @@ import java.util.List;
 // TODO Refactor to use Spring ORM
 
 @Repository
-public class StudySetDAO implements CrudDAO<StudySet> {
+public class StudySetRepository implements CrudDAO<StudySet> {
 
     public boolean addCardToStudySet(String studySetId, String cardId) {
         return false;

@@ -15,9 +15,9 @@ import java.util.stream.Collectors;
 @Service
 public class FlashcardService {
 
-    private final FlashcardDAO cardDAO;
+    private final FlashcardRepository cardDAO;
 
-    public FlashcardService(FlashcardDAO cardDAO) {
+    public FlashcardService(FlashcardRepository cardDAO) {
         this.cardDAO = cardDAO;
     }
 

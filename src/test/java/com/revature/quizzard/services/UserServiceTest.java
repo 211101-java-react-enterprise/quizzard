@@ -1,6 +1,6 @@
 package com.revature.quizzard.services;
 
-import com.revature.quizzard.user.AppUserDAO;
+import com.revature.quizzard.user.UserRepository;
 import com.revature.quizzard.common.exceptions.InvalidRequestException;
 import com.revature.quizzard.common.exceptions.ResourcePersistenceException;
 import com.revature.quizzard.user.AppUser;
@@ -15,7 +15,7 @@ public class UserServiceTest {
     // System Under Test
 //    UserService sut = new UserService();
     UserService sut;
-    AppUserDAO mockUserDAO;
+    UserRepository mockUserDAO;
 
     /*
         JUnit Annotations
@@ -29,7 +29,7 @@ public class UserServiceTest {
 
     @Before
     public void testCaseSetup() {
-        mockUserDAO = mock(AppUserDAO.class);
+        mockUserDAO = mock(UserRepository.class);
         sut = new UserService(mockUserDAO);
     }
 
