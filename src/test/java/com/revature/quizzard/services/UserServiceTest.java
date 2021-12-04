@@ -1,10 +1,11 @@
 package com.revature.quizzard.services;
 
-import com.revature.quizzard.daos.AppUserDAO;
-import com.revature.quizzard.exceptions.InvalidRequestException;
-import com.revature.quizzard.exceptions.ResourcePersistenceException;
-import com.revature.quizzard.models.AppUser;
-import com.revature.quizzard.web.dtos.NewRegistrationRequest;
+import com.revature.quizzard.user.AppUserDAO;
+import com.revature.quizzard.common.exceptions.InvalidRequestException;
+import com.revature.quizzard.common.exceptions.ResourcePersistenceException;
+import com.revature.quizzard.user.AppUser;
+import com.revature.quizzard.user.UserService;
+import com.revature.quizzard.user.dtos.requests.NewRegistrationRequest;
 import org.junit.*;
 
 import static org.mockito.Mockito.*;
