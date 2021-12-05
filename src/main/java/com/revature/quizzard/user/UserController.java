@@ -6,6 +6,7 @@ import com.revature.quizzard.user.dtos.requests.EditUserRequest;
 import com.revature.quizzard.user.dtos.requests.NewRegistrationRequest;
 import com.revature.quizzard.user.dtos.responses.RegistrationSuccessResponse;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,6 +20,16 @@ public class UserController {
 
     public UserController(UserService userService) {
         this.userService = userService;
+    }
+
+    @GetMapping("/username")
+    public ResponseEntity<Void> checkUsernameAvailability(@RequestParam String username) {
+        return userService.isUsernameAvailable(username) ? new ResponseEntity<>(HttpStatus.OK) : new ResponseEntity<>(HttpStatus.CONFLICT);
+    }
+
+    @GetMapping("/email")
+    public ResponseEntity<Void> checkEmailAvailability(@RequestParam String email) {
+        return userService.isEmailAvailable(email) ? new ResponseEntity<>(HttpStatus.OK) : new ResponseEntity<>(HttpStatus.CONFLICT);
     }
 
     @ResponseStatus(HttpStatus.CREATED)

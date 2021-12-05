@@ -18,11 +18,23 @@ public class UserRepository implements CrudDAO<AppUser> {
     }
 
     public AppUser findUserByUsername(String username) {
-        return null;
+        return sessionFactory.getCurrentSession()
+                             .createQuery("from AppUser au where au.username = :username", AppUser.class)
+                             .setParameter("username", username)
+                             .getResultList()
+                             .stream()
+                             .findFirst()
+                             .orElse(null);
     }
 
     public AppUser findUserByEmail(String email) {
-        return null;
+        return sessionFactory.getCurrentSession()
+                             .createQuery("from AppUser au where au.email = :email", AppUser.class)
+                             .setParameter("email", email)
+                             .getResultList()
+                             .stream()
+                             .findFirst()
+                             .orElse(null);
     }
 
     public AppUser findUserByUsernameAndPassword(String username, String password) {
@@ -30,7 +42,10 @@ public class UserRepository implements CrudDAO<AppUser> {
                              .createQuery("from AppUser au where au.username = :username and au.password = :password", AppUser.class)
                              .setParameter("username", username)
                              .setParameter("password", password)
-                             .getSingleResult();
+                             .getResultList()
+                             .stream()
+                             .findFirst()
+                             .orElse(null);
     }
 
     @Override

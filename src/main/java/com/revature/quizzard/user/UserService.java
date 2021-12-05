@@ -110,6 +110,26 @@ public class UserService {
 
     }
 
+    @Transactional
+    public boolean isUsernameAvailable(String username) {
+        try {
+            return userDAO.findUserByUsername(username) == null;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
+    }
+
+    @Transactional
+    public boolean isEmailAvailable(String email) {
+        try {
+            return userDAO.findUserByEmail(email) == null;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
+    }
+
     public boolean isUserValid(AppUser user) {
         System.out.println(user);
         if (user == null) return false;
