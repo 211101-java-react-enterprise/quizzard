@@ -46,12 +46,13 @@ public class UserRepository implements CrudDAO<AppUser> {
 
     @Override
     public AppUser findById(String id) {
-        return null;
+        return sessionFactory.getCurrentSession().get(AppUser.class, id);
     }
 
     @Override
     public boolean update(AppUser updatedObj) {
-        return false;
+        sessionFactory.getCurrentSession().save(updatedObj);
+        return true;
     }
 
     @Override

@@ -2,13 +2,16 @@ package com.revature.quizzard.user;
 
 import com.revature.quizzard.common.exceptions.AuthenticationException;
 import com.revature.quizzard.common.exceptions.InvalidRequestException;
+import com.revature.quizzard.common.exceptions.ResourceNotFoundException;
 import com.revature.quizzard.common.exceptions.ResourcePersistenceException;
+import com.revature.quizzard.user.dtos.requests.EditUserRequest;
 import com.revature.quizzard.user.dtos.requests.NewRegistrationRequest;
+import com.revature.quizzard.user.dtos.responses.RegistrationSuccessResponse;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
-
+import java.util.function.Predicate;
 
 // TODO Refactor to include Spring Bean validators
 
@@ -22,7 +25,7 @@ public class UserService {
     }
 
     @Transactional
-    public boolean registerNewUser(NewRegistrationRequest newRegistration) {
+    public RegistrationSuccessResponse registerNewUser(NewRegistrationRequest newRegistration) {
 
         AppUser newUser = new AppUser();
         newUser.setFirstName(newRegistration.getFirstName());
@@ -54,7 +57,7 @@ public class UserService {
         }
 
 
-        return true;
+        return new RegistrationSuccessResponse(registeredUser.getId());
 
     }
 
@@ -72,6 +75,39 @@ public class UserService {
         }
 
         return authenticatedUser;
+    }
+
+    @Transactional
+    public void updateUser(EditUserRequest editRequest) {
+
+        try {
+            AppUser original = userDAO.findById(editRequest.getId());
+
+            if (original == null) {
+                throw new ResourceNotFoundException();
+            }
+
+            Predicate<String> notNullOrEmpty = str -> str != null && !str.equals("");
+
+            if (notNullOrEmpty.test(editRequest.getFirstName())) {
+                original.setFirstName(editRequest.getFirstName());
+            } else if (notNullOrEmpty.test(editRequest.getLastName())) {
+                original.setLastName(editRequest.getLastName());
+            } else if (notNullOrEmpty.test(editRequest.getEmail())) {
+                if (userDAO.findUserByEmail(editRequest.getEmail()) != null) {
+                    throw new ResourcePersistenceException("The provided email is already by another user.");
+                }
+                original.setEmail(editRequest.getEmail());
+            } else if (notNullOrEmpty.test(editRequest.getPassword())) {
+                original.setPassword(editRequest.getPassword());
+            }
+
+        } catch (ResourcePersistenceException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new ResourcePersistenceException("Could not update user due to nested exception", e);
+        }
+
     }
 
     public boolean isUserValid(AppUser user) {

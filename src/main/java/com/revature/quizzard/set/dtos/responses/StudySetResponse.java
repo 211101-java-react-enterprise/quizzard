@@ -2,7 +2,7 @@ package com.revature.quizzard.set.dtos.responses;
 
 import com.revature.quizzard.card.dtos.responses.CardResponse;
 import com.revature.quizzard.set.StudySet;
-import com.revature.quizzard.user.dtos.responses.UserReponse;
+import com.revature.quizzard.user.dtos.responses.UserResponse;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 public class StudySetResponse {
 
     private String studySetId;
-    private UserReponse studySetOwner;
+    private UserResponse studySetOwner;
     private List<CardResponse> studySetCards;
 
     public StudySetResponse() {
@@ -19,7 +19,7 @@ public class StudySetResponse {
 
     public StudySetResponse(StudySet studySet) {
         this.studySetId = studySet.getId();
-        this.studySetOwner = new UserReponse(studySet.getOwner());
+        this.studySetOwner = new UserResponse(studySet.getOwner());
         this.studySetCards = studySet.getCards()
                                      .stream()
                                      .map(CardResponse::new)
@@ -34,11 +34,11 @@ public class StudySetResponse {
         this.studySetId = studySetId;
     }
 
-    public UserReponse getStudySetOwner() {
+    public UserResponse getStudySetOwner() {
         return studySetOwner;
     }
 
-    public void setStudySetOwner(UserReponse studySetOwner) {
+    public void setStudySetOwner(UserResponse studySetOwner) {
         this.studySetOwner = studySetOwner;
     }
 

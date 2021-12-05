@@ -2,18 +2,18 @@ package com.revature.quizzard.user.dtos.responses;
 
 import com.revature.quizzard.user.AppUser;
 
-public class UserReponse {
+public class UserResponse {
 
     private String userId;
     private String firstName;
     private String lastName;
     private String username;
 
-    public UserReponse() {
+    public UserResponse() {
         super();
     }
 
-    public UserReponse(AppUser creator) {
+    public UserResponse(AppUser creator) {
         this.userId = creator.getId();
         this.firstName = creator.getFirstName();
         this.lastName = creator.getLastName();

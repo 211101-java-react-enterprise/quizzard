@@ -48,7 +48,7 @@ public class AppConfig {
     public LocalSessionFactoryBean sessionFactory() {
         LocalSessionFactoryBean sessionFactoryBean = new LocalSessionFactoryBean();
         sessionFactoryBean.setDataSource(dataSource());
-        sessionFactoryBean.setPackagesToScan("com.revature.quizzard.models");
+        sessionFactoryBean.setPackagesToScan("com.revature.quizzard");
         sessionFactoryBean.setHibernateProperties(configureHibernateProps());
         return sessionFactoryBean;
     }
@@ -65,7 +65,7 @@ public class AppConfig {
         hibernateProps.setProperty(Environment.DIALECT, "org.hibernate.dialect.PostgreSQLDialect");
         hibernateProps.setProperty(Environment.SHOW_SQL, "true");
         hibernateProps.setProperty(Environment.FORMAT_SQL, "true");
-        hibernateProps.setProperty(Environment.HBM2DDL_AUTO, "create"); // possible values: create, create-drop, validate, update, none
+        hibernateProps.setProperty(Environment.HBM2DDL_AUTO, "create-drop"); // possible values: create, create-drop, validate, update, none
         hibernateProps.setProperty(Environment.HBM2DDL_IMPORT_FILES, "import.sql");
         return hibernateProps;
     }

@@ -6,26 +6,15 @@ import com.revature.quizzard.common.exceptions.ResourcePersistenceException;
 import com.revature.quizzard.user.AppUser;
 import com.revature.quizzard.user.UserService;
 import com.revature.quizzard.user.dtos.requests.NewRegistrationRequest;
+import com.revature.quizzard.user.dtos.responses.RegistrationSuccessResponse;
 import org.junit.*;
 
 import static org.mockito.Mockito.*;
 
 public class UserServiceTest {
 
-    // System Under Test
-//    UserService sut = new UserService();
     UserService sut;
     UserRepository mockUserDAO;
-
-    /*
-        JUnit Annotations
-            - @Before (runs before each test case)
-            - @After (runs after each test case)
-            - @BeforeClass (runs once before all test cases)
-            - @AfterClass (runs once after all test cases)
-            - @Test (marks a method in a test suite as a test case)
-            - @Ignore (indicates that the annotated test case should be skipped)
-     */
 
     @Before
     public void testCaseSetup() {
@@ -40,8 +29,6 @@ public class UserServiceTest {
 
     @Test
     public void test_isUserValid_returnsTrue_givenValidUser() {
-
-        // AAA pattern: Arrange, Act, Assert
 
         // Arrange
         AppUser validUser = new AppUser("valid", "valid", "valid", "valid", "valid");
@@ -85,10 +72,10 @@ public class UserServiceTest {
         when(mockUserDAO.save(any())).thenReturn(any());
 
         // Act
-        boolean actualResult = sut.registerNewUser(validUser);
+        RegistrationSuccessResponse successResponse = sut.registerNewUser(validUser);
 
         // Assert
-        Assert.assertTrue("Expected result to be true with valid user provided.", actualResult);
+        Assert.assertNotNull(successResponse);
         verify(mockUserDAO, times(1)).save(any());
 
     }
@@ -104,7 +91,7 @@ public class UserServiceTest {
 
         // Act
         try {
-            boolean actualResult = sut.registerNewUser(validUser);
+            sut.registerNewUser(validUser);
         } finally {
             // Assert
             verify(mockUserDAO, times(0)).save(any());
@@ -123,7 +110,7 @@ public class UserServiceTest {
 
         // Act
         try {
-            boolean actualResult = sut.registerNewUser(validUser);
+            sut.registerNewUser(validUser);
         } finally {
             // Assert
             verify(mockUserDAO, times(0)).save(any());
