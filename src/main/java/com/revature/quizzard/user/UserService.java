@@ -18,10 +18,10 @@ import java.util.function.Predicate;
 @Service
 public class UserService {
 
-    private final UserRepository userDAO ;
+    private final UserRepository userRepo;
 
-    public UserService(UserRepository userDAO) {
-        this.userDAO = userDAO;
+    public UserService(UserRepository userRepo) {
+        this.userRepo = userRepo;
     }
 
     @Transactional
@@ -38,8 +38,8 @@ public class UserService {
             throw new InvalidRequestException("Invalid user data provided!");
         }
 
-        boolean usernameAvailable = userDAO.findUserByUsername(newUser.getUsername()) == null;
-        boolean emailAvailable = userDAO.findUserByEmail(newUser.getEmail()) == null;
+        boolean usernameAvailable = !userRepo.findAppUserByUsername(newUser.getUsername()).isPresent();
+        boolean emailAvailable = !userRepo.findAppUserByEmail(newUser.getEmail()).isPresent();
 
         if (!usernameAvailable || !emailAvailable) {
             String msg = "The values provided for the following fields are already taken by other users:";
@@ -50,14 +50,8 @@ public class UserService {
 
         newUser.setId(UUID.randomUUID().toString());
         newUser.setAccountType(AppUser.AccountType.BASIC);
-        AppUser registeredUser = userDAO.save(newUser); // entity state: persistent (associated with an active session)
-
-        if (registeredUser == null) {
-            throw new ResourcePersistenceException("The user could not be persisted to the datasource!");
-        }
-
-
-        return new RegistrationSuccessResponse(registeredUser.getId());
+        userRepo.save(newUser); // entity state: persistent (associated with an active session)
+        return new RegistrationSuccessResponse(newUser.getId());
 
     }
 
@@ -68,24 +62,17 @@ public class UserService {
             throw new InvalidRequestException("Invalid credential values provided!");
         }
 
-        AppUser authenticatedUser = userDAO.findUserByUsernameAndPassword(username, password);
+        return userRepo.findUserByUsernameAndPassword(username, password)
+                       .orElseThrow(AuthenticationException::new);
 
-        if (authenticatedUser == null) {
-            throw new AuthenticationException();
-        }
-
-        return authenticatedUser;
     }
 
     @Transactional
     public void updateUser(EditUserRequest editRequest) {
 
         try {
-            AppUser original = userDAO.findById(editRequest.getId());
-
-            if (original == null) {
-                throw new ResourceNotFoundException();
-            }
+            AppUser original = userRepo.findById(editRequest.getId())
+                                       .orElseThrow(ResourceNotFoundException::new);
 
             Predicate<String> notNullOrEmpty = str -> str != null && !str.equals("");
 
@@ -94,7 +81,7 @@ public class UserService {
             } else if (notNullOrEmpty.test(editRequest.getLastName())) {
                 original.setLastName(editRequest.getLastName());
             } else if (notNullOrEmpty.test(editRequest.getEmail())) {
-                if (userDAO.findUserByEmail(editRequest.getEmail()) != null) {
+                if (userRepo.findAppUserByEmail(editRequest.getEmail()).isPresent()) {
                     throw new ResourcePersistenceException("The provided email is already by another user.");
                 }
                 original.setEmail(editRequest.getEmail());
@@ -113,7 +100,7 @@ public class UserService {
     @Transactional
     public boolean isUsernameAvailable(String username) {
         try {
-            return userDAO.findUserByUsername(username) == null;
+            return !userRepo.findAppUserByUsername(username).isPresent();
         } catch (Exception e) {
             e.printStackTrace();
             throw e;
@@ -123,7 +110,7 @@ public class UserService {
     @Transactional
     public boolean isEmailAvailable(String email) {
         try {
-            return userDAO.findUserByEmail(email) == null;
+            return !userRepo.findAppUserByEmail(email).isPresent();
         } catch (Exception e) {
             e.printStackTrace();
             throw e;
