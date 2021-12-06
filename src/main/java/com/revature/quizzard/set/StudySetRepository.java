@@ -5,7 +5,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-// TODO Refactor to use Spring ORM
+// TODO Refactor to use Spring Data
 
 @Repository
 public class StudySetRepository implements CrudDAO<StudySet> {
