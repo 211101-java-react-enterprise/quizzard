@@ -7,6 +7,7 @@ import com.revature.quizzard.common.exceptions.InvalidRequestException;
 import com.revature.quizzard.common.exceptions.ResourceNotFoundException;
 import com.revature.quizzard.common.dtos.ErrorResponse;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -44,6 +45,12 @@ public class ErrorResponseAspect {
     public ErrorResponse handleOtherExceptions(Exception e) {
         e.printStackTrace();
         return new ErrorResponse(500, "An internal server exception occurred. Please check the server logs for more info.", e);
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.UNSUPPORTED_MEDIA_TYPE)
+    public ErrorResponse handleUnsupportedMediaType(HttpMediaTypeNotSupportedException e) {
+        return new ErrorResponse(415, e);
     }
 
 

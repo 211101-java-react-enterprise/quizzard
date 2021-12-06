@@ -25,12 +25,12 @@ public class UserController {
 
     @GetMapping("/username")
     public ResponseEntity<Void> checkUsernameAvailability(@RequestParam String username) {
-        return userService.isUsernameAvailable(username) ? new ResponseEntity<>(HttpStatus.OK) : new ResponseEntity<>(HttpStatus.CONFLICT);
+        return userService.isUsernameAvailable(username) ? new ResponseEntity<>(HttpStatus.NO_CONTENT) : new ResponseEntity<>(HttpStatus.CONFLICT);
     }
 
     @GetMapping("/email")
     public ResponseEntity<Void> checkEmailAvailability(@RequestParam String email) {
-        return userService.isEmailAvailable(email) ? new ResponseEntity<>(HttpStatus.OK) : new ResponseEntity<>(HttpStatus.CONFLICT);
+        return userService.isEmailAvailable(email) ? new ResponseEntity<>(HttpStatus.NO_CONTENT) : new ResponseEntity<>(HttpStatus.CONFLICT);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
