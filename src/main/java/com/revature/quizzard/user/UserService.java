@@ -27,7 +27,7 @@ public class UserService {
     @Transactional
     public RegistrationSuccessResponse registerNewUser(NewRegistrationRequest newRegistration) {
 
-        AppUser newUser = new AppUser();
+        AppUser newUser = new AppUser(); // entity state: transient (not associated with an active session)
         newUser.setFirstName(newRegistration.getFirstName());
         newUser.setLastName(newRegistration.getLastName());
         newUser.setEmail(newRegistration.getEmail());
@@ -50,7 +50,7 @@ public class UserService {
 
         newUser.setId(UUID.randomUUID().toString());
         newUser.setAccountType(AppUser.AccountType.BASIC);
-        AppUser registeredUser = userDAO.save(newUser);
+        AppUser registeredUser = userDAO.save(newUser); // entity state: persistent (associated with an active session)
 
         if (registeredUser == null) {
             throw new ResourcePersistenceException("The user could not be persisted to the datasource!");
