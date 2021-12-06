@@ -1,10 +1,15 @@
 package com.revature.quizzard.user.dtos.requests;
 
+import com.revature.quizzard.common.util.validation.Regex;
 import com.revature.quizzard.user.AppUser;
+
+import javax.validation.constraints.NotBlank;
 
 public class EditUserRequest {
 
+    @NotBlank
     private String id;
+
     private String firstName;
     private String lastName;
     private String email;

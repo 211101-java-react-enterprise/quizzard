@@ -13,8 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.UUID;
 import java.util.function.Predicate;
 
-// TODO Refactor to include Spring Bean validators
-
 @Service
 public class UserService {
 
@@ -33,10 +31,6 @@ public class UserService {
         newUser.setEmail(newRegistration.getEmail());
         newUser.setUsername(newRegistration.getUsername());
         newUser.setPassword(newRegistration.getPassword());
-
-        if (!isUserValid(newUser)) {
-            throw new InvalidRequestException("Invalid user data provided!");
-        }
 
         boolean usernameAvailable = !userRepo.findAppUserByUsername(newUser.getUsername()).isPresent();
         boolean emailAvailable = !userRepo.findAppUserByEmail(newUser.getEmail()).isPresent();
@@ -115,16 +109,6 @@ public class UserService {
             e.printStackTrace();
             throw e;
         }
-    }
-
-    public boolean isUserValid(AppUser user) {
-        System.out.println(user);
-        if (user == null) return false;
-        if (user.getFirstName() == null || user.getFirstName().trim().equals("")) return false;
-        if (user.getLastName() == null || user.getLastName().trim().equals("")) return false;
-        if (user.getEmail() == null || user.getEmail().trim().equals("")) return false;
-        if (user.getUsername() == null || user.getUsername().trim().equals("")) return false;
-        return user.getPassword() != null && !user.getPassword().trim().equals("");
     }
 
 }

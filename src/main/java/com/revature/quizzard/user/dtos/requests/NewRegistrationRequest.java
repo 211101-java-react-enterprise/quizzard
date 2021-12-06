@@ -1,11 +1,30 @@
 package com.revature.quizzard.user.dtos.requests;
 
+import com.revature.quizzard.common.util.validation.Regex;
+
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+
 public class NewRegistrationRequest {
 
+    @NotBlank
     private String firstName;
+
+    @NotBlank
     private String lastName;
+
+    @Email
     private String email;
+
+    @Size(min = 4, max = 15)
     private String username;
+
+    @Pattern(
+        regexp = Regex.PASSWORD,
+        message = "Passwords must have a minimum of 8 characters, and contain at least one letter, one number, and one special character"
+    )
     private String password;
 
     public NewRegistrationRequest() {

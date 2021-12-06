@@ -7,6 +7,7 @@ import com.revature.quizzard.common.exceptions.InvalidRequestException;
 import com.revature.quizzard.common.exceptions.ResourceNotFoundException;
 import com.revature.quizzard.common.dtos.ErrorResponse;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -15,7 +16,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class ErrorResponseAspect {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler({InvalidRequestException.class, UnrecognizedPropertyException.class})
+    @ExceptionHandler({InvalidRequestException.class, UnrecognizedPropertyException.class, MethodArgumentNotValidException.class})
     public ErrorResponse handleBadRequests(Exception e) {
         return new ErrorResponse(400, e);
     }

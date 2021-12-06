@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/users")
@@ -34,7 +35,7 @@ public class UserController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(consumes = "application/json", produces = "application/json")
-    public RegistrationSuccessResponse register(@RequestBody NewRegistrationRequest newRegistrationRequest) {
+    public RegistrationSuccessResponse register(@RequestBody @Valid NewRegistrationRequest newRegistrationRequest) {
         return userService.registerNewUser(newRegistrationRequest);
     }
 
