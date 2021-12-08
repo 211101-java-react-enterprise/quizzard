@@ -25,7 +25,6 @@ public class FlashcardController {
         this.cardService = cardService;
     }
 
-    @Secured(allowedUsers = {"test"})
     @GetMapping(produces = "application/json")
     public List<CardResponse> getCards(HttpServletRequest req) {
         HttpSession session = req.getSession(false);

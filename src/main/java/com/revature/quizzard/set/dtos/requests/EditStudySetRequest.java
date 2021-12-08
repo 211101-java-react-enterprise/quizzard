@@ -1,4 +1,6 @@
 package com.revature.quizzard.set.dtos.requests;
 
-public class EditStudySetRequest {
+import com.revature.quizzard.common.dtos.EditResourceRequest;
+
+public class EditStudySetRequest extends EditResourceRequest {
 }

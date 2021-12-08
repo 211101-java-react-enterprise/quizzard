@@ -7,11 +7,15 @@ import com.revature.quizzard.common.exceptions.ResourcePersistenceException;
 import com.revature.quizzard.user.dtos.requests.EditUserRequest;
 import com.revature.quizzard.user.dtos.requests.NewRegistrationRequest;
 import com.revature.quizzard.user.dtos.responses.RegistrationSuccessResponse;
+import com.revature.quizzard.user.dtos.responses.UserResponse;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -20,6 +24,20 @@ public class UserService {
 
     public UserService(UserRepository userRepo) {
         this.userRepo = userRepo;
+    }
+
+    @Transactional(readOnly = true)
+    public List<UserResponse> getAllUsers() {
+        List<UserResponse> users = ((Collection<AppUser>) userRepo.findAll())
+                                                                  .stream()
+                                                                  .map(UserResponse::new)
+                                                                  .collect(Collectors.toList());
+
+        if (users.isEmpty()) {
+            throw new ResourceNotFoundException();
+        }
+
+        return users;
     }
 
     @Transactional

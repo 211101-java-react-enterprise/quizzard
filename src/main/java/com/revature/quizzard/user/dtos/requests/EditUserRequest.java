@@ -1,14 +1,9 @@
 package com.revature.quizzard.user.dtos.requests;
 
-import com.revature.quizzard.common.util.validation.Regex;
+import com.revature.quizzard.common.dtos.EditResourceRequest;
 import com.revature.quizzard.user.AppUser;
 
-import javax.validation.constraints.NotBlank;
-
-public class EditUserRequest {
-
-    @NotBlank
-    private String id;
+public class EditUserRequest extends EditResourceRequest {
 
     private String firstName;
     private String lastName;
@@ -17,14 +12,6 @@ public class EditUserRequest {
 
     public EditUserRequest() {
         super();
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public String getFirstName() {
