@@ -1,7 +1,5 @@
 package com.revature.quizzard.user;
 
-import com.revature.quizzard.common.exceptions.AuthenticationException;
-import com.revature.quizzard.common.exceptions.AuthorizationException;
 import com.revature.quizzard.common.util.web.Authenticated;
 import com.revature.quizzard.common.util.web.RequesterOwned;
 import com.revature.quizzard.common.util.web.Secured;
@@ -14,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -56,11 +53,7 @@ public class UserController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PatchMapping(consumes = "application/json")
     public void updateUserInfo(@RequestBody EditUserRequest editUserRequest, HttpServletRequest req) {
-
-       
-
         userService.updateUser(editUserRequest);
-
     }
 
 }
