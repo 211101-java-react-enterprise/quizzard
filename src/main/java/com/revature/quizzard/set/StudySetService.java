@@ -5,6 +5,7 @@ import com.revature.quizzard.set.dtos.responses.StudySetResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,14 +21,14 @@ public class StudySetService {
 
     public List<StudySetResponse> getAllStudySets() {
 
-        List<StudySetResponse> setResponses = studySetRepository.findAll()
-                                                                .stream()
-                                                                .map(StudySetResponse::new)
-                                                                .collect(Collectors.toList());
+        List<StudySetResponse> setResponses = ((Collection<StudySet>) studySetRepository.findAll())
+                                                                                        .stream()
+                                                                                        .map(StudySetResponse::new)
+                                                                                        .collect(Collectors.toList());
 
-        setResponses.stream()
-                    .findAny()
-                    .orElseThrow(ResourceNotFoundException::new);
+        if (setResponses.isEmpty()) {
+            throw new ResourceNotFoundException();
+        }
 
         return setResponses;
 

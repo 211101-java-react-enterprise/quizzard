@@ -8,5 +8,4 @@ target/
 *.class
 *.jar
 
-# Properties files
-*.properties
+application.yml

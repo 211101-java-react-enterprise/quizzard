@@ -1,16 +1,19 @@
 package com.revature.quizzard.card;
 
+import com.revature.quizzard.common.dtos.ResourceCreationResponse;
 import com.revature.quizzard.common.exceptions.InvalidRequestException;
 import com.revature.quizzard.common.exceptions.ResourceNotFoundException;
 import com.revature.quizzard.common.exceptions.ResourcePersistenceException;
 import com.revature.quizzard.card.dtos.responses.CardResponse;
 import com.revature.quizzard.card.dtos.requests.NewCardRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.validation.Valid;
+import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
-
-// TODO Refactor to include Spring Bean validators
 
 @Service
 public class FlashcardService {
@@ -21,12 +24,13 @@ public class FlashcardService {
         this.cardDAO = cardDAO;
     }
 
+    @Transactional(readOnly = true)
     public List<CardResponse> findAllCards() {
 
-        List<CardResponse> cards =  cardDAO.findAll()
-                                           .stream()
-                                           .map(CardResponse::new)
-                                           .collect(Collectors.toList());
+        List<CardResponse> cards = ((Collection<Flashcard>) cardDAO.findAll())
+                                                                   .stream()
+                                                                   .map(CardResponse::new)
+                                                                   .collect(Collectors.toList());
 
         if (cards.isEmpty()) {
             throw new ResourceNotFoundException();
@@ -36,6 +40,7 @@ public class FlashcardService {
 
     }
 
+    @Transactional(readOnly = true)
     public List<CardResponse> findMyCards(String ownerId) {
 
         if (ownerId == null || ownerId.equals("")) {
@@ -55,22 +60,18 @@ public class FlashcardService {
 
     }
 
-    public void createNewCard(NewCardRequest newCardRequest) {
+    @Transactional
+    public ResourceCreationResponse createNewCard(@Valid NewCardRequest newCardRequest) {
 
         Flashcard newCard = new Flashcard();
         newCard.setQuestionText(newCardRequest.getQuestion());
         newCard.setAnswerText(newCardRequest.getAnswer());
         newCard.setCreator(newCardRequest.getCreator());
 
-        if (!isCardValid(newCard)) {
-            throw new InvalidRequestException("Invalid card information values provided!");
-        }
+        newCard.setId(UUID.randomUUID().toString());
+        cardDAO.save(newCard);
 
-        Flashcard addedCard = cardDAO.save(newCard);
-
-        if (addedCard == null) {
-            throw new ResourcePersistenceException("The card could not be persisted to the datasource!");
-        }
+        return new ResourceCreationResponse(newCard.getId());
 
     }
 

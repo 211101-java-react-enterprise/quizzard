@@ -1,5 +1,6 @@
 package com.revature.quizzard.card;
 
+import com.revature.quizzard.common.dtos.ResourceCreationResponse;
 import com.revature.quizzard.common.exceptions.AuthenticationException;
 import com.revature.quizzard.common.exceptions.InvalidRequestException;
 import com.revature.quizzard.common.util.web.Authenticated;
@@ -39,18 +40,10 @@ public class FlashcardController {
 
     @Authenticated
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping(consumes = "application/json")
-    public void createNewCard(@RequestBody NewCardRequest newCardRequest, HttpSession session) {
-
-        Object authUserAttribute = session.getAttribute("authUser");
-
-        if (!(authUserAttribute instanceof AppUser)) {
-            throw new InvalidRequestException("Unexpected type in session attribute");
-        }
-
-        newCardRequest.setCreator((AppUser) authUserAttribute);
-        cardService.createNewCard(newCardRequest);
-
+    @PostMapping(consumes = "application/json", produces = "application/json")
+    public ResourceCreationResponse createNewCard(@RequestBody NewCardRequest newCardRequest, HttpSession session) {
+        newCardRequest.setCreator((AppUser) session.getAttribute("authUser"));
+        return cardService.createNewCard(newCardRequest);
     }
 
 }
