@@ -8,9 +8,9 @@ spring:
     name: quizzard-api
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://java-react-enterprise-211101.c0nbqj7oncuf.us-east-1.rds.amazonaws.com:5432/postgres?currentSchema=quizzard
-    username: postgres
-    password: revature
+    url: ${db.url}
+    username: ${db.username}
+    password: ${db.password}
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQL10Dialect
     show-sql: true
