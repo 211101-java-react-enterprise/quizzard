@@ -3,13 +3,22 @@ package com.revature.quizzard.question.dtos.requests;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.revature.quizzard.user.AppUser;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import java.util.Map;
 
 public class NewQuestionRequest {
 
+    @NotBlank
     private String questionText;
+
+    @NotEmpty
     private Map<String, String> answers;
+
+    @NotBlank
     private String correctAnswer;
+
+    @NotBlank
     private String questionType;
 
     @JsonIgnore

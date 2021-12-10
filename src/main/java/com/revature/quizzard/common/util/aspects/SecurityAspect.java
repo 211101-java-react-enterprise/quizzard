@@ -30,22 +30,22 @@ public class SecurityAspect {
         getCurrentSessionIfExists().orElseThrow(() -> new AuthenticationException("No session found."));
     }
 
-    @Order(2)
-    @Before("@annotation(com.revature.quizzard.common.util.web.RequesterOwned)")
-    public void requireProofOwnershipOrAuthority(JoinPoint jp) {
-        HttpSession session = getCurrentSessionIfExists().orElseThrow(() -> new AuthenticationException("No session found."));
-        EditResourceRequest requestBody = (EditResourceRequest) jp.getArgs()[0];
-
-        AppUser requestingUser = (AppUser) session.getAttribute("authUser");
-        AppUser.AccountType requesterRole = requestingUser.getAccountType();
-
-        boolean isAdminOrDev = requesterRole.equals(AppUser.AccountType.ADMIN) || requesterRole.equals(AppUser.AccountType.DEV);
-        boolean requesterEditSelf = requestingUser.getId().equals(requestBody.getId());
-
-        if (!requesterEditSelf && !isAdminOrDev) {
-            throw new AuthorizationException("Forbidden request made.");
-        }
-    }
+//    @Order(2)
+//    @Before("@annotation(com.revature.quizzard.common.util.web.RequesterOwned)")
+//    public void requireProofOwnershipOrAuthority(JoinPoint jp) {
+//        HttpSession session = getCurrentSessionIfExists().orElseThrow(() -> new AuthenticationException("No session found."));
+//        EditResourceRequest requestBody = (EditResourceRequest) jp.getArgs()[0];
+//
+//        AppUser requestingUser = (AppUser) session.getAttribute("authUser");
+//        AppUser.AccountType requesterRole = requestingUser.getAccountType();
+//
+//        boolean isAdminOrDev = requesterRole.equals(AppUser.AccountType.ADMIN) || requesterRole.equals(AppUser.AccountType.DEV);
+//        boolean requesterEditSelf = requestingUser.getId().equals(requestBody.getId());
+//
+//        if (!requesterEditSelf && !isAdminOrDev) {
+//            throw new AuthorizationException("Forbidden request made.");
+//        }
+//    }
 
     @Order(3)
     @Before("@annotation(com.revature.quizzard.common.util.web.Secured)")

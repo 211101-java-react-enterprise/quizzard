@@ -30,7 +30,7 @@ public class Question {
     @JoinColumn(name = "creator_id", nullable = false)
     private AppUser creator;
 
-    protected Question() {
+    public Question() {
         super();
         answerChoices = new ArrayList<>();
     }
@@ -43,7 +43,7 @@ public class Question {
         return id;
     }
 
-    protected void setId(String id) {
+    public void setId(String id) {
         this.id = id;
     }
 

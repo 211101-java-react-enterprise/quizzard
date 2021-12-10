@@ -4,6 +4,8 @@ import com.revature.quizzard.card.dtos.requests.NewCardRequest;
 import com.revature.quizzard.common.dtos.ResourceCreationResponse;
 import com.revature.quizzard.common.exceptions.InvalidRequestException;
 import com.revature.quizzard.common.util.web.Authenticated;
+import com.revature.quizzard.common.util.web.RequesterOwned;
+import com.revature.quizzard.question.dtos.requests.EditQuestionRequest;
 import com.revature.quizzard.question.dtos.requests.NewQuestionRequest;
 import com.revature.quizzard.question.dtos.responses.QuestionResponse;
 import com.revature.quizzard.user.AppUser;
@@ -38,4 +40,13 @@ public class QuestionController {
         newQuestionRequest.setCreator((AppUser) session.getAttribute("authUser"));
         return questionService.createNewQuestion(newQuestionRequest);
     }
+
+    @Authenticated
+    @RequesterOwned
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PatchMapping(consumes = "application/json")
+    public void updateQuestion(@RequestBody EditQuestionRequest editQuestionRequest) {
+        questionService.updateQuestion(editQuestionRequest);
+    }
+
 }

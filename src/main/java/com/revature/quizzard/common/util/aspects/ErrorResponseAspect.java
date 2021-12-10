@@ -1,10 +1,7 @@
 package com.revature.quizzard.common.util.aspects;
 
 import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
-import com.revature.quizzard.common.exceptions.AuthenticationException;
-import com.revature.quizzard.common.exceptions.AuthorizationException;
-import com.revature.quizzard.common.exceptions.InvalidRequestException;
-import com.revature.quizzard.common.exceptions.ResourceNotFoundException;
+import com.revature.quizzard.common.exceptions.*;
 import com.revature.quizzard.common.dtos.ErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
@@ -38,6 +35,12 @@ public class ErrorResponseAspect {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ErrorResponse handleResourceNotFoundException(ResourceNotFoundException e) {
         return new ErrorResponse(404, e);
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ErrorResponse handleResourceNotFoundException(ResourcePersistenceException e) {
+        return new ErrorResponse(409, e);
     }
 
     @ExceptionHandler

@@ -7,6 +7,7 @@ import java.util.Map;
 public class QuestionResponse {
 
     private String questionId;
+    private String questionText;
     private Map<String, String> answers;
     private String correctAnswer;
     private String questionType;
@@ -16,8 +17,9 @@ public class QuestionResponse {
         super();
     }
 
-    public QuestionResponse(String questionId, Map<String, String> answers, String correctAnswer, String questionType, UserResponse creatorInfo) {
+    public QuestionResponse(String questionId, String questionText, Map<String, String> answers, String correctAnswer, String questionType, UserResponse creatorInfo) {
         this.questionId = questionId;
+        this.questionText = questionText;
         this.answers = answers;
         this.correctAnswer = correctAnswer;
         this.questionType = questionType;
@@ -30,6 +32,14 @@ public class QuestionResponse {
 
     public void setQuestionId(String questionId) {
         this.questionId = questionId;
+    }
+
+    public String getQuestionText() {
+        return questionText;
+    }
+
+    public void setQuestionText(String questionText) {
+        this.questionText = questionText;
     }
 
     public Map<String, String> getAnswers() {
@@ -68,6 +78,7 @@ public class QuestionResponse {
     public String toString() {
         return "QuestionResponse{" +
                 "questionId='" + questionId + '\'' +
+                ", questionText='" + questionText + '\'' +
                 ", answers=" + answers +
                 ", correctAnswer='" + correctAnswer + '\'' +
                 ", questionType='" + questionType + '\'' +
