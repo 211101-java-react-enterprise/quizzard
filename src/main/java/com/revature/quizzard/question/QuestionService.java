@@ -4,6 +4,7 @@ import com.revature.quizzard.common.dtos.ResourceCreationResponse;
 import com.revature.quizzard.common.exceptions.InvalidRequestException;
 import com.revature.quizzard.common.exceptions.ResourceNotFoundException;
 import com.revature.quizzard.common.exceptions.ResourcePersistenceException;
+import com.revature.quizzard.common.util.data.EntitySearcher;
 import com.revature.quizzard.question.dtos.requests.EditQuestionRequest;
 import com.revature.quizzard.question.dtos.requests.NewQuestionRequest;
 import com.revature.quizzard.question.dtos.responses.QuestionResponse;
@@ -21,19 +22,47 @@ import java.util.stream.Collectors;
 public class QuestionService {
 
     private final QuestionRepository questionRepo;
+    private final EntitySearcher entitySearcher;
 
     @Autowired
-    public QuestionService(QuestionRepository questionRepo) {
+    public QuestionService(QuestionRepository questionRepo, EntitySearcher entitySearcher) {
         this.questionRepo = questionRepo;
+        this.entitySearcher = entitySearcher;
     }
 
-    // TODO: Refactor to allow for complex queries using a provided map
+    /**
+     * Searches for questions using the provided request param map as search criteria. If no
+     * criteria is specified (via null or empty map), then a findAll query is executed.
+     *
+     * @param queryMap
+     *      a map of field names and search values to be used as search criteria
+     *
+     * @return
+     *      a set of questions matching to the provided criteria
+     *
+     * @throws ResourceNotFoundException
+     *      if no questions are found using the provided search criteria
+     *
+     * @see EntitySearcher#searchForEntity(Map, Class)
+     *
+     */
     @Transactional(readOnly = true)
-    public List<QuestionResponse> findQuestions() {
-        return ((Collection<Question>) questionRepo.findAll())
-                                                   .stream()
-                                                   .map(this::buildResponseFromResource)
-                                                   .collect(Collectors.toList());
+    public Set<QuestionResponse> search(Map<String, String> queryMap) {
+
+        Set<Question> questions;
+
+        if (queryMap == null || queryMap.isEmpty()) {
+            questions = new HashSet<>(((Collection<Question>) questionRepo.findAll()));
+        } else {
+            questions = entitySearcher.searchForEntity(queryMap, Question.class);
+        }
+
+        if (questions.isEmpty()) {
+            throw new ResourceNotFoundException();
+        }
+
+        return questions.stream().map(this::buildResponseFromResource).collect(Collectors.toSet());
+
     }
 
     /**

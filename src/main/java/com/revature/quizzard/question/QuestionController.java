@@ -12,7 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
-import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 @RestControllerAdvice
 @RequestMapping("/questions")
@@ -27,8 +28,8 @@ public class QuestionController {
 
     @Authenticated
     @GetMapping(produces = "application/json")
-    public List<QuestionResponse> getAllQuestions() {
-        return questionService.findQuestions();
+    public Set<QuestionResponse> searchQuestions(@RequestParam Map<String, String> requestParams) {
+        return questionService.search(requestParams);
     }
 
     @Authenticated
