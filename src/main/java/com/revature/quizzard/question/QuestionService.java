@@ -7,14 +7,12 @@ import com.revature.quizzard.common.exceptions.ResourcePersistenceException;
 import com.revature.quizzard.question.dtos.requests.EditQuestionRequest;
 import com.revature.quizzard.question.dtos.requests.NewQuestionRequest;
 import com.revature.quizzard.question.dtos.responses.QuestionResponse;
-import com.revature.quizzard.user.AppUser;
 import com.revature.quizzard.user.dtos.responses.UserResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.validation.Valid;
-import java.nio.ByteBuffer;
 import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -29,6 +27,7 @@ public class QuestionService {
         this.questionRepo = questionRepo;
     }
 
+    // TODO: Refactor to allow for complex queries using a provided map
     @Transactional(readOnly = true)
     public List<QuestionResponse> findQuestions() {
         return ((Collection<Question>) questionRepo.findAll())
@@ -37,20 +36,46 @@ public class QuestionService {
                                                    .collect(Collectors.toList());
     }
 
+    /**
+     * Accepts a non-null resource creation request and updates a resource in the data source with
+     * an id matching to the one provided in the edit request. Only fields specified in the
+     * edit request are updated, non-specified fields are not updated in the data source.
+     *
+     * @param createRequest
+     *      resource creation request object containing the required resource field values
+     * @throws InvalidRequestException
+     *      if there is an issue with the provided request object
+     * @throws ResourcePersistenceException
+     *      if there is an issue when attempting to persist the provided resource
+     */
     @Transactional
-    public ResourceCreationResponse createNewQuestion(@Valid NewQuestionRequest newQuestionRequest) {
-        Question newQuestion = buildResourceFromRequest(newQuestionRequest);
-        newQuestion.setCreator(newQuestionRequest.getCreator());
+    public ResourceCreationResponse createNewQuestion(@Valid NewQuestionRequest createRequest) {
+        Question newQuestion = buildResourceFromRequest(createRequest);
+        newQuestion.setCreator(createRequest.getCreator());
         newQuestion.setId(UUID.randomUUID().toString());
         questionRepo.save(newQuestion);
         return new ResourceCreationResponse(newQuestion.getId());
     }
 
+    /**
+     * Accepts a non-null resource edit request and updates a resource in the data source with
+     * an id matching to the one provided in the edit request. Only fields specified in the
+     * edit request are updated, non-specified fields are not updated in the data source.
+     *
+     * @param editRequest
+     *      edit request object containing an id and fields for update
+     * @throws InvalidRequestException
+     *      if there is an issue with the provided request object
+     * @throws ResourcePersistenceException
+     *      if there is an issue when attempting to persist the updated resource information
+     */
+    // TODO consider extracting request-resource mapping logic from here
     @Transactional
     public void updateQuestion(EditQuestionRequest editRequest) {
         try {
+
             Question original = questionRepo.findById(editRequest.getId())
-                                       .orElseThrow(ResourceNotFoundException::new);
+                                            .orElseThrow(ResourceNotFoundException::new);
 
             String updatedQuestionText = editRequest.getQuestionText();
             Map<String, String> updatedAnswers = editRequest.getAnswers();
@@ -64,9 +89,10 @@ public class QuestionService {
                 original.setQuestionText(updatedQuestionText);
             } else if (isMapValid.test(updatedAnswers)) {
 
+                // TODO consider refactor here.
                 updatedAnswers.forEach((key, value) -> {
                     List<String> originalAnswers = original.getAnswerChoices();
-                    int choicePosition = mapChoiceStringToListPosition(key);
+                    int choicePosition = mapCharToAlphabeticPosition(key.charAt(0));
                     if (choicePosition < originalAnswers.size()) {
                         originalAnswers.add(choicePosition, value);
                     } else {
@@ -77,7 +103,11 @@ public class QuestionService {
 
             } else if (isStringValid.test(updatedCorrectAnswer)) {
 
-                int correctChoicePosition = mapChoiceStringToListPosition(editRequest.getCorrectAnswer());
+                if (updatedCorrectAnswer.length() != 1) {
+                    throw new InvalidRequestException("Invalid correct choice value provided! Expected provided value to be a single alphabetic character.");
+                }
+
+                int correctChoicePosition = mapCharToAlphabeticPosition(updatedCorrectAnswer.charAt(0));
 
                 if (correctChoicePosition >= original.getAnswerChoices().size()) {
                     throw new InvalidRequestException("Invalid correct choice value provided (expected to correlate to one of the question answers)");
@@ -97,6 +127,7 @@ public class QuestionService {
 
     }
 
+    // TODO consider moving this mapping logic into a response factory
     private QuestionResponse buildResponseFromResource(Question question) {
 
         String questionId = question.getId();
@@ -116,6 +147,7 @@ public class QuestionService {
 
     }
 
+    // TODO consider moving this mapping logic into the request object
     private Question buildResourceFromRequest(NewQuestionRequest newQuestionRequest) {
 
         try {
@@ -125,9 +157,14 @@ public class QuestionService {
             newQuestion.setQuestionText(newQuestionRequest.getQuestionText());
             newQuestion.setAnswerChoices(new ArrayList<>(newQuestionRequest.getAnswers().values()));
 
-            int correctChoicePosition = mapChoiceStringToListPosition(newQuestionRequest.getCorrectAnswer());
+            String correctAnswer = newQuestionRequest.getCorrectAnswer();
+            if (correctAnswer.length() != 1) {
+                throw new InvalidRequestException("Invalid correct choice value provided! Expected provided value to be a single alphabetic character.");
+            }
+
+            int correctChoicePosition = mapCharToAlphabeticPosition(correctAnswer.charAt(0));
             if (correctChoicePosition >= newQuestion.getAnswerChoices().size()) {
-                throw new InvalidRequestException("Invalid correct choice value provided (expected to correlate to one of the question answers)");
+                throw new InvalidRequestException("Invalid correct choice value provided! Expected provided value to correlate to one of the provided answers.");
             }
 
             newQuestion.setCorrectChoicePosition(correctChoicePosition);
@@ -141,14 +178,22 @@ public class QuestionService {
 
     }
 
-    private int mapChoiceStringToListPosition(String choiceLetter) {
-        char choiceChar = choiceLetter.charAt(0);
-        if (!Character.isAlphabetic(choiceChar)) {
-            throw new InvalidRequestException("Invalid correct choice value provided (expected to be a single lowercase letter");
-        } else if (!Character.isLowerCase(choiceChar)) {
-            choiceChar = Character.toLowerCase(choiceChar);
+    /**
+     * Converts the provided character to its index position within the English alphabet.
+     *
+     * @param choiceLetter
+     *      provided character value
+     * @return
+     *      the index position (0-based) of the provided character within the English alphabet;
+     *      or -1 if a non-alphabetic character was provided
+     */
+    private int mapCharToAlphabeticPosition(char choiceLetter) {
+        if (!Character.isAlphabetic(choiceLetter)) {
+            return -1;
+        } else if (!Character.isLowerCase(choiceLetter)) {
+            choiceLetter = Character.toLowerCase(choiceLetter);
         }
-        return choiceChar - 97;
+        return choiceLetter - 97;
     }
 
 }

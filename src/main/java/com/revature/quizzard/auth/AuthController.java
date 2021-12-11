@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/auth")
 public class AuthController {

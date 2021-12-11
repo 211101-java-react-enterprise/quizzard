@@ -1,8 +1,6 @@
 package com.revature.quizzard.question;
 
-import com.revature.quizzard.card.dtos.requests.NewCardRequest;
 import com.revature.quizzard.common.dtos.ResourceCreationResponse;
-import com.revature.quizzard.common.exceptions.InvalidRequestException;
 import com.revature.quizzard.common.util.web.Authenticated;
 import com.revature.quizzard.common.util.web.RequesterOwned;
 import com.revature.quizzard.question.dtos.requests.EditQuestionRequest;
