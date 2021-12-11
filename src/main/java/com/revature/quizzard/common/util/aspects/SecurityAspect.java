@@ -2,7 +2,6 @@ package com.revature.quizzard.common.util.aspects;
 
 import com.revature.quizzard.common.exceptions.AuthenticationException;
 import com.revature.quizzard.common.exceptions.AuthorizationException;
-import com.revature.quizzard.common.dtos.EditResourceRequest;
 import com.revature.quizzard.user.AppUser;
 import com.revature.quizzard.common.util.web.Secured;
 import org.aspectj.lang.JoinPoint;
@@ -27,9 +26,12 @@ public class SecurityAspect {
     @Order(1)
     @Before("@annotation(com.revature.quizzard.common.util.web.Authenticated)")
     public void requireAuthentication() {
-        getCurrentSessionIfExists().orElseThrow(() -> new AuthenticationException("No session found."));
+        AuthenticationException e = new AuthenticationException("No session found.");
+        HttpSession session = getCurrentSessionIfExists().orElseThrow(() -> e);
+        if (session.getAttribute("authUser") == null) throw e;
     }
 
+    // TODO consider refactor to allow owner of all resources to be easily and consistently accessed
 //    @Order(2)
 //    @Before("@annotation(com.revature.quizzard.common.util.web.RequesterOwned)")
 //    public void requireProofOwnershipOrAuthority(JoinPoint jp) {

@@ -32,7 +32,8 @@ public class QuestionService {
 
     /**
      * Searches for questions using the provided request param map as search criteria. If no
-     * criteria is specified (via null or empty map), then a findAll query is executed.
+     * criteria is specified (via null or empty map), then a findAll query is executed. Only
+     * supports searching questions by id, exact question text, type, creator details.
      *
      * @param queryMap
      *      a map of field names and search values to be used as search criteria
