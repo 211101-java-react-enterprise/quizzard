@@ -35,6 +35,10 @@ public class Question {
         answerChoices = new ArrayList<>();
     }
 
+    public Question(String id) {
+        this.id = id;
+    }
+
     public Question(int numberOfPotentialAnswers) {
         answerChoices = new ArrayList<>(numberOfPotentialAnswers);
     }

@@ -1,11 +1,16 @@
 package com.revature.quizzard.question.dtos.requests;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.revature.quizzard.common.exceptions.InvalidRequestException;
+import com.revature.quizzard.question.Question;
 import com.revature.quizzard.user.AppUser;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
+import java.util.ArrayList;
 import java.util.Map;
+
+import static com.revature.quizzard.question.QuestionService.mapCharToAlphabeticPosition;
 
 public class NewQuestionRequest {
 
@@ -62,6 +67,34 @@ public class NewQuestionRequest {
 
     public void setCreator(AppUser creator) {
         this.creator = creator;
+    }
+
+    public Question extractQuestion() {
+        try {
+
+            Question newQuestion = new Question();
+
+            newQuestion.setQuestionText(this.questionText);
+            newQuestion.setAnswerChoices(new ArrayList<>(this.answers.values()));
+
+            String correctAnswer = this.correctAnswer;
+            if (correctAnswer.length() != 1) {
+                throw new InvalidRequestException("Invalid correct choice value provided! Expected provided value to be a single alphabetic character.");
+            }
+
+            int correctChoicePosition = mapCharToAlphabeticPosition(correctAnswer.charAt(0));
+            if (correctChoicePosition >= newQuestion.getAnswerChoices().size()) {
+                throw new InvalidRequestException("Invalid correct choice value provided! Expected provided value to correlate to one of the provided answers.");
+            }
+
+            newQuestion.setCorrectChoicePosition(correctChoicePosition);
+            newQuestion.setType(Question.Type.valueOf(this.questionType));
+
+            return newQuestion;
+
+        } catch (IllegalArgumentException e) {
+            throw new InvalidRequestException("Invalid question type value provided", e);
+        }
     }
 
     @Override

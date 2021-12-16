@@ -8,7 +8,6 @@ import com.revature.quizzard.common.util.data.EntitySearcher;
 import com.revature.quizzard.question.dtos.requests.EditQuestionRequest;
 import com.revature.quizzard.question.dtos.requests.NewQuestionRequest;
 import com.revature.quizzard.question.dtos.responses.QuestionResponse;
-import com.revature.quizzard.user.dtos.responses.UserResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -62,7 +61,7 @@ public class QuestionService {
             throw new ResourceNotFoundException();
         }
 
-        return questions.stream().map(this::buildResponseFromResource).collect(Collectors.toSet());
+        return questions.stream().map(QuestionResponse::new).collect(Collectors.toSet());
 
     }
 
@@ -80,7 +79,7 @@ public class QuestionService {
      */
     @Transactional
     public ResourceCreationResponse createNewQuestion(@Valid NewQuestionRequest createRequest) {
-        Question newQuestion = buildResourceFromRequest(createRequest);
+        Question newQuestion = createRequest.extractQuestion();
         newQuestion.setCreator(createRequest.getCreator());
         newQuestion.setId(UUID.randomUUID().toString());
         questionRepo.save(newQuestion);
@@ -157,57 +156,6 @@ public class QuestionService {
 
     }
 
-    // TODO consider moving this mapping logic into a response factory
-    private QuestionResponse buildResponseFromResource(Question question) {
-
-        String questionId = question.getId();
-        String questionText = question.getQuestionText();
-
-        List<String> rawAnswers = question.getAnswerChoices();
-        Map<String, String> answers = new HashMap<>(rawAnswers.size());
-        for (int i = 0, c = 'a'; i < rawAnswers.size(); i++, c++) {
-            answers.put(String.valueOf(Character.valueOf((char) c)), rawAnswers.get(i));
-        }
-
-        String correctAnswer = String.valueOf(Character.valueOf((char) (question.getCorrectChoicePosition() + 97)));
-        String questionType = question.getType().toString();
-        UserResponse creatorInfo = new UserResponse(question.getCreator());
-
-        return new QuestionResponse(questionId, questionText, answers, correctAnswer, questionType, creatorInfo);
-
-    }
-
-    // TODO consider moving this mapping logic into the request object
-    private Question buildResourceFromRequest(NewQuestionRequest newQuestionRequest) {
-
-        try {
-
-            Question newQuestion = new Question();
-
-            newQuestion.setQuestionText(newQuestionRequest.getQuestionText());
-            newQuestion.setAnswerChoices(new ArrayList<>(newQuestionRequest.getAnswers().values()));
-
-            String correctAnswer = newQuestionRequest.getCorrectAnswer();
-            if (correctAnswer.length() != 1) {
-                throw new InvalidRequestException("Invalid correct choice value provided! Expected provided value to be a single alphabetic character.");
-            }
-
-            int correctChoicePosition = mapCharToAlphabeticPosition(correctAnswer.charAt(0));
-            if (correctChoicePosition >= newQuestion.getAnswerChoices().size()) {
-                throw new InvalidRequestException("Invalid correct choice value provided! Expected provided value to correlate to one of the provided answers.");
-            }
-
-            newQuestion.setCorrectChoicePosition(correctChoicePosition);
-            newQuestion.setType(Question.Type.valueOf(newQuestionRequest.getQuestionType()));
-
-            return newQuestion;
-
-        } catch (IllegalArgumentException e) {
-            throw new InvalidRequestException("Invalid question type value provided", e);
-        }
-
-    }
-
     /**
      * Converts the provided character to its index position within the English alphabet.
      *
@@ -217,7 +165,8 @@ public class QuestionService {
      *      the index position (0-based) of the provided character within the English alphabet;
      *      or -1 if a non-alphabetic character was provided
      */
-    private int mapCharToAlphabeticPosition(char choiceLetter) {
+    // TODO work to make this not static
+    public static int mapCharToAlphabeticPosition(char choiceLetter) {
         if (!Character.isAlphabetic(choiceLetter)) {
             return -1;
         } else if (!Character.isLowerCase(choiceLetter)) {

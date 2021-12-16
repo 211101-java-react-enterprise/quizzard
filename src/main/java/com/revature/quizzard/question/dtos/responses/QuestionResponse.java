@@ -1,7 +1,10 @@
 package com.revature.quizzard.question.dtos.responses;
 
+import com.revature.quizzard.question.Question;
 import com.revature.quizzard.user.dtos.responses.UserResponse;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class QuestionResponse {
@@ -17,13 +20,19 @@ public class QuestionResponse {
         super();
     }
 
-    public QuestionResponse(String questionId, String questionText, Map<String, String> answers, String correctAnswer, String questionType, UserResponse creatorInfo) {
-        this.questionId = questionId;
-        this.questionText = questionText;
-        this.answers = answers;
-        this.correctAnswer = correctAnswer;
-        this.questionType = questionType;
-        this.creatorInfo = creatorInfo;
+    public QuestionResponse(Question question) {
+        this.questionId = question.getId();
+        this.questionText = question.getQuestionText();
+
+        List<String> rawAnswers = question.getAnswerChoices();
+        this.answers = new HashMap<>(rawAnswers.size());
+        for (int i = 0, c = 'a'; i < rawAnswers.size(); i++, c++) {
+            answers.put(String.valueOf(Character.valueOf((char) c)), rawAnswers.get(i));
+        }
+
+        this.correctAnswer = String.valueOf(Character.valueOf((char) (question.getCorrectChoicePosition() + 97)));
+        this.questionType = question.getType().toString();
+        this.creatorInfo = new UserResponse(question.getCreator());
     }
 
     public String getQuestionId() {
