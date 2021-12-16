@@ -6,7 +6,6 @@ import com.revature.quizzard.quiz.Quiz;
 import com.revature.quizzard.user.AppUser;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -15,10 +14,9 @@ public class NewQuizRequest {
     @NotBlank
     private String quizName;
 
-    @NotNull
-    private Boolean isPublic;
+    private boolean isPublic;
 
-    private Boolean isPublished;
+    private boolean isPublished;
 
     @JsonIgnore
     private AppUser creator;
@@ -27,7 +25,6 @@ public class NewQuizRequest {
 
     public NewQuizRequest() {
         super();
-        this.isPublished = false;
     }
 
     public String getQuizName() {

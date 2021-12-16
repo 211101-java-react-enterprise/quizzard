@@ -22,6 +22,7 @@ public class QuizResponse {
         this.isQuizPublic = quiz.isPublic();
         this.isQuizPublished = quiz.isPublished();
         this.quizQuestions = quiz.getQuestions().stream().map(QuestionResponse::new).collect(Collectors.toList());
+        this.quizCreator = new UserResponse(quiz.getCreator());
     }
 
     public String getQuizId() {

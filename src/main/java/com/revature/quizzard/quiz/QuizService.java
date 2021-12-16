@@ -58,6 +58,8 @@ public class QuizService {
         Quiz newQuiz = createRequest.extractQuiz();
         newQuiz.setCreator(createRequest.getCreator());
         newQuiz.setId(UUID.randomUUID().toString());
+        newQuiz.setPublic(createRequest.isPublic());
+        newQuiz.setPublished(createRequest.isPublished());
         newQuiz.setQuestions(newQuiz.getQuestions()
                                     .stream()
                                     .map(question -> questionRepo.findById(question.getId()).orElseThrow(ResourceNotFoundException::new))
@@ -68,7 +70,7 @@ public class QuizService {
 
     @Transactional
     public void updateQuiz(EditQuizRequest editRequest) {
-
+        // TODO implement me!
     }
 
     @Transactional
