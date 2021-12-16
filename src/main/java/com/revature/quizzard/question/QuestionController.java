@@ -15,7 +15,7 @@ import javax.servlet.http.HttpSession;
 import java.util.Map;
 import java.util.Set;
 
-@RestControllerAdvice
+@RestController
 @RequestMapping("/questions")
 public class QuestionController {
 
