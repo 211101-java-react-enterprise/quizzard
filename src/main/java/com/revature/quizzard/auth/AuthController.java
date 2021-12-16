@@ -1,5 +1,6 @@
 package com.revature.quizzard.auth;
 
+import com.revature.quizzard.auth.dtos.responses.PrincipalResponse;
 import com.revature.quizzard.user.AppUser;
 import com.revature.quizzard.user.UserService;
 import com.revature.quizzard.auth.dtos.requests.LoginRequest;
@@ -22,10 +23,10 @@ public class AuthController {
     }
 
     @PostMapping(consumes = "application/json")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void authenticate(@RequestBody LoginRequest loginRequest, HttpSession httpSession) {
+    public PrincipalResponse authenticate(@RequestBody LoginRequest loginRequest, HttpSession httpSession) {
         AppUser authUser = userService.authenticateUser(loginRequest.getUsername(), loginRequest.getPassword());
         httpSession.setAttribute("authUser", authUser);
+        return new PrincipalResponse(authUser);
     }
 
     @DeleteMapping
