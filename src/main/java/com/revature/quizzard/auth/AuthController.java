@@ -22,7 +22,7 @@ public class AuthController {
         this.userService = userService;
     }
 
-    @PostMapping(consumes = "application/json")
+    @PostMapping(consumes = "application/json", produces = "application/json")
     public PrincipalResponse authenticate(@RequestBody LoginRequest loginRequest, HttpSession httpSession) {
         AppUser authUser = userService.authenticateUser(loginRequest.getUsername(), loginRequest.getPassword());
         httpSession.setAttribute("authUser", authUser);
