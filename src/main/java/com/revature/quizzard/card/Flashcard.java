@@ -13,14 +13,14 @@ public class Flashcard {
     @Column(name = "card_id")
     private String id;
 
-    @Column(name = "question_text", nullable = false, columnDefinition = "VARCHAR CHECK (question_text <> '')")
+    @Column(name = "question_text", nullable = false)
     private String questionText;
 
-    @Column(name = "answer_text", nullable = false, columnDefinition = "VARCHAR CHECK (answer_text <> '')")
+    @Column(name = "answer_text", nullable = false)
     private String answerText;
 
     @ManyToOne
-    @JoinColumn(name = "creator_id", nullable = false, columnDefinition = "VARCHAR CHECK (creator_id <> '')")
+    @JoinColumn(name = "creator_id", nullable = false)
     private AppUser creator;
 
     public Flashcard(String questionText, String answerText) {

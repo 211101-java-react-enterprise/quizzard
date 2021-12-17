@@ -14,19 +14,19 @@ public class AppUser {
     @Column(name = "user_id")
     private String id;
 
-    @Column(name = "first_name", nullable = false, columnDefinition = "VARCHAR CHECK (first_name <> '')")
+    @Column(name = "first_name", nullable = false)
     private String firstName;
 
-    @Column(name = "last_name", nullable = false, columnDefinition = "VARCHAR CHECK (last_name <> '')")
+    @Column(name = "last_name", nullable = false)
     private String lastName;
 
-    @Column(nullable = false, unique = true, columnDefinition = "VARCHAR CHECK (email <> '')")
+    @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(nullable = false, unique = true, columnDefinition = "VARCHAR CHECK (LENGTH(username) >= 4)")
+    @Column(nullable = false, unique = true)
     private String username;
 
-    @Column(nullable = false, unique = true, columnDefinition = "VARCHAR CHECK (LENGTH(username) >= 4)")
+    @Column(nullable = false, unique = true)
     private String password;
 
     @Enumerated(EnumType.STRING)
