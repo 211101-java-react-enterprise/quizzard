@@ -1,0 +1,10 @@
+server:
+  port: 5000
+  servlet:
+    context-path: /quizzard
+
+spring:
+  application:
+    name: quizzard-api
+  profiles:
+    default: local

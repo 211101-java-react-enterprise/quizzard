@@ -8,5 +8,4 @@ target/
 *.class
 *.jar
 
-application.yml
 application-dev.yml
