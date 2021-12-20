@@ -1,6 +1,8 @@
 package com.revature.quizzard.set;
 
 import com.revature.quizzard.card.Flashcard;
+import com.revature.quizzard.common.domain.Resource;
+import com.revature.quizzard.common.domain.ResourceMetadata;
 import com.revature.quizzard.user.AppUser;
 
 import javax.persistence.*;
@@ -9,20 +11,12 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "study_sets", uniqueConstraints = {
-    @UniqueConstraint(name = "unique_user_set_names", columnNames = {"name", "owner_id"})
+    @UniqueConstraint(name = "unique_user_set_names", columnNames = {"name", "resource_owner_id"})
 })
-public class StudySet {
-
-    @Id
-    @Column(name = "study_set_id")
-    private String id;
+public class StudySet extends Resource {
 
     @Column(nullable = false)
     private String name;
-
-    @ManyToOne
-    @JoinColumn(name = "owner_id", nullable = false)
-    private AppUser owner;
 
     @ManyToMany
     @JoinTable(
@@ -32,28 +26,12 @@ public class StudySet {
     )
     private List<Flashcard> cards;
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public AppUser getOwner() {
-        return owner;
-    }
-
-    public void setOwner(AppUser owner) {
-        this.owner = owner;
     }
 
     public List<Flashcard> getCards() {
@@ -69,12 +47,12 @@ public class StudySet {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         StudySet studySet = (StudySet) o;
-        return Objects.equals(id, studySet.id) && Objects.equals(name, studySet.name) && Objects.equals(owner, studySet.owner) && Objects.equals(cards, studySet.cards);
+        return Objects.equals(name, studySet.name) && Objects.equals(cards, studySet.cards);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, owner, cards);
+        return Objects.hash(name, cards);
     }
 
     @Override
@@ -82,8 +60,8 @@ public class StudySet {
         return "StudySet{" +
                 "id='" + id + '\'' +
                 ", name='" + name + '\'' +
-                ", owner=" + owner +
                 ", cards=" + cards +
+                ", metadata=" + metadata +
                 '}';
     }
 

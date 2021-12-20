@@ -8,5 +8,5 @@ import java.util.List;
 @Repository
 public interface StudySetRepository extends CrudRepository<StudySet, String> {
     List<StudySet> findStudySetsByName(String setName);
-    List<StudySet> findStudySetsByOwnerId(String ownerId);
+    List<StudySet> findStudySetsByMetadataResourceOwnerId(String ownerId);
 }

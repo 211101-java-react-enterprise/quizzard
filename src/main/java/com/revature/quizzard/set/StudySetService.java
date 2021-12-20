@@ -36,7 +36,7 @@ public class StudySetService {
 
     public List<StudySetResponse> getStudySetsByOwnerId(String ownerId) {
 
-        List<StudySetResponse> setResponses = studySetRepository.findStudySetsByOwnerId(ownerId)
+        List<StudySetResponse> setResponses = studySetRepository.findStudySetsByMetadataResourceOwnerId(ownerId)
                                                                 .stream()
                                                                 .map(StudySetResponse::new)
                                                                 .collect(Collectors.toList());

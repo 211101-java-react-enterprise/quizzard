@@ -33,9 +33,6 @@ public class AppUser {
     @Column(name = "account_type", columnDefinition = "VARCHAR DEFAULT 'LOCKED'")
     private AccountType accountType;
 
-    @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY)
-    private List<StudySet> userStudySets;
-
     public AppUser() {
         super();
     }
@@ -114,25 +111,17 @@ public class AppUser {
         this.accountType = accountType;
     }
 
-    public List<StudySet> getUserStudySets() {
-        return userStudySets;
-    }
-
-    public void setUserStudySets(List<StudySet> userStudySet) {
-        this.userStudySets = userStudySet;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AppUser appUser = (AppUser) o;
-        return Objects.equals(id, appUser.id) && Objects.equals(firstName, appUser.firstName) && Objects.equals(lastName, appUser.lastName) && Objects.equals(email, appUser.email) && Objects.equals(username, appUser.username) && Objects.equals(password, appUser.password) && accountType == appUser.accountType && Objects.equals(userStudySets, appUser.userStudySets);
+        return Objects.equals(id, appUser.id) && Objects.equals(firstName, appUser.firstName) && Objects.equals(lastName, appUser.lastName) && Objects.equals(email, appUser.email) && Objects.equals(username, appUser.username) && Objects.equals(password, appUser.password) && accountType == appUser.accountType;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, firstName, lastName, email, username, password, accountType, userStudySets);
+        return Objects.hash(id, firstName, lastName, email, username, password, accountType);
     }
 
     @Override
