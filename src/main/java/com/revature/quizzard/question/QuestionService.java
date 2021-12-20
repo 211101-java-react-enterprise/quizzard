@@ -1,5 +1,6 @@
 package com.revature.quizzard.question;
 
+import com.revature.quizzard.common.domain.ResourceMetadata;
 import com.revature.quizzard.common.dtos.ResourceCreationResponse;
 import com.revature.quizzard.common.exceptions.InvalidRequestException;
 import com.revature.quizzard.common.exceptions.ResourceNotFoundException;
@@ -8,6 +9,7 @@ import com.revature.quizzard.common.util.data.EntitySearcher;
 import com.revature.quizzard.question.dtos.requests.EditQuestionRequest;
 import com.revature.quizzard.question.dtos.requests.NewQuestionRequest;
 import com.revature.quizzard.question.dtos.responses.QuestionResponse;
+import com.revature.quizzard.user.AppUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -80,7 +82,8 @@ public class QuestionService {
     @Transactional
     public ResourceCreationResponse createNewQuestion(@Valid NewQuestionRequest createRequest) {
         Question newQuestion = createRequest.extractQuestion();
-        newQuestion.setCreator(createRequest.getCreator());
+        AppUser creator = createRequest.getCreator();
+        newQuestion.setMetadata(new ResourceMetadata(creator));
         newQuestion.setId(UUID.randomUUID().toString());
         questionRepo.save(newQuestion);
         return new ResourceCreationResponse(newQuestion.getId());

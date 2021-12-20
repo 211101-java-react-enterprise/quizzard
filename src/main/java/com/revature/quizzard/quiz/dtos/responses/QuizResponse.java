@@ -1,5 +1,6 @@
 package com.revature.quizzard.quiz.dtos.responses;
 
+import com.revature.quizzard.common.dtos.ResourceMetadataResponse;
 import com.revature.quizzard.question.dtos.responses.QuestionResponse;
 import com.revature.quizzard.quiz.Quiz;
 import com.revature.quizzard.user.dtos.responses.UserResponse;
@@ -14,7 +15,7 @@ public class QuizResponse {
     private boolean isQuizPublic;
     private boolean isQuizPublished;
     private List<QuestionResponse> quizQuestions;
-    private UserResponse quizCreator;
+    private ResourceMetadataResponse metadata;
 
     public QuizResponse(Quiz quiz) {
         this.quizId = quiz.getId();
@@ -22,7 +23,7 @@ public class QuizResponse {
         this.isQuizPublic = quiz.isPublic();
         this.isQuizPublished = quiz.isPublished();
         this.quizQuestions = quiz.getQuestions().stream().map(QuestionResponse::new).collect(Collectors.toList());
-        this.quizCreator = new UserResponse(quiz.getCreator());
+        this.metadata = new ResourceMetadataResponse(quiz.getMetadata());
     }
 
     public String getQuizId() {
@@ -65,12 +66,12 @@ public class QuizResponse {
         this.quizQuestions = quizQuestions;
     }
 
-    public UserResponse getQuizCreator() {
-        return quizCreator;
+    public ResourceMetadataResponse getMetadata() {
+        return metadata;
     }
 
-    public void setQuizCreator(UserResponse quizCreator) {
-        this.quizCreator = quizCreator;
+    public void setMetadata(ResourceMetadataResponse metadata) {
+        this.metadata = metadata;
     }
 
     @Override
@@ -81,7 +82,7 @@ public class QuizResponse {
                 ", isQuizPublic=" + isQuizPublic +
                 ", isQuizPublished=" + isQuizPublished +
                 ", quizQuestions=" + quizQuestions +
-                ", quizCreator=" + quizCreator +
+                ", metadata=" + metadata +
                 '}';
     }
 

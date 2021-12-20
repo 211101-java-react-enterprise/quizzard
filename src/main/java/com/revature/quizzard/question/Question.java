@@ -1,5 +1,6 @@
 package com.revature.quizzard.question;
 
+import com.revature.quizzard.common.domain.Resource;
 import com.revature.quizzard.user.AppUser;
 
 import javax.persistence.*;
@@ -8,11 +9,8 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-public class Question {
-
-    @Id
-    @Column(name = "question_id")
-    private String id;
+@Table(name = "questions")
+public class Question extends Resource {
 
     @Column(name = "question_text", nullable = false)
     private String questionText;
@@ -25,10 +23,6 @@ public class Question {
 
     @Enumerated(EnumType.STRING)
     private Type type;
-
-    @ManyToOne
-    @JoinColumn(name = "creator_id", nullable = false)
-    private AppUser creator;
 
     public Question() {
         super();
@@ -83,25 +77,17 @@ public class Question {
         this.type = type;
     }
 
-    public AppUser getCreator() {
-        return creator;
-    }
-
-    public void setCreator(AppUser creator) {
-        this.creator = creator;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Question question = (Question) o;
-        return correctChoicePosition == question.correctChoicePosition && Objects.equals(id, question.id) && Objects.equals(questionText, question.questionText) && Objects.equals(answerChoices, question.answerChoices) && type == question.type && Objects.equals(creator, question.creator);
+        return correctChoicePosition == question.correctChoicePosition && Objects.equals(questionText, question.questionText) && Objects.equals(answerChoices, question.answerChoices) && type == question.type;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, questionText, answerChoices, correctChoicePosition, type, creator);
+        return Objects.hash(questionText, answerChoices, correctChoicePosition, type);
     }
 
     @Override
@@ -112,7 +98,7 @@ public class Question {
                 ", answerChoices=" + answerChoices +
                 ", correctChoicePosition=" + correctChoicePosition +
                 ", type=" + type +
-                ", creator=" + creator +
+                ", metadata=" + metadata +
                 '}';
     }
 

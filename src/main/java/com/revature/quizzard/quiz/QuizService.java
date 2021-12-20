@@ -1,5 +1,6 @@
 package com.revature.quizzard.quiz;
 
+import com.revature.quizzard.common.domain.ResourceMetadata;
 import com.revature.quizzard.common.dtos.ResourceCreationResponse;
 import com.revature.quizzard.common.exceptions.InvalidRequestException;
 import com.revature.quizzard.common.exceptions.ResourceNotFoundException;
@@ -56,7 +57,7 @@ public class QuizService {
     @Transactional
     public ResourceCreationResponse createNewQuiz(@Valid NewQuizRequest createRequest) {
         Quiz newQuiz = createRequest.extractQuiz();
-        newQuiz.setCreator(createRequest.getCreator());
+        newQuiz.setMetadata(new ResourceMetadata(createRequest.getCreator()));
         newQuiz.setId(UUID.randomUUID().toString());
         newQuiz.setPublic(createRequest.isPublic());
         newQuiz.setPublished(createRequest.isPublished());

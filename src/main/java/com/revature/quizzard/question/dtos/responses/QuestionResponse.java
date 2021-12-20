@@ -1,5 +1,7 @@
 package com.revature.quizzard.question.dtos.responses;
 
+import com.revature.quizzard.common.dtos.ResourceCreationResponse;
+import com.revature.quizzard.common.dtos.ResourceMetadataResponse;
 import com.revature.quizzard.question.Question;
 import com.revature.quizzard.user.dtos.responses.UserResponse;
 
@@ -14,7 +16,7 @@ public class QuestionResponse {
     private Map<String, String> answers;
     private String correctAnswer;
     private String questionType;
-    private UserResponse creatorInfo;
+    private ResourceMetadataResponse metadata;
 
     public QuestionResponse() {
         super();
@@ -32,7 +34,7 @@ public class QuestionResponse {
 
         this.correctAnswer = String.valueOf(Character.valueOf((char) (question.getCorrectChoicePosition() + 97)));
         this.questionType = question.getType().toString();
-        this.creatorInfo = new UserResponse(question.getCreator());
+        this.metadata = new ResourceMetadataResponse(question.getMetadata());
     }
 
     public String getQuestionId() {
@@ -75,12 +77,12 @@ public class QuestionResponse {
         this.questionType = questionType;
     }
 
-    public UserResponse getCreatorInfo() {
-        return creatorInfo;
+    public ResourceMetadataResponse getMetadata() {
+        return metadata;
     }
 
-    public void setCreatorInfo(UserResponse creatorInfo) {
-        this.creatorInfo = creatorInfo;
+    public void setMetadata(ResourceMetadataResponse metadata) {
+        this.metadata = metadata;
     }
 
     @Override
@@ -91,7 +93,7 @@ public class QuestionResponse {
                 ", answers=" + answers +
                 ", correctAnswer='" + correctAnswer + '\'' +
                 ", questionType='" + questionType + '\'' +
-                ", creatorInfo=" + creatorInfo +
+                ", metadata=" + metadata +
                 '}';
     }
 

@@ -1,20 +1,17 @@
 package com.revature.quizzard.quiz;
 
+import com.revature.quizzard.common.domain.Resource;
 import com.revature.quizzard.question.Question;
-import com.revature.quizzard.user.AppUser;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "quizzes")
-public class Quiz {
-
-    @Id
-    @Column(name = "quiz_id")
-    private String id;
+public class Quiz extends Resource {
 
     @Column(name = "quiz_name")
     private String name;
@@ -24,10 +21,6 @@ public class Quiz {
 
     @Column(name = "is_published")
     private boolean isPublished;
-
-    @ManyToOne
-    @JoinColumn(name = "creator_id")
-    private AppUser creator;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
@@ -74,14 +67,6 @@ public class Quiz {
         isPublished = published;
     }
 
-    public AppUser getCreator() {
-        return creator;
-    }
-
-    public void setCreator(AppUser creator) {
-        this.creator = creator;
-    }
-
     public List<Question> getQuestions() {
         return questions;
     }
@@ -93,6 +78,31 @@ public class Quiz {
     public void addQuestions(Question... questions) {
         if (this.questions == null) this.questions = new ArrayList<>();
         this.questions.addAll(Arrays.asList(questions));
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Quiz quiz = (Quiz) o;
+        return isPublic == quiz.isPublic && isPublished == quiz.isPublished && Objects.equals(name, quiz.name) && Objects.equals(questions, quiz.questions);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, isPublic, isPublished, questions);
+    }
+
+    @Override
+    public String toString() {
+        return "Quiz{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", isPublic=" + isPublic +
+                ", isPublished=" + isPublished +
+                ", questions=" + questions +
+                ", metadata=" + metadata +
+                '}';
     }
 
 }
