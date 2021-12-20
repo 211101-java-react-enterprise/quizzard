@@ -82,6 +82,12 @@ public class QuizController {
         quizService.updateQuiz(editQuizRequest);
     }
 
+    /**
+     * Accepts PATCH requests to activate a quiz with the provided resource id.
+     *
+     * @param quizId
+     *      the id of the quiz to be activated
+     */
     @Authenticated
     @PatchMapping("/{quizId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -89,6 +95,15 @@ public class QuizController {
         quizService.activateQuiz(quizId);
     }
 
+    /**
+     * Accepts PATCH requests to add specified questions (by id) to a specified quiz.
+     *
+     * @param quizId
+     *      the id of the quiz to add questions to
+     *
+     * @param questionIds
+     *      question ids that are to be added to the quiz
+     */
     @Authenticated
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PatchMapping("/{quizId}/questions")
@@ -96,7 +111,16 @@ public class QuizController {
         quizService.addQuestionsToQuiz(quizId, questionIds);
     }
 
-    @Authenticated
+
+    /**
+     * Accepts DELETE requests to remove specified questions (by id) from a specified quiz.
+     *
+     * @param quizId
+     *      the id of the quiz to add questions to
+     *
+     * @param questionIds
+     *      question ids that are to be added to the quiz
+     */    @Authenticated
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{quizId}/questions")
     public void removeQuestionsFromQuiz(@PathVariable String quizId, @RequestBody List<String> questionIds) {
