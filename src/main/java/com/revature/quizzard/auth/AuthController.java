@@ -35,10 +35,4 @@ public class AuthController {
         return payload;
     }
 
-    @DeleteMapping
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void invalidateSession(HttpSession session) {
-        session.invalidate();
-    }
-
 }

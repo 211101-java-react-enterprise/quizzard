@@ -37,6 +37,12 @@ public class AppUser {
         super();
     }
 
+    public AppUser(String id, String username, String role) {
+        this.id = id;
+        this.username = username;
+        this.accountType = AccountType.valueOf(role);
+    }
+
     public AppUser(String firstName, String lastName, String email, String username, String password) {
         this.firstName = firstName;
         this.lastName = lastName;

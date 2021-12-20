@@ -1,17 +1,16 @@
 package com.revature.quizzard.question;
 
+import com.revature.quizzard.auth.TokenService;
 import com.revature.quizzard.common.dtos.ResourceCreationResponse;
 import com.revature.quizzard.common.util.web.Authenticated;
 import com.revature.quizzard.common.util.web.RequesterOwned;
 import com.revature.quizzard.question.dtos.requests.EditQuestionRequest;
 import com.revature.quizzard.question.dtos.requests.NewQuestionRequest;
 import com.revature.quizzard.question.dtos.responses.QuestionResponse;
-import com.revature.quizzard.user.AppUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpSession;
 import java.util.Map;
 import java.util.Set;
 
@@ -20,10 +19,12 @@ import java.util.Set;
 public class QuestionController {
 
     private final QuestionService questionService;
+    private final TokenService tokenService; // TODO maybe don't inject this everywhere?
 
     @Autowired
-    public QuestionController(QuestionService questionService) {
+    public QuestionController(QuestionService questionService, TokenService tokenService) {
         this.questionService = questionService;
+        this.tokenService = tokenService;
     }
 
     /**
@@ -52,17 +53,14 @@ public class QuestionController {
      * @param newQuestionRequest
      *      a request object containing the data needed to create a new question resource
      *
-     * @param session
-     *      the HTTP session associated with this web request
-     *
      * @return
      *      a response containing the newly created resource's id
      */
     @Authenticated
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(consumes = "application/json")
-    public ResourceCreationResponse createNewQuestion(@RequestBody NewQuestionRequest newQuestionRequest, HttpSession session) {
-        newQuestionRequest.setCreator((AppUser) session.getAttribute("authUser"));
+    public ResourceCreationResponse createNewQuestion(@RequestBody NewQuestionRequest newQuestionRequest, @RequestHeader("Authorization") String token) {
+        newQuestionRequest.setCreator(tokenService.extractTokenDetails(token).extractUser());
         return questionService.createNewQuestion(newQuestionRequest);
     }
 

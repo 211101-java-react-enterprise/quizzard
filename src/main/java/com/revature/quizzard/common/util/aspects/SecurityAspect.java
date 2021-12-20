@@ -1,5 +1,6 @@
 package com.revature.quizzard.common.util.aspects;
 
+import com.revature.quizzard.auth.TokenService;
 import com.revature.quizzard.common.exceptions.AuthenticationException;
 import com.revature.quizzard.common.exceptions.AuthorizationException;
 import com.revature.quizzard.user.AppUser;
@@ -8,6 +9,7 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -23,12 +25,17 @@ import java.util.Optional;
 @Component
 public class SecurityAspect {
 
+    private final TokenService tokenService;
+
+    @Autowired
+    public SecurityAspect(TokenService tokenService) {
+        this.tokenService = tokenService;
+    }
+
     @Order(1)
     @Before("@annotation(com.revature.quizzard.common.util.web.Authenticated)")
     public void requireAuthentication() {
-        AuthenticationException e = new AuthenticationException("No session found.");
-        HttpSession session = getCurrentSessionIfExists().orElseThrow(() -> e);
-        if (session.getAttribute("authUser") == null) throw e;
+        if (!sessionExists()) throw new AuthenticationException("No session token found.");
     }
 
     // TODO consider refactor to allow owner of all resources to be easily and consistently accessed
@@ -49,29 +56,30 @@ public class SecurityAspect {
 //        }
 //    }
 
-    @Order(3)
-    @Before("@annotation(com.revature.quizzard.common.util.web.Secured)")
-    public void secureEndpoints(JoinPoint jp) {
-
-        Secured annotation = getAnnotationFromJoinPoint(jp, Secured.class);
-        List<AppUser.AccountType> allowedUsers = Arrays.asList(annotation.allowedAccountTypes());
-
-        HttpSession session = getCurrentSessionIfExists().orElseThrow(() -> new AuthenticationException("No session found."));
-        AppUser requester = ((AppUser) session.getAttribute("authUser"));
-        AppUser.AccountType requesterAccountType = requester.getAccountType();
-
-        if (!allowedUsers.contains(requesterAccountType)) {
-            throw new AuthorizationException("Forbidden request made to sensitive endpoint by user: " + requester.getUsername());
-        }
-
-    }
+//    @Order(3)
+//    @Before("@annotation(com.revature.quizzard.common.util.web.Secured)")
+//    public void secureEndpoints(JoinPoint jp) {
+//
+//        Secured annotation = getAnnotationFromJoinPoint(jp, Secured.class);
+//        List<AppUser.AccountType> allowedUsers = Arrays.asList(annotation.allowedAccountTypes());
+//
+//        HttpSession session = getCurrentSessionIfExists().orElseThrow(() -> new AuthenticationException("No session found."));
+//        AppUser requester = ((AppUser) session.getAttribute("authUser"));
+//        AppUser.AccountType requesterAccountType = requester.getAccountType();
+//
+//        if (!allowedUsers.contains(requesterAccountType)) {
+//            throw new AuthorizationException("Forbidden request made to sensitive endpoint by user: " + requester.getUsername());
+//        }
+//
+//    }
 
     private <T extends Annotation> T getAnnotationFromJoinPoint(JoinPoint jp, Class<T> annotationType) {
         return ((MethodSignature) jp.getSignature()).getMethod().getAnnotation(annotationType);
     }
 
-    private Optional<HttpSession> getCurrentSessionIfExists() {
-        return Optional.ofNullable(((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest().getSession(false));
+    private boolean sessionExists() {
+        String token = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest().getHeader("Authorization");
+        return tokenService.isTokenValid(token);
     }
 
 }

@@ -48,6 +48,10 @@ public class Principal {
         this.role = role;
     }
 
+    public AppUser extractUser() {
+        return new AppUser(id, username, role);
+    }
+
     @Override
     public String toString() {
         return "PrincipalResponse{" +

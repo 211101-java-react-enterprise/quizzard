@@ -23,6 +23,13 @@ public class TokenService {
     }
 
     public boolean isTokenValid(String token) {
+
+        if (token == null || token.trim().equals("")) {
+            return false;
+        }
+
+        token = token.replaceAll("Bearer ", "");
+
         return tokenValidator.parseToken(token)
                              .isPresent();
     }
