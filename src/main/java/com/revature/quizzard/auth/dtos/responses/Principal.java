@@ -2,20 +2,26 @@ package com.revature.quizzard.auth.dtos.responses;
 
 import com.revature.quizzard.user.AppUser;
 
-public class PrincipalResponse {
+public class Principal {
 
     private String id;
     private String username;
     private String role;
 
-    public PrincipalResponse() {
+    public Principal() {
         super();
     }
 
-    public PrincipalResponse(AppUser authUser) {
+    public Principal(AppUser authUser) {
         this.id = authUser.getId();
         this.username = authUser.getUsername();
         this.role = authUser.getAccountType().toString();
+    }
+
+    public Principal(String id, String username, String role) {
+        this.id = id;
+        this.username = username;
+        this.role = role;
     }
 
     public String getId() {
