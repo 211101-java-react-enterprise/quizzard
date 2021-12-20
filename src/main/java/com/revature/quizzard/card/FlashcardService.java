@@ -77,10 +77,4 @@ public class FlashcardService {
 
     }
 
-    public boolean isCardValid(Flashcard card) {
-        if (card == null) return false;
-        if (card.getQuestionText() == null || card.getQuestionText().trim().equals("")) return false;
-        return (card.getAnswerText() != null && !card.getAnswerText().trim().equals(""));
-    }
-
 }
