@@ -40,18 +40,16 @@ public abstract class Resource {
         return id;
     }
 
-    public Resource setId(String id) {
+    public void setId(String id) {
         this.id = id;
-        return this;
     }
 
     public ResourceMetadata getMetadata() {
         return metadata;
     }
 
-    public Resource setMetadata(ResourceMetadata metadata) {
+    public void setMetadata(ResourceMetadata metadata) {
         this.metadata = metadata;
-        return this;
     }
 
 }
