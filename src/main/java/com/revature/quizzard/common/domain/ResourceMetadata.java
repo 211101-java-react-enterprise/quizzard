@@ -55,16 +55,28 @@ public class ResourceMetadata {
      * last modifier id, and the resource creation time and last modified time is set to
      * the time of instantiation.
      *
-     * @param creator the user that created a resource (also used as the last modifier id)
-     * @param owner the owner of a resource
+     * @param creator the user that created a resource (also used as the last modifier id and owner)
      */
-    public ResourceMetadata(AppUser creator, AppUser owner) {
+    public ResourceMetadata(AppUser creator) {
         this.resourceCreator = creator;
         this.resourceCreationDateTime = LocalDateTime.now();
         this.lastModifier = creator;
         this.lastModifiedDateTime = LocalDateTime.now();
-        this.resourceOwner = owner;
+        this.resourceOwner = creator;
         this.isActive = true;
+    }
+
+    /**
+     * Creates a new ResourceMetadata instance where the provided creator id is used as the
+     * last modifier id, and the resource creation time and last modified time is set to
+     * the time of instantiation.
+     *
+     * @param creator the user that created a resource (also used as the last modifier id)
+     * @param owner the owner of a resource
+     */
+    public ResourceMetadata(AppUser creator, AppUser owner) {
+        this(creator);
+        this.resourceOwner = owner;
     }
 
     /**
