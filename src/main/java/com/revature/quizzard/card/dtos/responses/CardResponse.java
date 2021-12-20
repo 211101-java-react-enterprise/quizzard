@@ -1,14 +1,14 @@
 package com.revature.quizzard.card.dtos.responses;
 
 import com.revature.quizzard.card.Flashcard;
-import com.revature.quizzard.user.dtos.responses.UserResponse;
+import com.revature.quizzard.common.dtos.ResourceMetadataResponse;
 
 public class CardResponse {
 
     private String cardId;
     private String questionText;
     private String answerText;
-    private UserResponse creatorInfo;
+    private ResourceMetadataResponse metadata;
 
     public CardResponse() {
         super();
@@ -18,7 +18,7 @@ public class CardResponse {
         this.cardId = cardData.getId();
         this.questionText = cardData.getQuestionText();
         this.answerText = cardData.getAnswerText();
-        this.creatorInfo = new UserResponse(cardData.getCreator());
+        this.metadata = new ResourceMetadataResponse(cardData.getMetadata());
     }
 
     public String getCardId() {
@@ -45,12 +45,12 @@ public class CardResponse {
         this.answerText = answerText;
     }
 
-    public UserResponse getCreatorInfo() {
-        return creatorInfo;
+    public ResourceMetadataResponse getMetadata() {
+        return metadata;
     }
 
-    public void setCreatorInfo(UserResponse creatorInfo) {
-        this.creatorInfo = creatorInfo;
+    public void setMetadata(ResourceMetadataResponse metadata) {
+        this.metadata = metadata;
     }
 
     @Override
@@ -59,7 +59,7 @@ public class CardResponse {
                 "cardId='" + cardId + '\'' +
                 ", questionText='" + questionText + '\'' +
                 ", answerText='" + answerText + '\'' +
-                ", creatorInfo=" + creatorInfo +
+                ", metadata=" + metadata +
                 '}';
     }
 

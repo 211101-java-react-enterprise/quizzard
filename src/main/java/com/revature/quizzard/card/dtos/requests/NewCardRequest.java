@@ -3,9 +3,14 @@ package com.revature.quizzard.card.dtos.requests;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.revature.quizzard.user.AppUser;
 
+import javax.validation.constraints.NotBlank;
+
 public class NewCardRequest {
 
+    @NotBlank
     private String question;
+
+    @NotBlank
     private String answer;
 
     @JsonIgnore

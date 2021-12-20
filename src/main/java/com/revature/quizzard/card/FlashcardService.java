@@ -1,11 +1,12 @@
 package com.revature.quizzard.card;
 
+import com.revature.quizzard.common.domain.ResourceMetadata;
 import com.revature.quizzard.common.dtos.ResourceCreationResponse;
 import com.revature.quizzard.common.exceptions.InvalidRequestException;
 import com.revature.quizzard.common.exceptions.ResourceNotFoundException;
-import com.revature.quizzard.common.exceptions.ResourcePersistenceException;
 import com.revature.quizzard.card.dtos.responses.CardResponse;
 import com.revature.quizzard.card.dtos.requests.NewCardRequest;
+import com.revature.quizzard.user.AppUser;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -47,7 +48,7 @@ public class FlashcardService {
             throw new InvalidRequestException("Invalid owner id provided!");
         }
 
-        List<CardResponse> cards = cardDAO.findCardsByCreatorId(ownerId)
+        List<CardResponse> cards = cardDAO.findCardsByMetadataResourceCreatorId(ownerId)
                                           .stream()
                                           .map(CardResponse::new)
                                           .collect(Collectors.toList());
@@ -66,7 +67,8 @@ public class FlashcardService {
         Flashcard newCard = new Flashcard();
         newCard.setQuestionText(newCardRequest.getQuestion());
         newCard.setAnswerText(newCardRequest.getAnswer());
-        newCard.setCreator(newCardRequest.getCreator());
+        AppUser cardCreator = newCardRequest.getCreator();
+        newCard.setMetadata(new ResourceMetadata(cardCreator, cardCreator));
 
         newCard.setId(UUID.randomUUID().toString());
         cardDAO.save(newCard);

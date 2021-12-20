@@ -7,5 +7,5 @@ import java.util.List;
 
 @Repository
 public interface FlashcardRepository extends CrudRepository<Flashcard, String> {
-    List<Flashcard> findCardsByCreatorId(String creatorId);
+    List<Flashcard> findCardsByMetadataResourceCreatorId(String id);
 }
