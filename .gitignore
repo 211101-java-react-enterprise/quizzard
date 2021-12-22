@@ -9,3 +9,4 @@ target/
 *.jar
 
 application-dev.yml
+local-startup.sh
