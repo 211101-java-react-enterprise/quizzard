@@ -38,4 +38,20 @@ public class AuthController {
         return payload;
     }
 
+    @DeleteMapping
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void logout(HttpServletRequest req, HttpServletResponse resp) {
+        Cookie[] cookies = req.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("Authorization")) {
+                    cookie.setValue("");
+                    cookie.setPath("/");
+                    cookie.setMaxAge(0);
+                    resp.addCookie(cookie);
+                }
+            }
+        }
+    }
+
 }
