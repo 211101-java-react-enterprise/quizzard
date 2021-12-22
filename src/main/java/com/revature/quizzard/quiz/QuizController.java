@@ -1,5 +1,7 @@
 package com.revature.quizzard.quiz;
 
+import com.revature.quizzard.auth.TokenService;
+import com.revature.quizzard.auth.dtos.responses.Principal;
 import com.revature.quizzard.common.dtos.ResourceCreationResponse;
 import com.revature.quizzard.common.util.web.Authenticated;
 import com.revature.quizzard.common.util.web.RequesterOwned;
@@ -11,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -20,11 +21,13 @@ import java.util.Set;
 @RequestMapping("/quizzes")
 public class QuizController {
 
+    private final TokenService tokenService;
     private final QuizService quizService;
 
     @Autowired
-    public QuizController(QuizService quizService) {
+    public QuizController(QuizService quizService, TokenService tokenService) {
         this.quizService = quizService;
+        this.tokenService = tokenService;
     }
 
     /**
@@ -53,8 +56,8 @@ public class QuizController {
      * @param newQuizRequest
      *      a request object containing the data needed to create a new quiz resource
      *
-     * @param session
-     *      the HTTP session associated with this web request
+     * @param token
+     *      the header value containing a JWT for authorization
      *
      * @return
      *      a response containing the newly created resource's id
@@ -62,8 +65,9 @@ public class QuizController {
     @Authenticated
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(consumes = "application/json")
-    public ResourceCreationResponse createNewQuiz(@RequestBody NewQuizRequest newQuizRequest, HttpSession session) {
-        newQuizRequest.setCreator((AppUser) session.getAttribute("authUser"));
+    public ResourceCreationResponse createNewQuiz(@RequestBody NewQuizRequest newQuizRequest, @RequestHeader(name = "Authorization") String token) {
+        Principal requester = tokenService.extractTokenDetails(token);
+        newQuizRequest.setCreator(new AppUser(requester.getId(), requester.getUsername(), requester.getRole()));
         return quizService.createNewQuiz(newQuizRequest);
     }
 
@@ -128,3 +132,5 @@ public class QuizController {
     }
 
 }
+
+

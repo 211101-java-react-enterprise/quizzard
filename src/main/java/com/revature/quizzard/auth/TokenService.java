@@ -43,4 +43,8 @@ public class TokenService {
 
     }
 
+    public int getJwtExpiration() {
+        return tokenValidator.getDefaultTokenExpiry();
+    }
+
 }

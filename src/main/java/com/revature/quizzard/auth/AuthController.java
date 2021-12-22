@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-@CrossOrigin
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
@@ -32,26 +31,8 @@ public class AuthController {
         AppUser authUser = userService.authenticateUser(loginRequest.getUsername(), loginRequest.getPassword());
         Principal payload = new Principal(authUser);
         String token = tokenService.generateToken(payload);
-        Cookie tokenCookie = new Cookie("Authorization", token);
-        tokenCookie.setHttpOnly(true);
-        resp.addCookie(tokenCookie);
+        resp.setHeader("Authorization", token);
         return payload;
-    }
-
-    @DeleteMapping
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void logout(HttpServletRequest req, HttpServletResponse resp) {
-        Cookie[] cookies = req.getCookies();
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().equals("Authorization")) {
-                    cookie.setValue("");
-                    cookie.setPath("/");
-                    cookie.setMaxAge(0);
-                    resp.addCookie(cookie);
-                }
-            }
-        }
     }
 
 }

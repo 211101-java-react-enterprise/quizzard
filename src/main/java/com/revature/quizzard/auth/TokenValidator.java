@@ -36,4 +36,9 @@ public class TokenValidator {
         }
 
     }
+
+    public int getDefaultTokenExpiry() {
+        return jwtConfig.getExpiration();
+    }
+
 }
