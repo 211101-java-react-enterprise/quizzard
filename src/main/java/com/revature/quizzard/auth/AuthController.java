@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -31,7 +32,9 @@ public class AuthController {
         AppUser authUser = userService.authenticateUser(loginRequest.getUsername(), loginRequest.getPassword());
         Principal payload = new Principal(authUser);
         String token = tokenService.generateToken(payload);
-        resp.setHeader("Authorization", token);
+        Cookie tokenCookie = new Cookie("Authorization", token);
+        tokenCookie.setHttpOnly(true);
+        resp.addCookie(tokenCookie);
         return payload;
     }
 
