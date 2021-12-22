@@ -31,7 +31,7 @@ public class TokenGenerator {
                                       .setExpiration(new Date(now + jwtConfig.getExpiration()))
                                       .signWith(jwtConfig.getSigAlg(), jwtConfig.getSigningKey());
 
-        return "Bearer " + tokenBuilder.compact();
+        return tokenBuilder.compact();
 
     }
 

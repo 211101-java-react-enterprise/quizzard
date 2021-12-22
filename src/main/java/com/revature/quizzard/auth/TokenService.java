@@ -28,19 +28,15 @@ public class TokenService {
             return false;
         }
 
-        token = token.replaceAll("Bearer ", "");
-
         return tokenValidator.parseToken(token)
                              .isPresent();
     }
 
-    public Principal extractTokenDetails(String tokenHeader) {
+    public Principal extractTokenDetails(String token) {
 
-        if (tokenHeader == null || tokenHeader.trim().equals("")) {
+        if (token == null || token.trim().equals("")) {
             throw new InvalidRequestException("No authentication token found on request!");
         }
-
-        String token = tokenHeader.replaceAll("Bearer ", "");
 
         return tokenValidator.parseToken(token)
                              .orElseThrow(InvalidTokenException::new);

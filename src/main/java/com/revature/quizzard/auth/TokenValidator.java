@@ -21,8 +21,6 @@ public class TokenValidator {
 
     public Optional<Principal> parseToken(String token) {
 
-        System.out.println(">>>>>>>>>>>>>>>SHOULD BE STRIPPED>>>>>>>>>>>>>>>>>>>>" + token);
-
         try {
 
             Claims claims = Jwts.parser()
