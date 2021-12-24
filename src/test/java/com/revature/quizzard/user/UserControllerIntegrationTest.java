@@ -21,8 +21,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class UserControllerIntegrationTest {
 
     private MockMvc mockMvc;
-    private WebApplicationContext context;
-    private ObjectMapper mapper;
+    private final WebApplicationContext context;
+    private final ObjectMapper mapper;
 
     @Autowired
     public UserControllerIntegrationTest(WebApplicationContext context, ObjectMapper mapper) {

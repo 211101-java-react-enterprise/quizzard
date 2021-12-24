@@ -19,6 +19,9 @@ public class TokenService {
     }
 
     public String generateToken(Principal subject) {
+        if (!isPrincipalValid(subject)) {
+            throw new InvalidRequestException("Invalid Principal object provided!");
+        }
         return tokenGenerator.createToken(subject);
     }
 
@@ -43,8 +46,15 @@ public class TokenService {
 
     }
 
-    public int getJwtExpiration() {
+    public int getDefaultTokenExpiry() {
         return tokenValidator.getDefaultTokenExpiry();
+    }
+
+    private boolean isPrincipalValid(Principal subject) {
+        return subject != null &&
+                subject.getId() != null && !subject.getId().equals("") &&
+                subject.getUsername() != null && !subject.getUsername().equals("") &&
+                subject.getRole() != null && !subject.getRole().equals("");
     }
 
 }

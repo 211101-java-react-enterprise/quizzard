@@ -1,11 +1,12 @@
 package com.revature.quizzard.common.util.aspects;
 
-import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
+import com.fasterxml.jackson.core.JacksonException;
 import com.revature.quizzard.common.exceptions.*;
 import com.revature.quizzard.common.dtos.ErrorResponse;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.converter.HttpMessageConversionException;
+import org.springframework.validation.BindException;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -14,7 +15,12 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class ErrorResponseAspect {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler({InvalidRequestException.class, UnrecognizedPropertyException.class, MethodArgumentNotValidException.class})
+    @ExceptionHandler({
+        InvalidRequestException.class,
+        JacksonException.class,
+        BindException.class,
+        HttpMessageConversionException.class
+    })
     public ErrorResponse handleBadRequests(Exception e) {
         return new ErrorResponse(400, e);
     }

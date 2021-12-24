@@ -2,10 +2,17 @@ package com.revature.quizzard.auth.dtos.responses;
 
 import com.revature.quizzard.user.AppUser;
 
+import javax.validation.constraints.NotBlank;
+
 public class Principal {
 
+    @NotBlank
     private String id;
+
+    @NotBlank
     private String username;
+
+    @NotBlank
     private String role;
 
     public Principal() {
